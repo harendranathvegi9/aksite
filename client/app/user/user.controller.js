@@ -1,10 +1,14 @@
 'use strict';
 
 export default class UserController {
+    user;
+
     /*@ngInject*/
     constructor($stateParams, User) {
         this.id = $stateParams.id;
 
-        this.user = User.get({id: this.id});
+        User.get({id: this.id}).then(_user => {
+            this.user = _user;
+        });
     }
 }

@@ -35,7 +35,7 @@ export class NavbarComponent {
     constructor($location, $state, Auth) {
         this.$location = $location;
         this.$state = $state;
-        this.isLoggedIn = (...args) => Auth.isLoggedIn(...args);
+        this.isLoggedIn = (...args) => Auth.isLoggedInSync(...args);
         this.isAdmin = (...args) => Auth.isAdmin(...args);
         this.getCurrentUser = (...args) => Auth.getCurrentUser(...args);
         this.authLogout = () => Auth.logout();

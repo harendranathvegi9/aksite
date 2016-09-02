@@ -11,6 +11,7 @@ import angular from 'angular';
 import ngCookies from 'angular-cookies';
 
 import _User from './user.service';
+import Promise from 'bluebird';
 
 /**
  * Return a callback or noop function
@@ -22,17 +23,23 @@ function safeCb(cb) {
     return _.isFunction(cb) ? cb : noop;
 }
 
-/*@ngInject*/
 class Auth {
     currentUser = {};
 
+    /*@ngInject*/
     constructor($http, User, $cookies) {
         this.$http = $http;
         this.User = User;
         this.$cookies = $cookies;
 
         if($cookies.get('token')) {
-            this.currentUser = User.get();
+            User.get().then(user => {
+                this.currentUser = user;
+            }).catch(err => {
+                console.log(err);
+
+                this.$cookies.remove('token');
+            });
         }
     }
 
@@ -49,10 +56,12 @@ class Auth {
             password
         }).then(res => {
             this.$cookies.put('token', res.data.token);
-            this.currentUser = this.User.get();
-            console.log(this.currentUser);
-            return this.currentUser.$promise;
+            localStorage.setItem('id_token', res.data.token);
+            return this.User.get();
         }).then(user => {
+            this.currentUser = user;
+            localStorage.setItem('user', JSON.stringify(user));
+            console.log(this.currentUser);
             safeCb(callback)(null, user);
             return user;
         }).catch(err => {
@@ -67,7 +76,10 @@ class Auth {
      */
     logout() {
         this.$cookies.remove('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('id_token');
         this.currentUser = {};
+        return Promise.resolve();
     }
 
     /**
@@ -78,16 +90,19 @@ class Auth {
      * @return {Promise}
      */
     createUser(user, callback) {
-        return this.User.save(user,
-            data => {
+        return this.User.create(user)
+            .then(data => {
                 this.$cookies.put('token', data.token);
-                this.currentUser = this.User.get();
-                return safeCb(callback)(null, user);
-            },
-            err => {
+                return this.User.get();
+            })
+            .then(_user => {
+                this.currentUser = _user;
+                return safeCb(callback)(null, _user);
+            })
+            .catch(err => {
                 this.logout();
                 return safeCb(callback)(err);
-            }).$promise;
+            });
     }
 
     /**
@@ -99,14 +114,9 @@ class Auth {
      * @return {Promise}
      */
     changePassword(oldPassword, newPassword, callback) {
-        return this.User.changePassword({ id: this.currentUser._id }, {
-            oldPassword,
-            newPassword
-        }, function() {
-            return safeCb(callback)(null);
-        }, function(err) {
-            return safeCb(callback)(err);
-        }).$promise;
+        return this.User.changePassword({id: this.currentUser._id}, oldPassword, newPassword)
+            .then(() => safeCb(callback)(null))
+            .catch(err => safeCb(callback)(err));
     }
 
     /**
@@ -121,17 +131,17 @@ class Auth {
             return this.currentUser;
         }
 
-        var promise = this.currentUser.hasOwnProperty('$promise')
-            ? this.currentUser.$promise
-            : Promise.resolve(this.currentUser);
-        return promise
-            .then(function(user) {
-                safeCb(callback)(user);
-                return user;
-            }, function() {
-                safeCb(callback)({});
-                return {};
-            });
+        safeCb(callback)(this.currentUser);
+        return Promise.resolve(this.currentUser);
+    }
+
+    /**
+     * Gets all available info on a user
+     *
+     * @return {Object|Promise}
+     */
+    getCurrentUserSync() {
+        return this.currentUser;
     }
 
     /**
@@ -157,18 +167,15 @@ class Auth {
     /**
      * Waits for this.currentUser to resolve before checking if user is logged in
      */
-    isLoggedInAsync(cb) {
-        if(this.currentUser.hasOwnProperty('$promise')) {
-            this.currentUser.$promise.then(function() {
-                cb(true);
-            }).catch(function() {
-                cb(false);
-            });
-        } else if(this.currentUser.hasOwnProperty('role')) {
-            return cb(true);
-        } else {
-            return cb(false);
-        }
+    isLoggedInAsync() {
+        return Promise.resolve(this.currentUser.hasOwnProperty('role'));
+    }
+
+    /**
+     * Waits for this.currentUser to resolve before checking if user is logged in
+     */
+    isLoggedInSync() {
+        return this.currentUser.hasOwnProperty('role');
     }
 
     /**
@@ -183,7 +190,7 @@ class Auth {
             return this.currentUser.role === 'admin';
         }
 
-        return this.getCurrentUser().then(function(user) {
+        return this.getCurrentUser().then(user => {
             var is = user.role === 'admin';
             safeCb(callback)(is);
             return is;

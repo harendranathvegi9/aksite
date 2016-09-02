@@ -10,7 +10,9 @@ export default class {
         this.$mdToast = $mdToast;
         this.User = User;
 
-        this.users = User.query();
+        User.query().then(users => {
+            this.users = users;
+        });
     }
 
     goToUser(id) {
@@ -25,11 +27,12 @@ export default class {
             .cancel('Cancel')
             .targetEvent(ev))
             .then(() => {
-                this.User.remove({id: user._id}).$promise
+                return this.User.remove({id: user._id})
                     .then(() => {
                         this.users.splice(this.$index, 1);
                     })
-                    .catch(() => {
+                    .catch(err => {
+                        console.log(err);
                         this.$mdToast.show(
                             this.$mdToast.simple()
                                 .textContent('Deleting user failed')
