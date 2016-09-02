@@ -189,21 +189,24 @@ export function destroy(req, res) {
  * Change a users password
  */
 export function changePassword(req, res) {
-    var userId = req.user._id;
+    if(!req.user || !req.user._id) return res.status(401).end();
+
     var oldPass = String(req.body.oldPassword);
     var newPass = String(req.body.newPassword);
 
-    if(!req.user || req.user._id != userId) return res.status(401).end();
-
-    User.findById(userId, function(err, user) {
+    User.findById(req.user._id, function(err, user) {
+        if(err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
         if(user.authenticate(oldPass)) {
             user.password = newPass;
             user.save(function(err) {
                 if(err) return util.handleError(res, err);
-                res.send(200);
+                res.sendStatus(200);
             });
         } else {
-            res.send(403);
+            res.sendStatus(403);
         }
     });
 }
