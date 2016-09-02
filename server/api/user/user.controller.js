@@ -103,21 +103,24 @@ export function update(req, res) {
                 console.log(fields);
 
                 var userModel = {};
-                if(fields.name && typeof fields.name === 'string')
+                if(fields.name && _.isString(fields.name)) {
                     userModel.name = fields.name;
-                if(fields.email && typeof fields.email === 'string')
+                }
+                if(fields.email && _.isString(fields.email)) {
                     userModel.email = fields.email;
-                if(fields.role && typeof fields.role === 'string')
+                }
+                if(fields.role && _.isString(fields.role)) {
                     userModel.role = fields.role;
+                }
 
                 if(fields.newImage || (!user.imageId && file)) {
                     if(user.imageId) {
-                        gfs.remove({_id: user.imageId}, function (err) {
-                            if (err) return util.handleError(err);
+                        gfs.remove({_id: user.imageId}, function(err) {
+                            if(err) return util.handleError(err);
                             else console.log('deleted imageId');
                         });
-                        gfs.remove({_id: user.smallImageId}, function (err) {
-                            if (err) return util.handleError(err);
+                        gfs.remove({_id: user.smallImageId}, function(err) {
+                            if(err) return util.handleError(err);
                             else console.log('deleted smallImageId');
                         });
                     }
@@ -127,7 +130,7 @@ export function update(req, res) {
                     util.createThumbnail(file.id)
                         .catch(util.handleError)
                         .then(function(thumbnail) {
-                            console.log(file.name+' -> (thumb)'+thumbnail.id);
+                            console.log(`${file.name} -> (thumb)${thumbnail.id}`);
                             userModel.smallImageId = thumbnail.id;
 
                             var updated = _.assign(user, userModel);
