@@ -1,16 +1,16 @@
 'use strict';
-import {wrapperLodash as _, mixin} from 'lodash-es';
 import {
-    isFunction
+    wrapperLodash as _,
+    isFunction,
+    noop,
+    mixin
 } from 'lodash-es';
 mixin(_, {
-    isFunction
+    isFunction,
+    noop
 });
-import {noop} from 'lodash-es';
 import angular from 'angular';
 import ngCookies from 'angular-cookies';
-
-import _User from './user.service';
 import Promise from 'bluebird';
 
 /**
@@ -207,6 +207,6 @@ class Auth {
     }
 }
 
-export default angular.module('services.Auth', [_User, ngCookies])
+export default angular.module('services.Auth', [require('./user.service').default, ngCookies])
     .service('Auth', Auth)
     .name;
