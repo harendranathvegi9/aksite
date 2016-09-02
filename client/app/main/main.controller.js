@@ -5,34 +5,27 @@ import {
     mixin,
     shuffle,
     remove,
+    forEach,
     partial,
-    isEqual
+    isEqual,
+    noop,
+    throttle
 } from 'lodash-es';
 mixin(_, {
     sample,
     shuffle,
     remove,
+    forEach,
     partial,
-    isEqual
+    isEqual,
+    noop,
+    throttle
 });
-
-import 'jquery';
-import 'jquery-bridget';
-import 'desandro-get-style-property/get-style-property';
-import 'get-size/get-size';
-import 'wolfy87-eventemitter/EventEmitter';
-import 'eventie/eventie';
-import 'doc-ready/doc-ready';
-import 'desandro-matches-selector/matches-selector';
-import 'fizzy-ui-utils/utils';
-import 'outlayer/item';
-import 'outlayer/outlayer';
-import Masonry from 'masonry-layout';
-import 'imagesloaded/imagesloaded';
-
 import MiniDaemon from '../../components/minidaemon';
-
 import classie from 'classie';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { CSSGrid, measureItems, makeResponsive, layout } from 'react-stonecutter';
 
 let texts = ['dashed-stroke-text', 'gradient-text', 'pattern-text', 'diag-striped-text', 'bg-img-text'];
 let usedTexts = [];
@@ -118,64 +111,44 @@ let vendorImages = [{
     alt: 'github'
 }];
 
+const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
+    maxWidth: 1920,
+    minPadding: 100
+});
+
 export default class MainController {
     /*@ngInject*/
     constructor($rootScope) {
+        let imageArray = [];
         vendorImages = _.shuffle(vendorImages);
-        classie.removeClass(document.getElementById(currentText), 'hidden');
-        usedTexts.push(_.remove(texts, _.partial(_.isEqual, currentText)));
 
-        var masonryContainerElement = document.getElementById('masonry-container');
-        var msnry;
-
-        let addPhoto = function(photo, i) {
-            let div = document.createElement('div');
-            div.setAttribute('class', `masonry-brick${photo.wide ? ' w2' : ''}`);
-            div.setAttribute('id', photo.src);
-
-            let a = document.createElement('a');
-            a.setAttribute('href', photo.href);
-            a.setAttribute('style', 'width: inherit;');
-
-            let img = document.createElement('img');
-            img.setAttribute('src', photo.src);
-            img.setAttribute('style', 'width: inherit;');
-            img.setAttribute('alt', '');
-
-            a.appendChild(img);
-            div.appendChild(a);
-
-            document.getElementById('masonry-container').appendChild(div);
-
-            if(i === 0) {
-                msnry = new Masonry(masonryContainerElement, {
-                    itemSelector: '.masonry-brick',
-                    transitionDuration: '0.4s',
-                    gutter: 20,
-                    containerStyle: {
-                        margin: 'auto',
-                        'margin-bottom': '100px'
-                    },
-                    isFitWidth: true
-                });
-            } else {
-                msnry.appended(div);
-                msnry.layout();
-            }
+        let addImage = (image, i) => {
+            imageArray.push(<li className="grid-item" key={i}>
+                <img src={image.src} alt={image.alt} href={image.href}/>
+            </li>);
+            ReactDOM.render(
+                <Grid
+                    className="grid"
+                    component="ul"
+                    columnWidth={250}
+                    gutterWidth={5}
+                    gutterHeight={5}
+                    layout={layout.pinterest}
+                    duration={800}
+                    easing="ease-out">
+                    {imageArray}
+                </Grid>,
+                document.getElementById('stonecutter'));
         };
-
-        $rootScope.$on('$stateChangeStart', () => {
-            if(msnry) {
-                msnry.destroy();
-            }
-            addPhoto = function() {};
-        });
 
         let i = 0;
         let daemon = new MiniDaemon(this, () => {
-            addPhoto(vendorImages[i], i++);
+            addImage(vendorImages[i], i++);
         }, 50, vendorImages.length);
         daemon.start();
+
+        classie.removeClass(document.getElementById(currentText), 'hidden');
+        usedTexts.push(_.remove(texts, _.partial(_.isEqual, currentText)));
     }
 
     changeText() {

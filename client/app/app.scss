@@ -45,6 +45,21 @@ $fa-font-path: "/assets/fonts/font-awesome/";
 @import '../components/timeline/timeline';
 // endinjector
 
+.grid {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+}
+.grid-item {
+    font-size: 0.75rem;
+    padding: 10px;
+
+    img {
+        max-height: 230px;
+        width: 230px;
+    }
+}
+
 /**
  * App-wide Styles
  */
