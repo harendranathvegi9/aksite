@@ -1,0 +1,15 @@
+<div class="container">
+    <header class="hero-unit" id="banner">
+        <h1 class="page-header">Projects</h1>
+    </header>
+</div>
+
+<div class="container">
+    <div *ngIf="loadingProjects" class="spinner">
+        <preloader></preloader>
+    </div>
+    <alert [hidden]="!loadingProjects && projects.length !== 0" type="info">No Projects</alert>
+    <div [hidden]="projects.length <= 0" class="row cards-container">
+        <div id="stonecutter"></div>
+    </div>
+</div>

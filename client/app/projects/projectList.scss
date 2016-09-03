@@ -1,8 +1,11 @@
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/variables';
+@import '../variables';
+
 ul.project-list {
     padding: 0;
     margin: 0;
     list-style: none;
-    @include display(flex);
+    display: flex;
     -webkit-flex-flow: row wrap;
     justify-content: space-around;
     li {
@@ -31,16 +34,36 @@ ul.project-list {
     }
 }
 
-$itemMdCardHeight: 350px;
-$itemMdCardWidth: 350px;
-.masonry-cards-container a {
-    color: $darkTextColor;
-    text-decoration: none;
-    min-height: $itemMdCardHeight;
-    width: $itemMdCardWidth;
-    md-card {
-        width: 100%;
-        margin: 0 0 10px 0;
+$itemMdCardHeight: 340px;
+$itemMdCardWidth: 300px;
+.cards-container {
+    margin-bottom: 25px;
+
+    a.card {
+        color: $darkTextColor;
+        text-decoration: none;
+        min-height: $itemMdCardHeight;
+        width: $itemMdCardWidth;
+        min-width: $itemMdCardWidth;
+        cursor: pointer;
+
+        .item {
+            height: 250px;
+            overflow: hidden;
+        }
+        .card-content {
+            height: 90px;
+            h2 {
+                margin: 5px 0;
+            }
+            p {
+                margin: 5px 0;
+            }
+        }
+        md-card {
+            width: 100%;
+            margin: 0 0 10px 0;
+        }
     }
 }
 

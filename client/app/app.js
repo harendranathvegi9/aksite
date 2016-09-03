@@ -34,7 +34,7 @@ import main from './main';
 import account from './account';
 import resume from './resume';
 import blog from './blog/blog.component';
-import projects from './projects';
+import projectList from './projects/projectList.component';
 import galleries from './galleries';
 import adminRoutes from './admin/admin.routes';
 import user from './user';
@@ -71,7 +71,7 @@ angular.module('aksiteApp', [
     account,
     resume,
     blog,
-    projects,
+    projectList,
     galleries,
     adminRoutes,
     user,
