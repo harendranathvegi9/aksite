@@ -27,19 +27,13 @@ $fa-font-path: "/assets/fonts/font-awesome/";
 @import 'admin/siteSettings/siteSettings';
 @import 'admin/userEditor/userEditor';
 @import 'admin/userManager/userManager';
-//@import 'blog/blog';
-//@import 'blog/post/post';
-@import 'galleries/galleries';
 @import 'galleries/gallery/gallery';
 @import 'main/main';
-//@import 'projects/project/project';
-@import 'projects/projects';
 @import 'resume/resume';
 @import 'settings/dashboard/dashboard';
 @import 'settings/profile/profile';
 @import 'settings/settings';
 @import 'user/user';
-//@import '../components/footer/footer';
 @import '../components/navbar/navbar';
 @import '../components/preloader/preloader';
 @import '../components/timeline/timeline';
@@ -60,16 +54,36 @@ $fa-font-path: "/assets/fonts/font-awesome/";
     }
 }
 
-$itemMdCardHeight: 300px;
+$itemMdCardHeight: 340px;
 $itemMdCardWidth: 300px;
-.cards-container a.card {
-    color: $darkTextColor;
-    text-decoration: none;
-    min-height: $itemMdCardHeight;
-    width: $itemMdCardWidth;
-    md-card {
-        width: 100%;
-        margin: 0 0 10px 0;
+.cards-container {
+    margin-bottom: 25px;
+
+    a.card {
+        color: $darkTextColor;
+        text-decoration: none;
+        min-height: $itemMdCardHeight;
+        width: $itemMdCardWidth;
+        min-width: $itemMdCardWidth;
+        cursor: pointer;
+
+        .item {
+            height: 250px;
+            overflow: hidden;
+        }
+        .card-content {
+            height: 90px;
+            h2 {
+                margin: 5px 0;
+            }
+            p {
+                margin: 5px 0;
+            }
+        }
+        md-card {
+            width: 100%;
+            margin: 0 0 10px 0;
+        }
     }
 }
 
