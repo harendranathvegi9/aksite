@@ -29,13 +29,10 @@ export class ProjectListComponent {
     projects = [];
     loadingProjects = true;
 
-    static parameters = ['Project', '$rootScope', '$scope', '$http', '$compile', '$state'];
-    constructor(Project, $rootScope, $scope, $http, $compile, $state) {
+    static parameters = ['Project', '$http', '$state'];
+    constructor(Project, $http, $state) {
         this.Project = Project;
-        this.$rootScope = $rootScope;
-        this.$scope = $scope;
         this.$http = $http;
-        this.$compile = $compile;
         this.$state = $state;
     }
 
