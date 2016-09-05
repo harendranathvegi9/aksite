@@ -5,7 +5,7 @@ import {upgradeAdapter} from '../../app/upgrade_adapter';
 import {autobind} from 'core-decorators';
 
 import projectComponent from './project/project.component';
-import ProjectService from '../../components/Project/Project.service';
+import {ProjectService} from '../../components/Project/Project.service';
 
 import routing from './projects.routes';
 
@@ -17,8 +17,6 @@ const Grid = makeResponsive(CSSGrid, {
     maxWidth: 1920
 });
 
-upgradeAdapter.upgradeNg1Provider('Project');
-
 @Component({
     selector: 'project-list',
     template: require('./projectList.html'),
@@ -29,15 +27,15 @@ export class ProjectListComponent {
     projects = [];
     loadingProjects = true;
 
-    static parameters = ['Project', '$http', '$state'];
-    constructor(Project, $http, $state) {
+    static parameters = [ProjectService, '$http', '$state'];
+    constructor(Project: ProjectService, $http, $state) {
         this.Project = Project;
         this.$http = $http;
         this.$state = $state;
     }
 
     ngOnInit() {
-        return this.Project.query().$promise
+        return this.Project.query()
             .then(projects => {
                 this.loadingProjects = false;
                 Reflect.deleteProperty(projects, '$promise');
@@ -84,7 +82,7 @@ export class ProjectListComponent {
     }
 }
 
-export default angular.module('aksiteApp.projects', [uirouter, projectComponent, ProjectService.name])
+export default angular.module('aksiteApp.projects', [uirouter, projectComponent])
     .config(routing)
     .directive('projectList', upgradeAdapter.downgradeNg2Component(ProjectListComponent))
     .name;
