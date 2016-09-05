@@ -21,13 +21,11 @@ import { CSSGrid, makeResponsive, layout } from 'react-stonecutter';
 
 import galleryComponent from './gallery';
 import routing from './galleryList.routes';
-import GalleryService from '../../components/gallery/gallery.service';
+import {GalleryService} from '../../components/gallery/gallery.service';
 
 const Grid = makeResponsive(CSSGrid, {
     maxWidth: 1920
 });
-
-upgradeAdapter.upgradeNg1Provider('Gallery');
 
 @Component({
     selector: 'gallery-list',
@@ -39,15 +37,15 @@ export default class GalleryListComponent {
     galleries = [];
     loadingGalleries = true;
 
-    static parameters = ['Gallery', '$http', '$state'];
-    constructor(Gallery, $http, $state) {
+    static parameters = [GalleryService, '$http', '$state'];
+    constructor(Gallery: GalleryService, $http, $state) {
         this.Gallery = Gallery;
         this.$http = $http;
         this.$state = $state;
     }
 
     async ngOnInit() {
-        let galleries = await this.Gallery.query().$promise;
+        let galleries = await this.Gallery.query();
 
         this.loadingGalleries = false;
         Reflect.deleteProperty(galleries, '$promise');
@@ -92,7 +90,7 @@ export default class GalleryListComponent {
     }
 }
 
-export default angular.module('aksiteApp.galleries', [uirouter, galleryComponent, GalleryService])
+export default angular.module('aksiteApp.galleries', [uirouter, galleryComponent])
     .config(routing)
     .directive('galleryList', upgradeAdapter.downgradeNg2Component(GalleryListComponent))
     .name;
