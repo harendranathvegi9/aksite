@@ -4,6 +4,7 @@ import {Component} from '@angular/core';
 import {upgradeAdapter} from '../../../app/upgrade_adapter';
 import {Converter} from 'showdown';
 const converter = new Converter();
+import {ProjectService} from '../../../components/Project/Project.service';
 
 import routes from './project.routes';
 
@@ -16,8 +17,9 @@ export class ProjectComponent {
     error;
     project = {};
 
-    static parameters = ['$rootScope', '$http', '$stateParams'];
-    constructor($rootScope, $http, $stateParams) {
+    static parameters = [ProjectService, '$rootScope', '$http', '$stateParams'];
+    constructor(projectService: ProjectService, $rootScope, $http, $stateParams) {
+        this.projectService = projectService;
         this.$rootScope = $rootScope;
         this.$http = $http;
         this.$stateParams = $stateParams;
@@ -26,8 +28,8 @@ export class ProjectComponent {
     }
 
     ngOnInit() {
-        return this.$http.get(`/api/projects/${this.$stateParams.projectId}`)
-            .then(({data: project}) => {
+        return this.projectService.get({id: this.$stateParams.projectId})
+            .then(project => {
                 this.project = project;
 
                 this.$rootScope.title += ` | ${project.name}`;
