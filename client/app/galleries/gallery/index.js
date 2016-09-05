@@ -3,10 +3,11 @@ import uirouter from 'angular-ui-router';
 
 import routing from './gallery.routes';
 import GalleryController from './gallery.controller';
+import PhotoService from '../../../components/photo/photo.service';
 
 //import '!raw!sass!./gallery.scss';
 
-export default angular.module('aksiteApp.galleries.gallery', [uirouter])
+export default angular.module('aksiteApp.galleries.gallery', [uirouter, PhotoService])
     .config(routing)
     .controller('GalleryController', GalleryController)
     .name;

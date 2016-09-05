@@ -1,6 +1,7 @@
 'use strict';
-import {wrapperLodash as _, mixin} from 'lodash-es';
 import {
+    wrapperLodash as _,
+    mixin,
     chain,
     drop,
     filter,
@@ -55,7 +56,7 @@ export default class GalleryController {
     msnry;
 
     /*@ngInject*/
-    constructor($rootScope, $scope, $stateParams, $http, $compile) {
+    constructor($rootScope, $scope, $stateParams, $http, $compile, Photo) {
         this.masonryContainerElement = document.getElementById('masonry-container');
         this.galleryId = $stateParams.galleryId;
 
@@ -100,7 +101,7 @@ export default class GalleryController {
         $http.get('/api/gallery/' + $stateParams.galleryId)
             .then(({data: gallery}) => {
                 this.gallery = gallery;
-                $rootScope.title += ' | ' + gallery.name;
+                $rootScope.title = `${$rootScope.title} | ${gallery.name}`;
 
                 if(this.gallery.photos.length < 1) {
                     this.noPhotos = true;
@@ -108,16 +109,16 @@ export default class GalleryController {
                 }
                 let i = 0;
 
-                $http.get(`api/photos/${gallery.photos[0]}`)
-                    .then(({data}) => addPhoto(data, i++))
+                Photo.get({id: gallery.photos[0]})
+                    .then(photo => addPhoto(photo, i++))
                     .then(() => {
                         let promises = _.chain(gallery.photos)
                             .drop(1)
-                            .map(photo => $http.get(`api/photos/${photo}`))
+                            .map(photo => Photo.get({id: photo}))
                             .value();
 
                         let daemon = new MiniDaemon(this, () => {
-                            promises.pop().then(res => addPhoto(res.data, i++));
+                            promises.pop().then(photo => addPhoto(photo, i++));
                         }, 50, promises.length);
                         daemon.start();
                     });
