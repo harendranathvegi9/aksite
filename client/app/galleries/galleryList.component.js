@@ -58,7 +58,7 @@ export default class GalleryListComponent {
             return <li style={{padding: '10px'}} key={i} itemHeight={340}>
                 <a className="card md-whiteframe-z1" style={{display: 'block'}} id={gallery._id} onClick={this.goToGallery}>
                     <div className="item">
-                        <img src={`api/upload/${data.fileId}.jpg`} alt="" />
+                        <img src={`api/upload/${data.sqThumbnailId}.jpg`} alt="" />
                     </div>
                     <div className="card-content">
                         <h2 className="md-title">{gallery.name}</h2>
