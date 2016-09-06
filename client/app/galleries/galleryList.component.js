@@ -45,12 +45,9 @@ export default class GalleryListComponent {
     }
 
     async ngOnInit() {
-        let galleries = await this.Gallery.query();
+        this.galleries = await this.Gallery.query();
 
         this.loadingGalleries = false;
-        Reflect.deleteProperty(galleries, '$promise');
-        Reflect.deleteProperty(galleries, '$resolved');
-        this.galleries = galleries;
 
         let galleryArray = await Promise.map(this.galleries, async (gallery, i) => {
             let {data} = await this.$http.get(`api/photos/${gallery.featuredId}`);
