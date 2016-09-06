@@ -38,7 +38,7 @@ export default class GalleryController {
     items = [];
 
     /*@ngInject*/
-    constructor($rootScope, $scope, $stateParams, $http, $compile, Photo, Gallery) {
+    constructor($stateParams, Photo, Gallery) {
         this.galleryId = $stateParams.galleryId;
         this.Photo = Photo;
         this.Gallery = Gallery;
@@ -83,10 +83,8 @@ export default class GalleryController {
         let vscroll = document.body.scrollTop;
 
         if(!this.items || this.items.length === 0) {
-            this.items = this.parseThumbnailElements(document.getElementById('stonecutter').childNodes[0].childNodes[0].childNodes);
+            this.items = GalleryController.parseThumbnailElements(document.getElementById('stonecutter').childNodes[0].childNodes[0].childNodes);
         }
-
-        console.log(this.items);
 
         let gallery = new PhotoSwipe(pswpElement, PhotoSwipeUiDefault, this.items, {
             index,
@@ -109,7 +107,7 @@ export default class GalleryController {
         });
     }
 
-    parseThumbnailElements(thumbElements) {
+    static parseThumbnailElements(thumbElements) {
         return _.chain(thumbElements)
             .filter({nodeType: 1, localName: 'li'})
             .map((el, i) => {
