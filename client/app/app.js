@@ -10,7 +10,6 @@ import 'reflect-metadata';
 
 import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
-import ngResource from 'angular-resource';
 import ngSanitize from 'angular-sanitize';
 import 'angular-socket-io';
 import uiRouter from 'angular-ui-router';
@@ -21,7 +20,6 @@ import ngMessages from 'angular-messages';
 
 import _Auth from '../components/auth/auth.service';
 import User from '../components/auth/user.service';
-import Gallery from '../components/gallery/gallery.service';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import Preloader from '../components/preloader/preloader.component';
@@ -52,7 +50,6 @@ import './app.scss';
 angular.module('aksiteApp', [
     ngAnimate,
     ngCookies,
-    ngResource,
     ngSanitize,
     'btford.socket-io',
     uiRouter,
@@ -64,7 +61,6 @@ angular.module('aksiteApp', [
     main,
     _Auth,
     User,
-    Gallery,
     navbar,
     footer,
     Preloader,
