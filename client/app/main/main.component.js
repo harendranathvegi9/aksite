@@ -21,13 +21,21 @@ mixin(_, {
     noop,
     throttle
 });
+
+import angular from 'angular';
+import uirouter from 'angular-ui-router';
+import {Component} from '@angular/core';
+import {upgradeAdapter} from '../../app/upgrade_adapter';
+
+import routing from './main.routes';
+
 import MiniDaemon from '../../components/minidaemon';
 import classie from 'classie';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSGrid, measureItems, makeResponsive, layout } from 'react-stonecutter';
 
-let texts = ['dashed-stroke-text', 'gradient-text', 'pattern-text', 'diag-striped-text', 'bg-img-text'];
+let texts = ['dashed-stroke-text', 'gradient-text', 'pattern-text', /*'diag-striped-text',*/ 'bg-img-text'];
 let usedTexts = [];
 let currentText = _.sample(texts);  // Load first random text
 let vendorImages = [{
@@ -67,17 +75,14 @@ let vendorImages = [{
     src: 'assets/images/sass.svg',
     alt: 'sass'
 }, {
-    wide: true,
     href: 'https://babeljs.io/',
     src: 'assets/images/babel.png',
     alt: 'babel'
 }, {
-    wide: true,
     href: 'https://www.mongodb.org/',
     src: 'assets/images/mongodb.svg',
     alt: 'mongodb'
 }, {
-    wide: true,
     href: 'https://opbeat.com',
     src: 'assets/images/opbeat.png',
     alt: 'opbeat'
@@ -86,17 +91,14 @@ let vendorImages = [{
     src: 'assets/images/codeship.png',
     alt: 'codeship'
 }, {
-    wide: true,
     href: 'https://nodejs.org/',
     src: 'assets/images/nodejs.svg',
     alt: 'nodejs'
 }, {
-    wide: true,
     href: 'http://expressjs.com/',
     src: 'assets/images/express.png',
     alt: 'express'
 }, {
-    wide: true,
     href: 'http://socket.io/',
     src: 'assets/images/socketio.svg',
     alt: 'socketio'
@@ -105,7 +107,6 @@ let vendorImages = [{
     src: 'assets/images/npm.svg',
     alt: 'npm'
 }, {
-    wide: true,
     href: 'http://github.com/',
     src: 'assets/images/github.png',
     alt: 'github'
@@ -116,11 +117,18 @@ const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
     minPadding: 100
 });
 
-export default class MainController {
-    /*@ngInject*/
+@Component({
+    selector: 'main',
+    template: require('./main.html'),
+    styles: [require('!!raw!sass!./main.scss')]
+})
+export default class MainComponent {
     constructor() {
-        let imageArray = [];
         vendorImages = _.shuffle(vendorImages);
+    }
+
+    ngOnInit() {
+        let imageArray = [];
 
         let addImage = (image, i) => {
             imageArray.push(<li className="grid-item" key={i}>
@@ -167,3 +175,8 @@ export default class MainController {
         classie.removeClass(document.getElementById(currentText), 'hidden');
     }
 }
+
+export default angular.module('aksiteApp.main', [uirouter])
+    .config(routing)
+    .directive('main', upgradeAdapter.downgradeNg2Component(MainComponent))
+    .name;

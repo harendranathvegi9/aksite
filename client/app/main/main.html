@@ -1,6 +1,6 @@
 <div class="container">
     <div class="styled-home-text">
-        <svg viewBox="0 0 600 100" ng-click="main.changeText()" id="bg-img-text" class="hidden">
+        <svg viewBox="0 0 600 100" (click)="changeText()" id="bg-img-text" class="hidden">
             <symbol id="s-text">
                 <text text-anchor="middle" x="50%" y="50%" dy=".35em" class="text">
                     Andrew Koroluk
@@ -15,7 +15,7 @@
                 <image xlink:href="../assets/images/low_poly_texture.jpg" width="1500" height="350" x="-75%" y="-50%"></image>
             </g>
         </svg>
-        <svg viewBox="0 0 600 100" ng-click="main.changeText()" id="dashed-stroke-text" class="hidden">
+        <svg viewBox="0 0 600 100" (click)="changeText()" id="dashed-stroke-text" class="hidden">
             <!-- Symbol -->
             <symbol id="s-text">
                 <text text-anchor="middle" x="50%" y="50%" dy=".35em">
@@ -30,7 +30,7 @@
             <use xlink:href="#s-text" class="dashed-stroke-text"></use>
             <use xlink:href="#s-text" class="dashed-stroke-text"></use>
         </svg>
-        <svg viewBox="0 0 600 100" ng-click="main.changeText()" id="gradient-text" class="hidden">
+        <svg viewBox="0 0 600 100" (click)="changeText()" id="gradient-text" class="hidden">
             <text text-anchor="middle"
                 x="50%"
                 y="50%"
@@ -44,7 +44,7 @@
                 <stop stop-color="hsl(320, 100%, 50%)" offset="90%"></stop>
             </linearGradient>
         </svg>
-        <svg viewBox="0 0 600 100" ng-click="main.changeText()" id="pattern-text" class="hidden">
+        <svg viewBox="0 0 600 100" (click)="changeText()" id="pattern-text" class="hidden">
             <text text-anchor="middle"
             x="50%"
             y="50%"
@@ -71,7 +71,7 @@
                 </g>
             </pattern>
         </svg>
-        <svg viewBox="0 0 600 100" ng-click="main.changeText()" id="diag-striped-text" class="hidden">
+        <svg viewBox="0 0 600 100" (click)="changeText()" id="diag-striped-text" class="hidden">
             <!-- Symbol with text -->
             <symbol id="s-text">
                 <text text-anchor="middle"

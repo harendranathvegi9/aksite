@@ -30,7 +30,7 @@ import routing from './app.config';
 import Constants from './app.constants';
 upgradeAdapter.addProvider(Constants);
 
-import main from './main';
+import main from './main/main.component';
 import account from './account';
 import resume from './resume';
 import blog from './blog/blog.component';
