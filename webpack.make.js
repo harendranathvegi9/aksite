@@ -52,27 +52,15 @@ module.exports = function makeWebpackConfig(options) {
                 'angular-ui-bootstrap',
                 'angular-ui-router',
                 'classie',
-                'desandro-get-style-property',
-                'desandro-matches-selector',
-                'doc-ready',
-                'eventie',
-                'fizzy-ui-utils',
-                'get-size',
-                'imagesloaded',
-                'jquery',
-                'jquery-bridget',
                 'lodash',
-                'masonry-layout',
                 'moment',
                 'ng-file-upload',
                 'ng-forward',
                 'raven-js',
-                'outlayer',
                 'react',
                 'react-dom',
                 'reflect-metadata',
-                'showdown',
-                'wolfy87-eventemitter'
+                'showdown'
             ]
         };
     }
@@ -212,7 +200,7 @@ module.exports = function makeWebpackConfig(options) {
             include: [path.resolve(__dirname, 'client')],
             exclude: [/app\.scss$/]
         }, {
-            test: /(jquery|jquery-bridget|desandro-get-style-property|get-size|wolfy87-eventemitter|eventie|doc-ready|desandro-matches-selector|fizzy-ui-utils|outlayer|masonry-layout|imagesloaded|photoswipe)/,
+            test: /(photoswipe)/,
             loader: 'imports?define=>false&this=>window'
         }],
         postLoaders: [{

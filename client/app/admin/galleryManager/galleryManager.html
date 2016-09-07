@@ -1,7 +1,7 @@
 <div class="">
     <h1 class="page-header">Manage Galleries</h1>
 
-    <div id="masonry-container" style="position: relative;">
+    <div style="position: relative;">
         <div class="brick card md-whiteframe-z1" ng-repeat="gallery in vm.galleries" md-ink-ripple ng-click="vm.goToGallery(gallery._id)">
             <div class="item">
                 <img ng-src="api/upload/{{gallery.featured.thumbnailId}}" alt="{{gallery.name}}">
