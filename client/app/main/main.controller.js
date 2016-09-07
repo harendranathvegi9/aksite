@@ -118,7 +118,7 @@ const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
 
 export default class MainController {
     /*@ngInject*/
-    constructor($rootScope) {
+    constructor() {
         let imageArray = [];
         vendorImages = _.shuffle(vendorImages);
 
@@ -134,7 +134,7 @@ export default class MainController {
                     gutterWidth={5}
                     gutterHeight={5}
                     layout={layout.pinterest}
-                    duration={800}
+                    duration={500}
                     easing="ease-out">
                     {imageArray}
                 </Grid>,
