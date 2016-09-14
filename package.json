@@ -123,7 +123,7 @@
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
     "chai-things": "^0.2.0",
-    "connect-livereload": "~0.5.3",
+    "connect-livereload": "~0.6.0",
     "css-loader": "^0.25.0",
     "del": "^2.2.1",
     "eslint": "^3.3.0",
