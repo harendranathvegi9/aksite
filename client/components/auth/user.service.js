@@ -1,7 +1,7 @@
 'use strict';
 import angular from 'angular';
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Response} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 // import {Observable} from 'rxjs/Rx';
 // import 'rxjs/add/operator/map';
@@ -15,10 +15,9 @@ type UserType = {
 }
 
 @Injectable()
-    static parameters = [Http, AuthHttp];
-    constructor(http, authHttp) {
-        this.http = http;
 export class UserService {
+    static parameters = [AuthHttp];
+    constructor(authHttp) {
         this.authHttp = authHttp;
     }
 
@@ -33,13 +32,13 @@ export class UserService {
             .catch(this.handleError);
     }
     get(user = {id: 'me'}) {
-        return this.http.get(`/api/users/${user.id}`)
+        return this.authHttp.get(`/api/users/${user.id}`)
             .toPromise()
             .then(extractData)
             .catch(this.handleError);
     }
     create(user: UserType) {
-        return this.http.post('/api/users/', user)
+        return this.authHttp.post('/api/users/', user)
             .toPromise()
             .then(extractData)
             .catch(this.handleError);
