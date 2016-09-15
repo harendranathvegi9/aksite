@@ -19,7 +19,6 @@ import ngMaterial from 'angular-material';
 import ngMessages from 'angular-messages';
 
 import _Auth from '../components/auth/auth.service';
-import User from '../components/auth/user.service';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import Preloader from '../components/preloader/preloader.component';
@@ -60,7 +59,6 @@ angular.module('aksiteApp', [
     ngMessages,
     main,
     _Auth,
-    User,
     navbar,
     footer,
     Preloader,
@@ -132,7 +130,7 @@ angular
         ], {strictDi: true});
     });
 
-// upgradeAdapter.addProvider(HTTP_PROVIDERS);
+upgradeAdapter.addProvider(HTTP_PROVIDERS);
 upgradeAdapter.addProvider(AUTH_PROVIDERS);
 upgradeAdapter.upgradeNg1Provider('$rootScope');
 upgradeAdapter.upgradeNg1Provider('$http');
