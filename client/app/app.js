@@ -2,7 +2,7 @@
 import angular from 'angular';
 import oclazyload from 'oclazyload';
 import {upgradeAdapter} from './upgrade_adapter';
-// import {HTTP_PROVIDERS} from '@angular/http';
+import {HTTP_PROVIDERS} from '@angular/http';
 import {AUTH_PROVIDERS} from 'angular2-jwt';
 import Raven from 'raven-js';
 import RavenAngular from 'raven-js/plugins/angular.js';
