@@ -34,7 +34,7 @@ import blog from './blog/blog.component';
 import projectList from './projects/projectList.component';
 import galleryList from './galleries/galleryList.component';
 import adminRoutes from './admin/admin.routes';
-import user from './user';
+import user from './user/user.component';
 import settings from './settings';
 
 import '../../node_modules/angular-material/angular-material.scss';

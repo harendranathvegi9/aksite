@@ -1,5 +1,5 @@
 <div class="container">
-    <h1 class="page-header">{{vm.user.name}}</h1>
+    <h1 class="page-header">{{user.name}}</h1>
 
-    <img ng-src="/api/upload/{{vm.user.imageId}}.jpg" alt="" class="img-circle" style="height: 200px; width: 200px;" />
+    <img *ngIf="user.imageId" src="/api/upload/{{user.imageId}}.jpg" alt="" class="img-circle" style="height: 200px; width: 200px;" />
 </div>

@@ -15,10 +15,10 @@ type UserType = {
 }
 
 @Injectable()
-export class User {
     static parameters = [Http, AuthHttp];
     constructor(http, authHttp) {
         this.http = http;
+export class UserService {
         this.authHttp = authHttp;
     }
 
@@ -63,8 +63,8 @@ function extractData(res: Response) {
     return res.json() || { };
 }
 
-upgradeAdapter.addProvider(User);
+upgradeAdapter.addProvider(UserService);
 
 export default angular.module('factories.User', [])
-    .factory('User', upgradeAdapter.downgradeNg2Provider(User))
+    .factory('User', upgradeAdapter.downgradeNg2Provider(UserService))
     .name;
