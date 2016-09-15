@@ -13,13 +13,13 @@ mixin(_, {
 
 import uirouter from 'angular-ui-router';
 import {Component, ViewEncapsulation} from '@angular/core';
-import {upgradeAdapter} from '../../app/upgrade_adapter';
+import {upgradeAdapter} from '../upgrade_adapter';
 import {autobind} from 'core-decorators';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSGrid, makeResponsive, layout } from 'react-stonecutter';
 
-import galleryComponent from './gallery';
+import galleryComponent from './gallery/gallery.component';
 import routing from './galleryList.routes';
 import {GalleryService} from '../../components/gallery/gallery.service';
 

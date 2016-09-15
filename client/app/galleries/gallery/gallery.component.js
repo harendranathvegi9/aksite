@@ -1,4 +1,8 @@
 'use strict';
+import angular from 'angular';
+import {Component} from '@angular/core';
+import {upgradeAdapter} from '../../upgrade_adapter';
+import uirouter from 'angular-ui-router';
 import {
     wrapperLodash as _,
     mixin,
@@ -15,8 +19,10 @@ mixin(_, {
     map,
     noop
 });
-// import angular from 'angular';
 import {autobind} from 'core-decorators';
+import routing from './gallery.routes';
+import {GalleryService} from '../../../components/gallery/gallery.service';
+import {PhotoService} from '../../../components/photo/photo.service';
 
 import PhotoSwipe from 'photoswipe';
 import PhotoSwipeUiDefault from 'photoswipe/dist/photoswipe-ui-default';
@@ -31,13 +37,19 @@ const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
     minPadding: 50
 });
 
-export default class GalleryController {
+@Component({
+    selector: 'gallery',
+    template: require('./gallery.html'),
+    styles: [require('!!raw!sass!./gallery.scss')]
+})
+export default class GalleryComponent {
     galleryId;
+    gallery = {};
     errors = [];
     photos = [];
     items = [];
 
-    /*@ngInject*/
+    static parameters = ['$stateParams', PhotoService, GalleryService];
     constructor($stateParams, Photo, Gallery) {
         this.galleryId = $stateParams.galleryId;
         this.Photo = Photo;
@@ -83,7 +95,7 @@ export default class GalleryController {
         let vscroll = document.body.scrollTop;
 
         if(!this.items || this.items.length === 0) {
-            this.items = GalleryController.parseThumbnailElements(document.getElementById('stonecutter').childNodes[0].childNodes[0].childNodes);
+            this.items = GalleryComponent.parseThumbnailElements(document.getElementById('stonecutter').childNodes[0].childNodes[0].childNodes);
         }
 
         let gallery = new PhotoSwipe(pswpElement, PhotoSwipeUiDefault, this.items, {
@@ -126,3 +138,8 @@ export default class GalleryController {
             .value();
     }
 }
+
+export default angular.module('aksiteApp.galleries.gallery', [uirouter])
+    .config(routing)
+    .directive('gallery', upgradeAdapter.downgradeNg2Component(GalleryComponent))
+    .name;

@@ -5,9 +5,7 @@ export default function routes($stateProvider) {
     $stateProvider
         .state('gallery', {
             url: '/galleries/:galleryId',
-            template: require('./gallery.html'),
-            controller: 'GalleryController',
-            controllerAs: 'vm',
+            template: '<gallery></gallery>',
             onEnter: function($rootScope) {
                 $rootScope.title = $rootScope.titleRoot + ' | Galleries';
             }
