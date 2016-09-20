@@ -2,14 +2,14 @@
 import angular from 'angular';
 import {Component} from '@angular/core';
 import {upgradeAdapter} from '../../app/upgrade_adapter';
-import {CollapseDirective} from 'ng2-bootstrap';
+import {CollapseModule} from 'ng2-bootstrap/components/collapse';
 
 //import './navbar.scss';
 
 @Component({
     selector: 'navbar',
-    template: require('./navbar.html'),
-    directives: [CollapseDirective]
+    template: require('./navbar.html')
+    // directives: [CollapseDirective]
 })
 export class NavbarComponent {
     isCollapsed = true;

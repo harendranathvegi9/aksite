@@ -37,7 +37,7 @@ module.exports = function makeWebpackConfig(options) {
     } else {
         config.entry = {
             app: './client/app/index.js',
-            polyfills: './client/polyfills.js',
+            polyfills: './client/app/polyfills.js',
             vendor: [
                 'angular',
                 'angular-animate',

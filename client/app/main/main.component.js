@@ -22,12 +22,7 @@ mixin(_, {
     throttle
 });
 
-import angular from 'angular';
-import uirouter from 'angular-ui-router';
-import {Component} from '@angular/core';
-import {upgradeAdapter} from '../../app/upgrade_adapter';
-
-import routing from './main.routes';
+import {Component, OnInit} from '@angular/core';
 
 import MiniDaemon from '../../components/minidaemon';
 import classie from 'classie';
@@ -122,7 +117,7 @@ const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
     template: require('./main.html'),
     styles: [require('!!raw!sass!./main.scss')]
 })
-export default class MainComponent {
+export class MainComponent implements OnInit {
     constructor() {
         vendorImages = _.shuffle(vendorImages);
     }
@@ -175,8 +170,3 @@ export default class MainComponent {
         classie.removeClass(document.getElementById(currentText), 'hidden');
     }
 }
-
-export default angular.module('aksiteApp.main', [uirouter])
-    .config(routing)
-    .directive('main', upgradeAdapter.downgradeNg2Component(MainComponent))
-    .name;

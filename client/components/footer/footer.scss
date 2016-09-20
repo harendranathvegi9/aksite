@@ -14,6 +14,19 @@
     }
 }
 
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    border-top: $subtle-border;
+    background-color: $primaryColor;
+    color: $ak-base-color-darkest;
+    font-weight: 600;
+    p {
+        float: right;
+        margin: 0;
+    }
+}
+
 .flex-spacer {
     flex-grow: 1;
 }
