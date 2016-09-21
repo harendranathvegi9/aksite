@@ -121,6 +121,7 @@
     "awesome-typescript-loader": "^2.2.1",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
+    "babel-plugin-angular2-annotations": "^5.1.0",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
     "chai-things": "^0.2.0",

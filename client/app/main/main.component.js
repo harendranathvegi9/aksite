@@ -22,7 +22,7 @@ mixin(_, {
     throttle
 });
 
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 import MiniDaemon from '../../components/minidaemon';
 import classie from 'classie';
@@ -118,7 +118,8 @@ const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
     styles: [require('!!raw!sass!./main.scss')]
 })
 export class MainComponent implements OnInit {
-    constructor() {
+    constructor(@Inject('socket') socket) {
+        console.log(socket);
         vendorImages = _.shuffle(vendorImages);
     }
 

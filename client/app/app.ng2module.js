@@ -7,6 +7,10 @@ import { MainModule } from './main/main.ng2module';
 import { DirectivesModule } from '../components/common.directives.ng2module';
 import { AuthModule } from '../components/auth/auth.ng2module';
 
+import { upgradeAdapter } from './upgrade_adapter';
+
+upgradeAdapter.upgradeNg1Provider('socket');
+
 @NgModule({
     providers: [AUTH_PROVIDERS],
     imports: [
