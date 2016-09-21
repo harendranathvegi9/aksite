@@ -13,7 +13,7 @@
 |*|
 \*/
 
-class MiniDaemon {
+export default class MiniDaemon {
     owner = null;
     task = null;
     rate = 100;
@@ -59,14 +59,12 @@ class MiniDaemon {
         this.PAUSED = false;
         this.synchronize();
     }
-}
 
-MiniDaemon.forceCall = function(oDmn) {
-    oDmn.INDEX += oDmn.BACKW ? -1 : 1;
-    if(oDmn.task.call(oDmn.owner, oDmn.INDEX, oDmn.length, oDmn.BACKW) === false || oDmn.isAtEnd()) {
-        oDmn.pause(); return false;
+    static forceCall = function(oDmn) {
+        oDmn.INDEX += oDmn.BACKW ? -1 : 1;
+        if(oDmn.task.call(oDmn.owner, oDmn.INDEX, oDmn.length, oDmn.BACKW) === false || oDmn.isAtEnd()) {
+            oDmn.pause(); return false;
+        }
+        return true;
     }
-    return true;
-};
-
-export default MiniDaemon;
+}
