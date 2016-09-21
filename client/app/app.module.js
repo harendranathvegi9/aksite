@@ -9,7 +9,7 @@ import main from './main/main.module';
 import directives from '../components/common.directives.module';
 import authModule from '../components/auth/auth.module';
 
-angular.module('aftestApp', [
+angular.module('aksiteApp', [
     main,
     directives,
     authModule,
