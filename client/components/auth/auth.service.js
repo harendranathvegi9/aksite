@@ -1,4 +1,9 @@
 'use strict';
+import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
+import { UserService } from './user.service';
+import 'rxjs/add/operator/toPromise';
 import {
     wrapperLodash as _,
     isFunction,
@@ -9,8 +14,6 @@ mixin(_, {
     isFunction,
     noop
 });
-import angular from 'angular';
-import ngCookies from 'angular-cookies';
 import Promise from 'bluebird';
 
 /**
@@ -23,22 +26,22 @@ function safeCb(cb) {
     return _.isFunction(cb) ? cb : noop;
 }
 
-class Auth {
+@Injectable()
+export class AuthService {
     currentUser = {};
 
-    /*@ngInject*/
-    constructor($http, User, $cookies) {
-        this.$http = $http;
-        this.User = User;
-        this.$cookies = $cookies;
+    static parameters = [AuthHttp, UserService];
+    constructor(authHttp: AuthHttp, userService: UserService) {
+        this.authHttp = authHttp;
+        this.User = userService;
 
-        if($cookies.get('token')) {
-            User.get().then(user => {
+        if(localStorage.getItem('id_token')) {
+            this.User.get().then(user => {
                 this.currentUser = user;
             }).catch(err => {
                 console.log(err);
 
-                this.$cookies.remove('token');
+                localStorage.removeItem('id_token');
             });
         }
     }
@@ -51,31 +54,35 @@ class Auth {
      * @return {Promise}
      */
     login({email, password}, callback) {
-        return this.$http.post('/auth/local', {
+        return this.authHttp.post('/auth/local', {
             email,
             password
-        }).then(res => {
-            this.$cookies.put('token', res.data.token);
-            localStorage.setItem('id_token', res.data.token);
-            return this.User.get();
-        }).then(user => {
-            this.currentUser = user;
-            localStorage.setItem('user', JSON.stringify(user));
-            console.log(this.currentUser);
-            safeCb(callback)(null, user);
-            return user;
-        }).catch(err => {
-            this.logout();
-            safeCb(callback)(err.data);
-            return Promise.reject(err.data);
-        });
+        })
+            .toPromise()
+            .then(extractData)
+            .then(res => {
+                localStorage.setItem('id_token', res.data.token);
+                return this.User.get();
+            })
+            .then(user => {
+                this.currentUser = user;
+                localStorage.setItem('user', JSON.stringify(user));
+                console.log(this.currentUser);
+                safeCb(callback)(null, user);
+                return user;
+            })
+            .catch(err => {
+                this.logout();
+                safeCb(callback)(err.data);
+                return Promise.reject(err.data);
+            });
     }
 
     /**
      * Delete access token and user info
      */
     logout() {
-        this.$cookies.remove('token');
+        // this.$cookies.remove('token');
         localStorage.removeItem('user');
         localStorage.removeItem('id_token');
         this.currentUser = {};
@@ -92,7 +99,7 @@ class Auth {
     createUser(user, callback) {
         return this.User.create(user)
             .then(data => {
-                this.$cookies.put('token', data.token);
+                localStorage.setItem('id_token', data.token);
                 return this.User.get();
             })
             .then(_user => {
@@ -203,10 +210,11 @@ class Auth {
      * @return {String} - a token string used for authenticating
      */
     getToken() {
-        return this.$cookies.get('token');
+        return localStorage.getItem('id_token');
     }
 }
 
-export default angular.module('services.Auth', [require('./user.service').default, ngCookies])
-    .service('Auth', Auth)
-    .name;
+function extractData(res: Response) {
+    if(!res.text()) return {};
+    return res.json() || { };
+}

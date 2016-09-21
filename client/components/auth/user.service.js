@@ -1,12 +1,10 @@
 'use strict';
-import angular from 'angular';
 import {Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 // import {Observable} from 'rxjs/Rx';
 // import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import {upgradeAdapter} from '../../app/upgrade_adapter';
 
 type UserType = {
     // TODO: use Mongoose model
@@ -61,9 +59,3 @@ function extractData(res: Response) {
     if(!res.text()) return {};
     return res.json() || { };
 }
-
-upgradeAdapter.addProvider(UserService);
-
-export default angular.module('factories.User', [])
-    .factory('User', upgradeAdapter.downgradeNg2Provider(UserService))
-    .name;

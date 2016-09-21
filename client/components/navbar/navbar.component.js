@@ -1,15 +1,12 @@
 'use strict';
-import angular from 'angular';
 import {Component} from '@angular/core';
-import {upgradeAdapter} from '../../app/upgrade_adapter';
-import {CollapseModule} from 'ng2-bootstrap/components/collapse';
+import { AuthService } from '../auth/auth.service';
 
 //import './navbar.scss';
 
 @Component({
     selector: 'navbar',
     template: require('./navbar.html')
-    // directives: [CollapseDirective]
 })
 export class NavbarComponent {
     isCollapsed = true;
@@ -31,14 +28,14 @@ export class NavbarComponent {
         link: '/blog'
     }];
 
-    static parameters = ['$location', '$state', 'Auth'];
-    constructor($location, $state, Auth) {
+    static parameters = ['$location', '$state', AuthService];
+    constructor($location, $state, authService: AuthService) {
         this.$location = $location;
         this.$state = $state;
-        this.isLoggedIn = (...args) => Auth.isLoggedInSync(...args);
-        this.isAdmin = (...args) => Auth.isAdmin(...args);
-        this.getCurrentUser = (...args) => Auth.getCurrentUser(...args);
-        this.authLogout = () => Auth.logout();
+        this.isLoggedIn = (...args) => authService.isLoggedInSync(...args);
+        this.isAdmin = (...args) => authService.isAdmin(...args);
+        this.getCurrentUser = (...args) => authService.getCurrentUser(...args);
+        this.authLogout = () => authService.logout();
     }
 
     logout() {
@@ -54,7 +51,3 @@ export class NavbarComponent {
         this.$state.go(id);
     }
 }
-
-export default angular.module('directives.navbar', [])
-    .directive('navbar', upgradeAdapter.downgradeNg2Component(NavbarComponent))
-    .name;
