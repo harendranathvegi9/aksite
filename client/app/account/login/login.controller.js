@@ -1,6 +1,6 @@
 'use strict';
 
-export default class LoginController {
+export class LoginController {
     user = {};
     errors = {};
     submitted = false;
@@ -24,7 +24,7 @@ export default class LoginController {
                 this.$location.path('/');
             })
             .catch(err => {
-                this.errors.other = err.message;
+                if(err) this.errors.other = err.message;
             });
     }
 

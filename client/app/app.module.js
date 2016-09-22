@@ -4,21 +4,21 @@ import angular from 'angular';
 // import { AppComponent } from './app.component';
 // import { FooterComponent } from './layouts/footer/footer.component';
 import uirouter from 'angular-ui-router';
+import ngMaterial from 'angular-material';
 
 import main from './main/main.module';
 import directives from '../components/common.directives.module';
 import authModule from '../components/auth/auth.module';
+import accountModule from './account/account.module';
 import { SocketService } from '../components/socket/socket.service';
 
 angular.module('aksiteApp', [
     main,
     directives,
     authModule,
-    uirouter
+    accountModule,
+    uirouter,
+    ngMaterial,
 ])
-    .service('socket', SocketService)
+    .service('socket', SocketService);
     // .directive('app', upgradeAdapter.downgradeNg2Component(AppComponent))
-    .run($state => {
-        'ngInject';
-        $state.go('main');
-    });

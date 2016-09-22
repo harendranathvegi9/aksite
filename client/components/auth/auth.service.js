@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { UserService } from './user.service';
+import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {
     wrapperLodash as _,
@@ -30,8 +31,9 @@ function safeCb(cb) {
 export class AuthService {
     currentUser = {};
 
-    static parameters = [AuthHttp, UserService];
-    constructor(authHttp: AuthHttp, userService: UserService) {
+    static parameters = [Http, AuthHttp, UserService];
+    constructor(http: Http, authHttp: AuthHttp, userService: UserService) {
+        this.http = http;
         this.authHttp = authHttp;
         this.User = userService;
 
@@ -54,14 +56,14 @@ export class AuthService {
      * @return {Promise}
      */
     login({email, password}, callback) {
-        return this.authHttp.post('/auth/local', {
+        return this.http.post('/auth/local', {
             email,
             password
         })
             .toPromise()
             .then(extractData)
             .then(res => {
-                localStorage.setItem('id_token', res.data.token);
+                localStorage.setItem('id_token', res.token);
                 return this.User.get();
             })
             .then(user => {
@@ -73,8 +75,8 @@ export class AuthService {
             })
             .catch(err => {
                 this.logout();
-                safeCb(callback)(err.data);
-                return Promise.reject(err.data);
+                safeCb(callback)(err);
+                return Promise.reject(err);
             });
     }
 

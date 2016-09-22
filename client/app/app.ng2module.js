@@ -6,6 +6,7 @@ import {AUTH_PROVIDERS} from 'angular2-jwt';
 import { MainModule } from './main/main.ng2module';
 import { DirectivesModule } from '../components/common.directives.ng2module';
 import { AuthModule } from '../components/auth/auth.ng2module';
+import { AccountModule } from './account/account.ng2module';
 
 import { upgradeAdapter } from './upgrade_adapter';
 
@@ -19,6 +20,7 @@ upgradeAdapter.upgradeNg1Provider('socket');
         MainModule,
         DirectivesModule,
         AuthModule,
+        AccountModule,
     ],
     // declarations: [
     //     AppComponent,
