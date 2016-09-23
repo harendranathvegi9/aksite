@@ -8,6 +8,7 @@ import { DirectivesModule } from '../components/common.directives.ng2module';
 import { AuthModule } from '../components/auth/auth.ng2module';
 import { AccountModule } from './account/account.ng2module';
 import { ProjectsModule } from './projects/projects.ng2module';
+import { GalleriesModule } from './galleries/galleries.ng2module';
 
 import { upgradeAdapter } from './upgrade_adapter';
 
@@ -23,6 +24,7 @@ upgradeAdapter.upgradeNg1Provider('socket');
         AuthModule,
         AccountModule,
         ProjectsModule,
+        GalleriesModule,
     ],
     // declarations: [
     //     AppComponent,

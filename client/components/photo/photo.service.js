@@ -1,10 +1,8 @@
 'use strict';
-import angular from 'angular';
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import 'rxjs/add/operator/toPromise';
-import {upgradeAdapter} from '../../app/upgrade_adapter';
 
 @Injectable()
 export class PhotoService {
@@ -48,9 +46,3 @@ function extractData(res: Response) {
     if(!res.text()) return {};
     return res.json() || { };
 }
-
-upgradeAdapter.addProvider(PhotoService);
-
-export default angular.module('factories.Photo', [])
-    .factory('Photo', upgradeAdapter.downgradeNg2Provider(PhotoService))
-    .name;

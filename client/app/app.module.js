@@ -11,6 +11,7 @@ import directives from '../components/common.directives.module';
 import authModule from '../components/auth/auth.module';
 import accountModule from './account/account.module';
 import projectsModule from './projects/projects.module';
+import galleriesModule from './galleries/galleries.module';
 import { SocketService } from '../components/socket/socket.service';
 
 angular.module('aksiteApp', [
@@ -19,6 +20,7 @@ angular.module('aksiteApp', [
     authModule,
     accountModule,
     projectsModule,
+    galleriesModule,
     uirouter,
     ngMaterial,
 ])

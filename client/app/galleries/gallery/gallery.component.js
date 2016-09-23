@@ -1,8 +1,5 @@
 'use strict';
-import angular from 'angular';
-import {Component} from '@angular/core';
-import {upgradeAdapter} from '../../upgrade_adapter';
-import uirouter from 'angular-ui-router';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import {
     wrapperLodash as _,
     mixin,
@@ -20,7 +17,6 @@ mixin(_, {
     noop
 });
 import {autobind} from 'core-decorators';
-import routing from './gallery.routes';
 import {GalleryService} from '../../../components/gallery/gallery.service';
 import {PhotoService} from '../../../components/photo/photo.service';
 
@@ -40,9 +36,13 @@ const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
 @Component({
     selector: 'gallery',
     template: require('./gallery.html'),
-    styles: [require('!!raw!sass!./gallery.scss')]
+    styles: [
+        require('!!raw!sass!./gallery.scss'),
+        require('!!raw!sass!../../../assets/scss/photoswipe.scss'),
+    ],
+    encapsulation: ViewEncapsulation.None
 })
-export default class GalleryComponent {
+export class GalleryComponent {
     galleryId;
     gallery = {};
     errors = [];
@@ -50,7 +50,7 @@ export default class GalleryComponent {
     items = [];
 
     static parameters = ['$stateParams', PhotoService, GalleryService];
-    constructor($stateParams, Photo, Gallery) {
+    constructor(@Inject('$stateParams') $stateParams, Photo, Gallery) {
         this.galleryId = $stateParams.galleryId;
         this.Photo = Photo;
         this.Gallery = Gallery;
@@ -89,13 +89,16 @@ export default class GalleryComponent {
 
     @autobind
     onThumbnailsClick(event) {
+        // FIX: looks like photoswipe doesn't always make sure there's a start to the query parameters
+        if(!window.location.href.includes('?')) window.location = `${window.location.href}?pswp`;
+
         const index = Number(event.currentTarget.attributes['data-index'].value);
 
         let pswpElement = document.querySelectorAll('.pswp')[0];
         let vscroll = document.body.scrollTop;
 
         if(!this.items || this.items.length === 0) {
-            this.items = GalleryComponent.parseThumbnailElements(document.getElementById('stonecutter').childNodes[0].childNodes[0].childNodes);
+            this.items = this.parseThumbnailElements(document.getElementById('stonecutter').childNodes[0].childNodes[0].childNodes);
         }
 
         let gallery = new PhotoSwipe(pswpElement, PhotoSwipeUiDefault, this.items, {
@@ -119,7 +122,7 @@ export default class GalleryComponent {
         });
     }
 
-    static parseThumbnailElements(thumbElements) {
+    parseThumbnailElements(thumbElements) {
         return _.chain(thumbElements)
             .filter({nodeType: 1, localName: 'li'})
             .map((el, i) => {
@@ -138,8 +141,3 @@ export default class GalleryComponent {
             .value();
     }
 }
-
-export default angular.module('aksiteApp.galleries.gallery', [uirouter])
-    .config(routing)
-    .directive('gallery', upgradeAdapter.downgradeNg2Component(GalleryComponent))
-    .name;
