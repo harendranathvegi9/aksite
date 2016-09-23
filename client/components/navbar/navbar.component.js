@@ -12,19 +12,23 @@ export class NavbarComponent {
     isCollapsed = true;
     menu = [{
         title: 'Home',
+        sref: 'main',
         link: '/'
     }, {
         title: 'Résumé',
-        //link: '/resume'
+        sref: 'https://www.linkedin.com/in/koroluka',
         link: 'https://www.linkedin.com/in/koroluka'
     }, {
         title: 'Projects',
+        sref: 'projects',
         link: '/projects'
     }, {
         title: 'Photography',
+        sref: 'galleries',
         link: '/galleries'
     }, {
         title: 'Blog',
+        sref: 'blog',
         link: '/blog'
     }];
 
@@ -47,7 +51,10 @@ export class NavbarComponent {
         return route === this.$location.path();
     }
 
-    sref(id) {
+    sref(id: string) {
+        if(id.includes('http')) {
+            window.location = id;
+        }
         this.$state.go(id);
     }
 }
