@@ -1,10 +1,5 @@
-import angular from 'angular';
-import uirouter from 'angular-ui-router';
-import {Component} from '@angular/core';
-import {upgradeAdapter} from '../../../app/upgrade_adapter';
+import { Component } from '@angular/core';
 import Raven from 'raven-js';
-
-import routes from './post.routes';
 
 import moment from 'moment';
 import { Converter } from 'showdown';
@@ -45,8 +40,3 @@ export class PostComponent {
             });
     }
 }
-
-export default angular.module('aksiteApp.blog.post', [uirouter])
-    .config(routes)
-    .directive('post', upgradeAdapter.downgradeNg2Component(PostComponent))
-    .name;

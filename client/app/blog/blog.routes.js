@@ -9,11 +9,5 @@ export default function routes($stateProvider) {
             onEnter($rootScope) {
                 $rootScope.title = `${$rootScope.titleRoot} | Blog`;
             }
-        })
-        .state('blog.post', {
-            url: '/:postId',
-            template: require('./post/post.html'),
-            controller: 'PostController',
-            controllerAs: 'vm'
         });
 }

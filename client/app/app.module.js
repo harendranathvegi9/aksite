@@ -12,6 +12,7 @@ import authModule from '../components/auth/auth.module';
 import accountModule from './account/account.module';
 import projectsModule from './projects/projects.module';
 import galleriesModule from './galleries/galleries.module';
+import blogModule from './blog/blog.module';
 import { SocketService } from '../components/socket/socket.service';
 
 angular.module('aksiteApp', [
@@ -21,6 +22,7 @@ angular.module('aksiteApp', [
     accountModule,
     projectsModule,
     galleriesModule,
+    blogModule,
     uirouter,
     ngMaterial,
 ])
