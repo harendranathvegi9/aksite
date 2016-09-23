@@ -176,13 +176,10 @@ upgradeAdapter.bootstrap(document.body, ['aksiteApp'], {strictDi: true});
 //         ]);
 //     });
 
-// upgradeAdapter.addProvider(HTTP_PROVIDERS);
-// upgradeAdapter.addProvider(AUTH_PROVIDERS);
-// upgradeAdapter.upgradeNg1Provider('$rootScope');
-// upgradeAdapter.upgradeNg1Provider('$http');
+upgradeAdapter.upgradeNg1Provider('$rootScope');
+upgradeAdapter.upgradeNg1Provider('$http');
 upgradeAdapter.upgradeNg1Provider('$location');
 upgradeAdapter.upgradeNg1Provider('$state');
 upgradeAdapter.upgradeNg1Provider('$cookies');
-// upgradeAdapter.upgradeNg1Provider('$stateParams');
-// upgradeAdapter.upgradeNg1Provider('$sce');
-// upgradeAdapter.upgradeNg1Provider('Auth');
+upgradeAdapter.upgradeNg1Provider('$stateParams');
+upgradeAdapter.upgradeNg1Provider('$sce');

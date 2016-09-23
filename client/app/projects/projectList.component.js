@@ -1,13 +1,9 @@
-import angular from 'angular';
-import uirouter from 'angular-ui-router';
 import {Component, ViewEncapsulation} from '@angular/core';
-import {upgradeAdapter} from '../../app/upgrade_adapter';
 import {autobind} from 'core-decorators';
 
-import projectComponent from './project/project.component';
-import {ProjectService} from '../../components/Project/Project.service';
+// import { PreloaderComponent } from '../../components/preloader/preloader.component'
 
-import routing from './projects.routes';
+import {ProjectService} from '../../components/Project/Project.service';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -21,7 +17,8 @@ const Grid = makeResponsive(CSSGrid, {
     selector: 'project-list',
     template: require('./projectList.html'),
     styles: [require('!!raw!sass!./projectList.scss')],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    // directives: [PreloaderComponent]
 })
 export class ProjectListComponent {
     projects = [];
@@ -81,8 +78,3 @@ export class ProjectListComponent {
         this.$state.go('project', {projectId: event.currentTarget.id});
     }
 }
-
-export default angular.module('aksiteApp.projects', [uirouter, projectComponent])
-    .config(routing)
-    .directive('projectList', upgradeAdapter.downgradeNg2Component(ProjectListComponent))
-    .name;

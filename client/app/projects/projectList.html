@@ -6,9 +6,9 @@
 
 <div class="container">
     <div *ngIf="loadingProjects" class="spinner">
-        <preloader></preloader>
+        <!--<preloader></preloader>-->
     </div>
-    <alert [hidden]="!loadingProjects && projects.length !== 0" type="info">No Projects</alert>
+    <!--<alert [hidden]="!loadingProjects && projects.length !== 0" type="info">No Projects</alert>-->
     <div [hidden]="projects.length <= 0" class="row cards-container">
         <div id="stonecutter"></div>
     </div>
