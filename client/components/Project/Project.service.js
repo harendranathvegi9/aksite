@@ -4,7 +4,6 @@ import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import 'rxjs/add/operator/toPromise';
-import {upgradeAdapter} from '../../app/upgrade_adapter';
 
 @Injectable()
 export class ProjectService {
@@ -48,9 +47,3 @@ function extractData(res: Response) {
     if(!res.text()) return {};
     return res.json() || { };
 }
-
-upgradeAdapter.addProvider(ProjectService);
-
-export default angular.module('factories.Project', [])
-    .factory('Project', upgradeAdapter.downgradeNg2Provider(ProjectService))
-    .name;

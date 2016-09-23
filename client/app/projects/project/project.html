@@ -1,9 +1,9 @@
 <div class="container">
     <div *ngIf="error" class="row">
-        <alert type="danger">Error: {{error | json}}</alert>
+        <!--<alert type="danger">Error: {{error | json}}</alert>-->
     </div>
 
-    <div *ngIf="!error">
+    <div *ngIf="!error && project.coverId">
         <div class="cover-image">
             <img src="/api/upload/{{project.coverId}}" alt=""/>
         </div>

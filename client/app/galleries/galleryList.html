@@ -6,9 +6,9 @@
 
 <div class="container">
     <div *ngIf="loadingGalleries" class="spinner">
-        <preloader></preloader>
+        <!--<preloader></preloader>-->
     </div>
-    <alert [hidden]="!loadingGalleries && galleries.length !== 0" type="info">No Galleries</alert>
+    <!--<alert [hidden]="!loadingGalleries && galleries.length !== 0" type="info">No Galleries</alert>-->
     <div [hidden]="galleries.length <= 0" class="row cards-container">
         <div id="stonecutter"></div>
     </div>

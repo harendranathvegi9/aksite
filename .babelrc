@@ -5,6 +5,7 @@
         "react"
     ],
     "plugins": [
+        "angular2-annotations",
         "transform-runtime",
         "transform-decorators-legacy"
     ]

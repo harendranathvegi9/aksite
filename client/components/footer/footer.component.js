@@ -1,6 +1,4 @@
-import angular from 'angular';
 import {Component} from '@angular/core';
-import {upgradeAdapter} from '../../app/upgrade_adapter';
 
 @Component({
     selector: 'footer',
@@ -8,7 +6,3 @@ import {upgradeAdapter} from '../../app/upgrade_adapter';
     styles: [require('./footer.scss')]
 })
 export class FooterComponent {}
-
-export default angular.module('directives.footer', [])
-    .directive('footer', upgradeAdapter.downgradeNg2Component(FooterComponent))
-    .name;

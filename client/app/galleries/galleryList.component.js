@@ -1,5 +1,4 @@
 'use strict';
-import angular from 'angular';
 import {
     wrapperLodash as _,
     mixin,
@@ -11,16 +10,12 @@ mixin(_, {
     forEach
 });
 
-import uirouter from 'angular-ui-router';
-import {Component, ViewEncapsulation} from '@angular/core';
-import {upgradeAdapter} from '../upgrade_adapter';
+import { Component, ViewEncapsulation, Inject } from '@angular/core';
 import {autobind} from 'core-decorators';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSGrid, makeResponsive, layout } from 'react-stonecutter';
 
-import galleryComponent from './gallery/gallery.component';
-import routing from './galleryList.routes';
 import {GalleryService} from '../../components/gallery/gallery.service';
 
 const Grid = makeResponsive(CSSGrid, {
@@ -33,12 +28,12 @@ const Grid = makeResponsive(CSSGrid, {
     styles: [require('!!raw!sass!./galleryList.scss')],
     encapsulation: ViewEncapsulation.None
 })
-export default class GalleryListComponent {
+export class GalleryListComponent {
     galleries = [];
     loadingGalleries = true;
 
     static parameters = [GalleryService, '$http', '$state'];
-    constructor(Gallery: GalleryService, $http, $state) {
+    constructor(Gallery: GalleryService, @Inject('$http') $http, @Inject('$state') $state) {
         this.Gallery = Gallery;
         this.$http = $http;
         this.$state = $state;
@@ -86,8 +81,3 @@ export default class GalleryListComponent {
         this.$state.go('gallery', {galleryId: event.currentTarget.id});
     }
 }
-
-export default angular.module('aksiteApp.galleries', [uirouter, galleryComponent])
-    .config(routing)
-    .directive('galleryList', upgradeAdapter.downgradeNg2Component(GalleryListComponent))
-    .name;

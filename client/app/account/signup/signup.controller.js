@@ -1,6 +1,6 @@
 'use strict';
 
-export default class SignupController {
+export class SignupController {
     user = {};
     errors = {};
     submitted = false;

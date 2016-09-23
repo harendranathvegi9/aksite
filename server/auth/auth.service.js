@@ -19,11 +19,13 @@ export function isAuthenticated() {
         // Validate jwt
         .use(function(req, res, next) {
             // allow access_token to be passed through query parameter as well
-            if(req.query && req.query.hasOwnProperty('access_token')) {
-                req.headers.authorization = `Bearer ${req.query.access_token}`;
-            }
-            if(req.query && req.cookies.hasOwnProperty('token')) {
-                req.headers.authorization = `Bearer ${req.cookies.token}`;
+            if(!req.headers.authorization) {
+                if(req.query && req.query.hasOwnProperty('access_token')) {
+                    req.headers.authorization = `Bearer ${req.query.access_token}`;
+                }
+                if(req.query && req.cookies.hasOwnProperty('token')) {
+                    req.headers.authorization = `Bearer ${req.cookies.token}`;
+                }
             }
             validateJwt(req, res, next);
         })

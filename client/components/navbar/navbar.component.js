@@ -1,44 +1,45 @@
 'use strict';
-import angular from 'angular';
 import {Component} from '@angular/core';
-import {upgradeAdapter} from '../../app/upgrade_adapter';
-import {CollapseDirective} from 'ng2-bootstrap';
+import { AuthService } from '../auth/auth.service';
 
 //import './navbar.scss';
 
 @Component({
     selector: 'navbar',
-    template: require('./navbar.html'),
-    directives: [CollapseDirective]
+    template: require('./navbar.html')
 })
 export class NavbarComponent {
     isCollapsed = true;
     menu = [{
         title: 'Home',
+        sref: 'main',
         link: '/'
     }, {
         title: 'Résumé',
-        //link: '/resume'
+        sref: 'https://www.linkedin.com/in/koroluka',
         link: 'https://www.linkedin.com/in/koroluka'
     }, {
         title: 'Projects',
+        sref: 'projects',
         link: '/projects'
     }, {
         title: 'Photography',
+        sref: 'galleries',
         link: '/galleries'
     }, {
         title: 'Blog',
+        sref: 'blog',
         link: '/blog'
     }];
 
-    static parameters = ['$location', '$state', 'Auth'];
-    constructor($location, $state, Auth) {
+    static parameters = ['$location', '$state', AuthService];
+    constructor($location, $state, authService: AuthService) {
         this.$location = $location;
         this.$state = $state;
-        this.isLoggedIn = (...args) => Auth.isLoggedInSync(...args);
-        this.isAdmin = (...args) => Auth.isAdmin(...args);
-        this.getCurrentUser = (...args) => Auth.getCurrentUser(...args);
-        this.authLogout = () => Auth.logout();
+        this.isLoggedIn = (...args) => authService.isLoggedInSync(...args);
+        this.isAdmin = (...args) => authService.isAdmin(...args);
+        this.getCurrentUser = (...args) => authService.getCurrentUser(...args);
+        this.authLogout = () => authService.logout();
     }
 
     logout() {
@@ -50,11 +51,10 @@ export class NavbarComponent {
         return route === this.$location.path();
     }
 
-    sref(id) {
+    sref(id: string) {
+        if(id.includes('http')) {
+            window.location = id;
+        }
         this.$state.go(id);
     }
 }
-
-export default angular.module('directives.navbar', [])
-    .directive('navbar', upgradeAdapter.downgradeNg2Component(NavbarComponent))
-    .name;

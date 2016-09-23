@@ -11,7 +11,7 @@
         <div [collapse]="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav">
                 <li *ngFor="let item of menu" [ngClass]="{active: isActive(item.link)}">
-                    <a [href]="item.link" [attr.aria-label]="item.title">{{item.title}}</a>
+                    <a (click)="sref(item.sref)" [attr.aria-label]="item.title">{{item.title}}</a>
                 </li>
                 <li [hidden]="!isAdmin()" [ngClass]="{active: isActive('/admin')}">
                     <a (click)="sref('admin.dashboard')" aria-label="Admin">Admin</a>
