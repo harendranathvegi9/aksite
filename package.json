@@ -36,7 +36,7 @@
     "angular-resource": "~1.5.0",
     "angular-sanitize": "~1.5.0",
     "angular-socket-io": "^0.7.0",
-    "angular-ui-bootstrap": "^2.0.1",
+    "angular-ui-bootstrap": "^2.1.4",
     "angular-ui-router": "^0.3.0",
     "angular2-jwt": "^0.1.23",
     "babel-core": "^6.10.4",
