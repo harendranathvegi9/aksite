@@ -5,7 +5,7 @@ export default function routes($stateProvider) {
     $stateProvider
         .state('galleries', {
             url: '/galleries',
-            template: '<gallery-list></gallery-list>',
+            component: 'galleryList',
             onEnter($rootScope) {
                 $rootScope.title = `${$rootScope.titleRoot} | Galleries`;
             }

@@ -1,10 +1,13 @@
 'use strict';
 
-export default function routes($stateProvider) {
+export default function routes($stateProvider, $urlRouterProvider) {
     'ngInject';
+
+    $urlRouterProvider.otherwise('/');
+
     $stateProvider
         .state('main', {
-            url: '',
-            template: '<main></main>'
+            url: '/',
+            component: 'main'
         });
 }

@@ -5,7 +5,7 @@ export default function routes($stateProvider) {
     $stateProvider
         .state('project', {
             url: '/projects/:projectId',
-            template: '<project></project>',
+            component: 'project',
             onEnter($rootScope) {
                 $rootScope.title = `${$rootScope.titleRoot} | Projects`;
             }

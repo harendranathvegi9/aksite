@@ -5,7 +5,7 @@ export default function routes($stateProvider) {
     $stateProvider
         .state('blog', {
             url: '/blog?page&pagesize',
-            template: '<blog></blog>',
+            component: 'blog',
             onEnter($rootScope) {
                 $rootScope.title = `${$rootScope.titleRoot} | Blog`;
             }

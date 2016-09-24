@@ -5,6 +5,6 @@ export default function routes($stateProvider) {
     $stateProvider
         .state('user', {
             url: '/user/:id',
-            template: '<user></user>'
+            component: 'user'
         });
 }
