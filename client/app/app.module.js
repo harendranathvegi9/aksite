@@ -15,8 +15,8 @@ import galleriesModule from './galleries/galleries.module';
 import blogModule from './blog/blog.module';
 import { SocketService } from '../components/socket/socket.service';
 
-    main,
 export default angular.module('aksiteApp', [
+    main,
     directives,
     authModule,
     accountModule,
