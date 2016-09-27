@@ -7,7 +7,7 @@ $fa-font-path: "/assets/fonts/font-awesome/";
 @import '../../node_modules/photoswipe/dist/photoswipe.css';
 @import '../../node_modules/photoswipe/dist/default-skin/default-skin.css';
 
-@import 'bourbon';
+@import '~bourbon/app/assets/stylesheets/bourbon';
 
 // Component styles are injected through grunt
 // injector
