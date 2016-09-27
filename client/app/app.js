@@ -161,9 +161,9 @@ import 'zone.js/dist/zone';
 import 'reflect-metadata';
 
 import { upgradeAdapter } from './upgrade_adapter';
-import './app.module';
+import ng1App from './app.module';
 
-upgradeAdapter.bootstrap(document.body, ['aksiteApp'], {strictDi: true});
+upgradeAdapter.bootstrap(document.body, [ng1App.name], {strictDi: true});
 
 // app.directive('app', adapter.downgradeNg2Component(AppComponent));
 
