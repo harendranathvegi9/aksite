@@ -127,9 +127,9 @@ html, body {
     display: none !important;
 }
 
-.google-plus-color { color: $googlePlusColor }
-.github-color { color: $gitHubColor }
-.linkedin-color { color: $linkedInColor }
+button.google-plus-color, .google-plus-color { color: $googlePlusColor }
+button.github-color, .github-color { color: $gitHubColor }
+button.linkedin-color, .linkedin-color { color: $linkedInColor }
 
 .page-header {
     font-size: 60px;

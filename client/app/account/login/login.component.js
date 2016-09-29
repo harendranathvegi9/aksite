@@ -13,10 +13,11 @@ export class LoginComponent {
     errors = {};
     submitted = false;
 
-    static parameters = [AuthService, '$location'];
-    constructor(authService: AuthService, $location) {
+    static parameters = [AuthService, '$location', '$state'];
+    constructor(authService: AuthService, $location, $state) {
         this.authService = authService;
         this.$location = $location;
+        this.$state = $state;
     }
 
     login() {
@@ -37,5 +38,9 @@ export class LoginComponent {
 
     loginOauth(provider) {
         window.location.href = `/auth/${provider}`;
+    }
+
+    sref(state) {
+        this.$state.go(state);
     }
 }
