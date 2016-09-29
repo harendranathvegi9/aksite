@@ -13,7 +13,6 @@ import accountModule from './account/account.module';
 import projectsModule from './projects/projects.module';
 import galleriesModule from './galleries/galleries.module';
 import blogModule from './blog/blog.module';
-import { SocketService } from '../components/socket/socket.service';
 
 export default angular.module('aksiteApp', [
     main,
@@ -25,6 +24,5 @@ export default angular.module('aksiteApp', [
     blogModule,
     uirouter,
     ngMaterial,
-])
-    .service('socket', SocketService);
+]);
     // .directive('app', upgradeAdapter.downgradeNg2Component(AppComponent))
