@@ -3,51 +3,51 @@
         <div class="col-sm-12">
             <h1 class="page-header">Login</h1>
 
-            <md-content class="md-padding">
-                <form name="loginForm" ng-submit="vm.login()">
-                    <md-input-container class="md-block">
+            <content class="md-padding">
+                <form name="loginForm" (ngSubmit)="login()">
+                    <div class="md-block">
                         <label>Email</label>
-                        <input md-maxlength="60" required name="email" type="email" ng-model="vm.user.email">
-                        <div ng-messages="loginForm.email.$error">
-                            <div ng-message="required">This is required.</div>
-                            <div ng-message="md-maxlength">The email can be at most 60 characters long.</div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container class="md-block">
+                        <md-input maxlength="60" required name="email" type="email" [(ngModel)]="user.email"></md-input>
+                        <!--<div ng-messages="loginForm.email.$error">-->
+                            <!--<div ng-message="required">This is required.</div>-->
+                            <!--<div ng-message="md-maxlength">The email can be at most 60 characters long.</div>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="md-block">
                         <label>Password</label>
-                        <input type="password" required name="password" ng-model="vm.user.password">
-                        <div ng-messages="loginForm.password.$error">
-                            <div ng-message="required">This is required.</div>
-                        </div>
-                    </md-input-container>
+                        <md-input type="password" required name="password" [(ngModel)]="user.password"></md-input>
+                        <!--<div ng-messages="loginForm.password.$error">-->
+                            <!--<div ng-message="required">This is required.</div>-->
+                        <!--</div>-->
+                    </div>
 
                     <section layout="row" layout-sm="column" layout-align="center center">
-                        <md-button class="md-primary md-button-lg" type="submit" aria-label="Login">
+                        <button md-button class="md-primary md-button-lg" type="submit" aria-label="Login">
                             Login
-                        </md-button>
-                        <md-button class="md-button-lg" ui-sref="signup" aria-label="Register">
+                        </button>
+                        <button md-button class="md-button-lg" ui-sref="signup" aria-label="Register">
                             Register
-                        </md-button>
+                        </button>
                     </section>
                 </form>
 
                 <br/>
 
-                <section layout="row" layout-sm="column" layout-align="center center">
-                    <md-button class="md-button-lg google-plus-color" aria-label="Login with Google" ng-click="vm.loginOauth('google')">
-                        <i class="fa fa-google-plus"></i>
-                        Log in with Google
-                    </md-button>
-                    <md-button class="md-button-lg github-color" aria-label="Login with Github" ng-click="vm.loginOauth('github')">
-                        <i class="fa fa-github"></i>
-                        Log in with Github
-                    </md-button>
-                    <md-button class="md-button-lg linkedin-color" aria-label="Login with Linkedin" ng-click="vm.loginOauth('linkedin')">
-                        <i class="fa fa-linkedin-square"></i>
-                        Log in with Linkedin
-                    </md-button>
-                </section>
-            </md-content>
+                <!--<section layout="row" layout-sm="column" layout-align="center center">-->
+                    <!--<button md-button class="md-button-lg google-plus-color" aria-label="Login with Google" ng-click="loginOauth('google')">-->
+                        <!--<i class="fa fa-google-plus"></i>-->
+                        <!--Log in with Google-->
+                    <!--</button>-->
+                    <!--<md-button class="md-button-lg github-color" aria-label="Login with Github" ng-click="loginOauth('github')">-->
+                        <!--<i class="fa fa-github"></i>-->
+                        <!--Log in with Github-->
+                    <!--</md-button>-->
+                    <!--<md-button class="md-button-lg linkedin-color" aria-label="Login with Linkedin" ng-click="loginOauth('linkedin')">-->
+                        <!--<i class="fa fa-linkedin-square"></i>-->
+                        <!--Log in with Linkedin-->
+                    <!--</md-button>-->
+                <!--</section>-->
+            </content>
         </div>
     </div>
 </div>

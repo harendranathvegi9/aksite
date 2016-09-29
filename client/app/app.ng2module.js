@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
+import { MaterialModule } from '@angular/material';
 import {AUTH_PROVIDERS} from 'angular2-jwt';
 // import { AppComponent } from './app.component';
 import { MainModule } from './main/main.ng2module';
@@ -20,6 +21,7 @@ upgradeAdapter.upgradeNg1Provider('socket');
     imports: [
         BrowserModule,
         HttpModule,
+        MaterialModule.forRoot(),
         MainModule,
         DirectivesModule,
         AuthModule,

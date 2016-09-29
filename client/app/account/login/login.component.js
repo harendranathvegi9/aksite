@@ -1,21 +1,28 @@
 'use strict';
+import { Component } from '@angular/core';
 
-export class LoginController {
+import { AuthService } from '../../../components/auth/auth.service';
+
+@Component({
+    selector: 'login',
+    template: require('./login.html'),
+    style: [require('!!raw!sass!./login.scss')]
+})
+export class LoginComponent {
     user = {};
     errors = {};
     submitted = false;
 
-    /*@ngInject*/
-    constructor(Auth, $location, $window) {
-        this.Auth = Auth;
+    static parameters = [AuthService, '$location'];
+    constructor(authService: AuthService, $location) {
+        this.authService = authService;
         this.$location = $location;
-        this.$window = $window;
     }
 
     login() {
         this.submitted = true;
 
-        this.Auth.login({
+        this.authService.login({
             email: this.user.email,
             password: this.user.password
         })
@@ -29,6 +36,6 @@ export class LoginController {
     }
 
     loginOauth(provider) {
-        this.$window.location.href = '/auth/' + provider;
+        window.location.href = `/auth/${provider}`;
     }
 }

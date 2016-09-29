@@ -4,11 +4,9 @@ export default function routes($stateProvider) {
     'ngInject';
     $stateProvider.state('login', {
         url: '/login',
-        template: require('./login/login.html'),
-        controller: 'LoginController',
-        controllerAs: 'vm',
+        component: 'login',
         onEnter: function($rootScope) {
-            $rootScope.title = $rootScope.titleRoot + ' | Login';
+            $rootScope.title = `${$rootScope.titleRoot} | Login`;
         }
     }).state('signup', {
         url: '/signup',
