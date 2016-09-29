@@ -214,12 +214,7 @@ module.exports = function makeWebpackConfig(options) {
             //delays coverage til after tests are run, fixing transpiled source coverage error
             test: /\.js$/,
             exclude: /(node_modules|spec\.js|mock\.js)/,
-            use: 'isparta-instrumenter',
-            options: {
-                babel: {
-                    // optional: ['runtime', 'es7.classProperties', 'es7.decorators']
-                }
-            }
+            use: 'isparta'
         });
     }
 
@@ -281,6 +276,10 @@ module.exports = function makeWebpackConfig(options) {
                 outputStyle: 'compressed',
                 precision: 10,
                 sourceComments: false
+            },
+            isparta: {
+                embedSource: true,
+                noAutoWrap: true,
             }
         })
     ];
