@@ -382,7 +382,7 @@ module.exports = function makeWebpackConfig(options) {
             modules: false,
             cached: false,
             colors: true,
-            chunk: false
+            chunks: false
         }
     };
 
