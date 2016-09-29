@@ -1,12 +1,5 @@
 'use strict';
-import { async, inject, TestBed } from '@angular/core/testing';
-// import { MockBackend, MockConnection } from '@angular/http/testing';
-// import {
-//     Http,
-//     BaseRequestOptions,
-//     ResponseOptions,
-//     Response
-// } from '@angular/http';
+import { TestBed } from '@angular/core/testing';
 import { SocketService } from '../../components/socket/socket.service';
 import { SocketServiceMock } from '../../components/socket/socket.mock';
 
