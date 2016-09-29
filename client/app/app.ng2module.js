@@ -11,6 +11,7 @@ import { AccountModule } from './account/account.ng2module';
 import { ProjectsModule } from './projects/projects.ng2module';
 import { GalleriesModule } from './galleries/galleries.ng2module';
 import { BlogModule } from './blog/blog.ng2module';
+import { UserModule } from './user/user.ng2module';
 
 @NgModule({
     providers: [AUTH_PROVIDERS],
@@ -25,6 +26,7 @@ import { BlogModule } from './blog/blog.ng2module';
         ProjectsModule,
         GalleriesModule,
         BlogModule,
+        UserModule,
     ],
     // declarations: [
     //     AppComponent,

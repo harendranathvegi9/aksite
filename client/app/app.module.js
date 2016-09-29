@@ -13,6 +13,7 @@ import accountModule from './account/account.module';
 import projectsModule from './projects/projects.module';
 import galleriesModule from './galleries/galleries.module';
 import blogModule from './blog/blog.module';
+import userModule from './user/user.module';
 
 export default angular.module('aksiteApp', [
     main,
@@ -22,6 +23,7 @@ export default angular.module('aksiteApp', [
     projectsModule,
     galleriesModule,
     blogModule,
+    userModule,
     uirouter,
     ngMaterial,
 ]);

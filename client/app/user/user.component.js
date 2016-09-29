@@ -1,10 +1,6 @@
 'use strict';
-import angular from 'angular';
-import {Component} from '@angular/core';
-import {upgradeAdapter} from '../upgrade_adapter';
-import uirouter from 'angular-ui-router';
-import routing from './user.routes';
-import {UserService} from '../../components/auth/user.service';
+import { Component } from '@angular/core';
+import { UserService } from '../../components/auth/user.service';
 
 @Component({
     selector: 'user',
@@ -26,8 +22,3 @@ export class UserComponent {
         });
     }
 }
-
-export default angular.module('aksiteApp.user', [uirouter])
-    .config(routing)
-    .directive('user', upgradeAdapter.downgradeNg2Component(UserComponent))
-    .name;
