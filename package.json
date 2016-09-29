@@ -219,8 +219,8 @@
     "webpack-stream": "^3.2.0"
   },
   "engines": {
-    "node": "^5.10.1",
-    "npm": "^3.8.3"
+    "node": "^6.6.0",
+    "npm": "^3.10.3"
   },
   "scripts": {
     "start": "node server",
