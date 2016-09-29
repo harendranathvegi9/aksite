@@ -10,9 +10,7 @@ export default function routes($stateProvider) {
         }
     }).state('signup', {
         url: '/signup',
-        template: require('./signup/signup.html'),
-        controller: 'SignupController',
-        controllerAs: 'vm',
+        component: 'signup',
         onEnter: function($rootScope) {
             $rootScope.title = $rootScope.titleRoot + ' | Signup';
         }

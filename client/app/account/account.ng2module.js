@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MdInputModule, MdButtonModule } from '@angular/material';
 
 import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
     imports: [
@@ -11,7 +12,8 @@ import { LoginComponent } from './login/login.component';
         MdButtonModule,
     ],
     declarations: [
-        LoginComponent
+        LoginComponent,
+        SignupComponent
     ]
 })
 export class AccountModule {}

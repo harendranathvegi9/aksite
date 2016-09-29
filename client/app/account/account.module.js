@@ -3,12 +3,12 @@ import uirouter from 'angular-ui-router';
 import { upgradeAdapter } from '../upgrade_adapter';
 
 import { LoginComponent } from './login/login.component';
-import { SignupController } from './signup/signup.controller';
+import { SignupComponent } from './signup/signup.component';
 
 import routing from './account.routes';
 
 export default angular.module('aksiteApp.account', [uirouter])
     .config(routing)
     .directive('login', upgradeAdapter.downgradeNg2Component(LoginComponent))
-    .controller('SignupController', SignupController)
+    .directive('signup', upgradeAdapter.downgradeNg2Component(SignupComponent))
     .name;
