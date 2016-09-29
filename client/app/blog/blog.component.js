@@ -1,7 +1,4 @@
 import {Component} from '@angular/core';
-import {NgModel} from '@angular/forms';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
-import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap';
 import {
     wrapperLodash as _,
     mixin,
@@ -17,8 +14,7 @@ const converter = new Converter();
 @Component({
     selector: 'blog',
     template: require('./blog.html'),
-    styles: [require('!!raw!sass!./blog.scss')],
-    directives: [PAGINATION_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, NgModel]
+    styles: [require('!!raw!sass!./blog.scss')]
 })
 export class BlogComponent {
     loadingItems = true;
