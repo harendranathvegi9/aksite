@@ -4,7 +4,7 @@
             <button class="navbar-toggle fa fa-bars" type="button" (click)="isCollapsed = !isCollapsed">
                 <span class="sr-only">Toggle navigation</span>
             </button>
-            <a class="logo-portrait" href="/">
+            <a class="logo-portrait" style="cursor: pointer;" (click)="sref('main')" aria-label="Go to the home page">
                 <img class="img-circle" src="assets/images/portrait_2014.jpg" alt="AK"/>
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <a (click)="sref('login')" aria-label="Login">Login</a>
                 </li>
                 <li *ngIf="isLoggedIn()" style="margin-left: 5px; margin-right: 5px;">
-                    <a href="/user/{{getCurrentUser()._id}}" style="padding: 0">
+                    <a (click)="sref('user', {id: getCurrentUser()._id})" style="padding: 0">
                         <span class="user-image" style.background-image="url(/api/upload/{{getCurrentUser().imageId}}.jpg)"></span>
                     </a>
                 </li>
@@ -32,7 +32,7 @@
                     <a (click)="sref('settings.dashboard')" aria-label="Settings"><i class="fa fa-cog"></i></a>
                 </li>
                 <li [hidden]="!isLoggedIn()" [ngClass]="{active: isActive('/logout')}">
-                    <a href="" (click)="logout()" aria-label="Logout">Logout</a>
+                    <a (click)="logout()" aria-label="Logout">Logout</a>
                 </li>
             </ul>
         </div>

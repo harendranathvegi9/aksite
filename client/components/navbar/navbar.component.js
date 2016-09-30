@@ -51,10 +51,10 @@ export class NavbarComponent {
         return route === this.$location.path();
     }
 
-    sref(id: string) {
+    sref(id: string, opts = {}) {
         if(id.includes('http')) {
             window.location = id;
         }
-        this.$state.go(id);
+        this.$state.go(id, opts);
     }
 }
