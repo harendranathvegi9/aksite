@@ -1,16 +1,33 @@
-import angular from 'angular';
-import uirouter from 'angular-ui-router';
-import {upgradeAdapter} from '../upgrade_adapter';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+import { UIRouterModule } from 'ui-router-ng2';
+import { PaginationModule, AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { BlogComponent } from './blog.component';
 import { PostComponent } from './post/post.component';
 
-import listRouting from './blog.routes';
-import postRouting from './post/post.routes';
-
-export default angular.module('aksiteApp.blog', [uirouter])
-    .config(listRouting)
-    .config(postRouting)
-    .directive('blog', upgradeAdapter.downgradeNg2Component(BlogComponent))
-    .directive('post', upgradeAdapter.downgradeNg2Component(PostComponent))
-    .name;
+@NgModule({
+    imports: [
+        BrowserModule,
+        HttpModule,
+        UIRouterModule.forChild({
+            states: [{
+                name: 'blog',
+                url: '/blog',
+                component: BlogComponent
+            }]
+        }),
+        PaginationModule,
+        AlertModule,
+    ],
+    declarations: [
+        BlogComponent,
+        PostComponent,
+    ],
+    exports: [
+        BlogComponent,
+        PostComponent,
+    ]
+})
+export class BlogModule {}

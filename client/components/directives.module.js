@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UIRouterModule } from 'ui-router-ng2';
 import { CollapseModule } from 'ng2-bootstrap/components/collapse';
 
 import { AuthModule } from './auth/auth.module';
@@ -10,8 +11,9 @@ import { PreloaderComponent } from './preloader/preloader.component';
 
 @NgModule({
     imports: [
-        CollapseModule,
         CommonModule,
+        UIRouterModule.forChild(),
+        CollapseModule,
         AuthModule,
     ],
     declarations: [

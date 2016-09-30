@@ -11,7 +11,7 @@ import { DirectivesModule } from '../components/directives.module';
 // import { AccountModule } from './account/account.ng2module';
 // import { ProjectsModule } from './projects/projects.ng2module';
 // import { GalleriesModule } from './galleries/galleries.ng2module';
-// import { BlogModule } from './blog/blog.ng2module';
+import { BlogModule } from './blog/blog.module';
 // import { UserModule } from './user/user.ng2module';
 
 @NgModule({
@@ -27,7 +27,7 @@ import { DirectivesModule } from '../components/directives.module';
         // AccountModule,
         // ProjectsModule,
         // GalleriesModule,
-        // BlogModule,
+        BlogModule,
         // UserModule,
     ],
     declarations: [

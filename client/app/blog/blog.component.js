@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
 import {
     wrapperLodash as _,
     mixin,
@@ -24,16 +26,14 @@ export class BlogComponent {
     collectionSize = 0;
     posts = [];
 
-    static parameters = ['$http', '$stateParams', '$state'];
-    constructor($http, $stateParams, $state) {
-        this.$http = $http;
-        this.$stateParams = $stateParams;
-        this.$state = $state;
+    static parameters = [Http];
+    constructor(http: Http) {
+        this.Http = http;
+        this.$stateParams = {};
+        this.$state = {};
 
-        $state.reloadOnSearch = false;
-
-        this.currentPage = parseInt($stateParams.page, 10) || 1;
-        this.pagesize = $stateParams.pagesize || 10;
+        this.currentPage = parseInt(this.$stateParams.page, 10) || 1;
+        this.pagesize = this.$stateParams.pagesize || 10;
     }
 
     ngOnInit() {
@@ -48,8 +48,10 @@ export class BlogComponent {
     }
 
     getPageData() {
-        return this.$http.get(`api/posts?page=${this.currentPage}&pagesize=${this.pagesize}`)
-            .then(({data}) => {
+        return this.Http.get(`api/posts?page=${this.currentPage}&pagesize=${this.pagesize}`)
+            .toPromise()
+            .then(extractData)
+            .then(data => {
                 this.pages = data.pages;
                 this.collectionSize = data.numItems;
                 this.posts = data.items;
@@ -68,4 +70,9 @@ export class BlogComponent {
     sref(id: string) {
         this.$state.go('post', {postId: id});
     }
+}
+
+function extractData(res: Response) {
+    if(!res.text()) return {};
+    return res.json() || { };
 }

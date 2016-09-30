@@ -4,11 +4,11 @@
     <div class="container post-list">
         <div class="post-block" *ngFor="let post of posts">
             <a *ngIf="post.imageId"
-               (click)="sref(post._id)"
+               uiSref="{{post._id}}"
                class="block-image"
                style.background-image="url(/api/upload/{{post.imageId}})"></a>
 
-            <a (click)="sref(post._id)" style="cursor: pointer;">
+            <a uiSref="{{post._id}}" style="cursor: pointer;">
                 <h2 class="block-header">{{post.title}} <small [hidden]="!post.hidden">Hidden</small></h2>
             </a>
 
