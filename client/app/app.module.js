@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
+import { UIRouterModule } from 'ui-router-ng2';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 import { AppComponent } from './app.component';
 import { MainModule } from './main/main.module';
@@ -19,6 +20,7 @@ import { DirectivesModule } from '../components/directives.module';
         BrowserModule,
         HttpModule,
         MaterialModule.forRoot(),
+        UIRouterModule.forRoot(),
         MainModule,
         DirectivesModule,
         // AuthModule,
