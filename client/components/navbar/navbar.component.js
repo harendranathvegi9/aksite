@@ -1,5 +1,5 @@
 'use strict';
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 
 //import './navbar.scss';
@@ -32,10 +32,9 @@ export class NavbarComponent {
         link: '/blog'
     }];
 
-    static parameters = ['$location', '$state', AuthService];
-    constructor($location, $state, authService: AuthService) {
-        this.$location = $location;
-        this.$state = $state;
+    static parameters = [/*'$location', '$state', */AuthService];
+    constructor(authService: AuthService) {
+        this.$state = {go() {}};
         this.isLoggedIn = (...args) => authService.isLoggedInSync(...args);
         this.isAdmin = (...args) => authService.isAdmin(...args);
         this.getCurrentUser = (...args) => authService.getCurrentUser(...args);
@@ -44,11 +43,11 @@ export class NavbarComponent {
 
     logout() {
         this.authLogout();
-        this.$location.path('/login');
+        this.$state.go('login');
     }
 
     isActive(route) {
-        return route === this.$location.path();
+        return route === window.location.href.split('#')[1];
     }
 
     sref(id: string, opts = {}) {

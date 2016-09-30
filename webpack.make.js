@@ -36,23 +36,12 @@ module.exports = function makeWebpackConfig(options) {
         config.entry = {};
     } else {
         config.entry = {
-            app: './client/app/index.js',
             polyfills: './client/app/polyfills.js',
+            app: './client/app/index.js',
             vendor: [
-                'angular',
-                'angular-animate',
-                'angular-aria',
-                'angular-cookies',
-                'angular-material',
-                'angular-messages',
-                'angular-sanitize',
-                'angular-socket-io',
-                'angular-ui-bootstrap',
-                'angular-ui-router',
                 'raven-js',
                 'react',
                 'react-dom',
-                'reflect-metadata',
                 'showdown'
             ]
         };

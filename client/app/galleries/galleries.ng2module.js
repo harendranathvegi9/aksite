@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { DirectivesModule } from '../../components/common.directives.ng2module';
+import { DirectivesModule } from '../../components/directives.module';
 
 import { GalleryListComponent } from './galleryList.component';
 import { GalleryComponent } from './gallery/gallery.component';
