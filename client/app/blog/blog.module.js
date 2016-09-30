@@ -16,6 +16,10 @@ import { PostComponent } from './post/post.component';
                 name: 'blog',
                 url: '/blog',
                 component: BlogComponent
+            }, {
+                name: 'post',
+                url: '/blog/post/:postId',
+                component: PostComponent
             }]
         }),
         PaginationModule,

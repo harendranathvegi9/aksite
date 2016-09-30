@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
+import { StateService } from 'ui-router-ng2';
 import 'rxjs/add/operator/toPromise';
 import {
     wrapperLodash as _,
@@ -26,9 +27,10 @@ export class BlogComponent {
     collectionSize = 0;
     posts = [];
 
-    static parameters = [Http];
-    constructor(http: Http) {
+    static parameters = [Http, StateService];
+    constructor(http: Http, stateService: StateService) {
         this.Http = http;
+        this.StateService = stateService;
         this.$stateParams = {};
         this.$state = {};
 
@@ -42,7 +44,7 @@ export class BlogComponent {
 
     pageChanged({page}) {
         this.currentPage = page;
-        this.$state.transitionTo('blog', {page, pagesize: this.pagesize}, { notify: false, reload: false });
+        this.StateService.transitionTo('blog', {page, pagesize: this.pagesize}, { notify: false, reload: false });
 
         return this.getPageData();
     }
@@ -66,13 +68,9 @@ export class BlogComponent {
                 console.log(err);
             });
     }
-
-    sref(id: string) {
-        this.$state.go('post', {postId: id});
-    }
 }
 
-function extractData(res: Response) {
+function extractData(res) {
     if(!res.text()) return {};
     return res.json() || { };
 }
