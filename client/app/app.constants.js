@@ -1,8 +1,15 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
-export default class Constants {
+export class Constants {
+    constants = {};
+
     constructor() {
-        return require('../../server/config/environment/shared');
+        this.constants = require('../../server/config/environment/shared');
+        return this.constants;
+    }
+
+    get() {
+        return this.constants;
     }
 }

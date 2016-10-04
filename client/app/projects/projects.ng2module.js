@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { DirectivesModule } from '../../components/common.directives.ng2module';
+import { DirectivesModule } from '../../components/directives.module';
 
 import { ProjectListComponent } from './projectList.component';
 import { ProjectComponent } from './project/project.component';

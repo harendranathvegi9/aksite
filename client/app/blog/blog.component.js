@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NgModel} from '@angular/forms';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
-import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap';
+import { Component } from '@angular/core';
+import { Http } from '@angular/http';
+import { StateService } from 'ui-router-ng2';
+import 'rxjs/add/operator/toPromise';
 import {
     wrapperLodash as _,
     mixin,
@@ -17,8 +17,7 @@ const converter = new Converter();
 @Component({
     selector: 'blog',
     template: require('./blog.html'),
-    styles: [require('!!raw!sass!./blog.scss')],
-    directives: [PAGINATION_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, NgModel]
+    styles: [require('!!raw!sass!./blog.scss')]
 })
 export class BlogComponent {
     loadingItems = true;
@@ -28,16 +27,15 @@ export class BlogComponent {
     collectionSize = 0;
     posts = [];
 
-    static parameters = ['$http', '$stateParams', '$state'];
-    constructor($http, $stateParams, $state) {
-        this.$http = $http;
-        this.$stateParams = $stateParams;
-        this.$state = $state;
+    static parameters = [Http, StateService];
+    constructor(http: Http, stateService: StateService) {
+        this.Http = http;
+        this.StateService = stateService;
+        this.$stateParams = {};
+        this.$state = {};
 
-        $state.reloadOnSearch = false;
-
-        this.currentPage = parseInt($stateParams.page, 10) || 1;
-        this.pagesize = $stateParams.pagesize || 10;
+        this.currentPage = parseInt(this.$stateParams.page, 10) || 1;
+        this.pagesize = this.$stateParams.pagesize || 10;
     }
 
     ngOnInit() {
@@ -46,14 +44,16 @@ export class BlogComponent {
 
     pageChanged({page}) {
         this.currentPage = page;
-        this.$state.transitionTo('blog', {page, pagesize: this.pagesize}, { notify: false, reload: false });
+        this.StateService.transitionTo('blog', {page, pagesize: this.pagesize}, { notify: false, reload: false });
 
         return this.getPageData();
     }
 
     getPageData() {
-        return this.$http.get(`api/posts?page=${this.currentPage}&pagesize=${this.pagesize}`)
-            .then(({data}) => {
+        return this.Http.get(`api/posts?page=${this.currentPage}&pagesize=${this.pagesize}`)
+            .toPromise()
+            .then(extractData)
+            .then(data => {
                 this.pages = data.pages;
                 this.collectionSize = data.numItems;
                 this.posts = data.items;
@@ -68,8 +68,9 @@ export class BlogComponent {
                 console.log(err);
             });
     }
+}
 
-    sref(id: string) {
-        this.$state.go('post', {postId: id});
-    }
+function extractData(res) {
+    if(!res.text()) return {};
+    return res.json() || { };
 }

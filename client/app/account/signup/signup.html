@@ -3,59 +3,50 @@
         <div class="col-sm-12">
             <h1 class="page-header">Sign up</h1>
 
-            <md-content class="md-padding">
-                <form name="signupForm" ng-submit="vm.register()">
-                    <md-input-container class="md-block">
-                        <label>Name</label>
-                        <input md-maxlength="60" required name="name" type="text" ng-model="vm.user.name">
-                        <div ng-messages="signupForm.name.$error">
-                            <div ng-message="required">This is required.</div>
-                            <div ng-message="md-maxlength">The email can be at most 60 characters long.</div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Email</label>
-                        <input md-maxlength="60" required name="email" type="email" ng-model="vm.user.email">
-                        <div ng-messages="signupForm.email.$error">
-                            <div ng-message="required">This is required.</div>
-                            <div ng-message="md-maxlength">The email can be at most 60 characters long.</div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container class="md-block">
-                        <label>Password</label>
-                        <input type="password" required name="password" ng-model="vm.user.password">
-                        <div ng-messages="signupForm.password.$error">
-                            <div ng-message="required">This is required.</div>
-                        </div>
-                    </md-input-container>
-
-                    <section layout="row" layout-sm="column" layout-align="center center">
-                        <md-button class="md-primary md-button-lg" type="submit" aria-label="Sign up">
-                            Sign up
-                        </md-button>
-                        <md-button class="md-button-lg" ui-sref="login" aria-label="Login">
-                            Login
-                        </md-button>
-                    </section>
-                </form>
-
-                <br/>
-
-                <section layout="row" layout-sm="column" layout-align="center center">
-                    <md-button class="md-button-lg google-plus-color" aria-label="Login with Google" ng-click="vm.loginOauth('google')">
-                        <i class="fa fa-google-plus"></i>
-                        Log in with Google
-                    </md-button>
-                    <md-button class="md-button-lg github-color" aria-label="Login with Github" ng-click="vm.loginOauth('github')">
-                        <i class="fa fa-github"></i>
-                        Log in with Github
-                    </md-button>
-                    <md-button class="md-button-lg linkedin-color" aria-label="Login with Linkedin" ng-click="vm.loginOauth('linkedin')">
-                        <i class="fa fa-linkedin-square"></i>
-                        Log in with Linkedin
-                    </md-button>
+            <form name="signupForm" (ngSubmit)="register()">
+                <section layout="row" layout-xs="column" layout-align="center center">
+                    <md-input style="margin: 0 10px;" maxlength="60" required name="name" type="name" placeholder="Name" [(ngModel)]="user.name"></md-input>
+                    <!--<div ng-messages="signupForm.name.$error">-->
+                        <!--<div ng-message="required">This is required.</div>-->
+                        <!--<div ng-message="md-maxlength">The email can be at most 60 characters long.</div>-->
+                    <!--</div>-->
+                    <md-input style="margin: 0 10px;" maxlength="60" required name="email" type="email" placeholder="Email" [(ngModel)]="user.email"></md-input>
+                    <!--<div ng-messages="signupForm.email.$error">-->
+                        <!--<div ng-message="required">This is required.</div>-->
+                        <!--<div ng-message="md-maxlength">The email can be at most 60 characters long.</div>-->
+                    <!--</div>-->
+                    <md-input style="margin: 0 10px;" type="password" required name="password" placeholder="Password" [(ngModel)]="user.password"></md-input>
+                    <!--<div ng-messages="signupForm.password.$error">-->
+                        <!--<div ng-message="required">This is required.</div>-->
+                    <!--</div>-->
                 </section>
-            </md-content>
+
+                <section layout="row" layout-align="center center">
+                    <button md-button class="md-primary md-button-lg" type="submit" aria-label="Login">
+                        Sign up
+                    </button>
+                    <a md-button class="md-button-lg" type="button" (click)="sref('login')" aria-label="Register">
+                        Login
+                    </a>
+                </section>
+            </form>
+
+            <br/>
+
+            <section layout="row" layout-sm="column" layout-xs="column" layout-align="center center">
+                <button md-button class="md-button-lg google-plus-color" aria-label="Login with Google" ng-click="loginOauth('google')">
+                    <i class="fa fa-google-plus"></i>
+                    Log in with Google
+                </button>
+                <button md-button class="md-button-lg github-color" aria-label="Login with Github" ng-click="loginOauth('github')">
+                    <i class="fa fa-github"></i>
+                    Log in with Github
+                </button>
+                <button md-button class="md-button-lg linkedin-color" aria-label="Login with Linkedin" ng-click="loginOauth('linkedin')">
+                    <i class="fa fa-linkedin-square"></i>
+                    Log in with Linkedin
+                </button>
+            </section>
         </div>
     </div>
 </div>

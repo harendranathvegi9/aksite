@@ -24,6 +24,8 @@ mixin(_, {
 
 import { Component, OnInit, Inject } from '@angular/core';
 
+import { SocketService } from '../../components/socket/socket.service';
+
 import MiniDaemon from '../../components/minidaemon';
 import classie from 'classie';
 import React from 'react';
@@ -118,8 +120,9 @@ const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
     styles: [require('!!raw!sass!./main.scss')]
 })
 export class MainComponent implements OnInit {
-    constructor(@Inject('socket') socket) {
-        console.log(socket);
+    static parameters = [SocketService];
+    constructor(socketService: SocketService) {
+        console.log(socketService);
         vendorImages = _.shuffle(vendorImages);
     }
 

@@ -1,49 +1,4 @@
 'use strict';
-// import angular from 'angular';
-// import oclazyload from 'oclazyload';
-// import {upgradeAdapter} from './upgrade_adapter';
-// import {Component, forwardRef, NgModule, ApplicationRef, Input} from '@angular/core';
-// import {BrowserModule} from '@angular/platform-browser';
-// import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-// import {HTTP_PROVIDERS} from '@angular/http';
-// import {UpgradeAdapter} from '@angular/upgrade';
-// import {AUTH_PROVIDERS} from 'angular2-jwt';
-// import Raven from 'raven-js';
-// import RavenAngular from 'raven-js/plugins/angular.js';
-
-// import ngAnimate from 'angular-animate';
-// import ngCookies from 'angular-cookies';
-// import ngSanitize from 'angular-sanitize';
-// import 'angular-socket-io';
-// import uiRouter from 'angular-ui-router';
-// import uiBootstrap from 'angular-ui-bootstrap';
-// import ngFileUpload from 'ng-file-upload';
-// import ngMaterial from 'angular-material';
-// import ngMessages from 'angular-messages';
-
-// import _Auth from '../components/auth/auth.service';
-// import {CollapseModule} from 'ng2-bootstrap/components/collapse';
-// import {NavbarComponent} from '../components/navbar/navbar.component';
-// import {FooterComponent} from '../components/footer/footer.component';
-// import Preloader from '../components/preloader/preloader.component';
-//
-// import routing from './app.config';
-// import Constants from './app.constants';
-//
-// import main, {MainComponent} from './main/main.component';
-// import account from './account';
-// import resume from './resume';
-// import blog from './blog/blog.component';
-// import projectList from './projects/projectList.component';
-// import galleryList from './galleries/galleryList.component';
-// import adminRoutes from './admin/admin.routes';
-// import user from './user/user.component';
-// import settings from './settings';
-
-import '../../node_modules/angular-material/angular-material.scss';
-import './app.scss';
-
-// adapter.addProvider(Constants);
 
 // class RavenExceptionHandler {
 //     call(err) {
@@ -51,33 +6,6 @@ import './app.scss';
 //     }
 // }
 
-// angular.module('aksiteApp', [
-//     ngAnimate,
-//     ngCookies,
-//     ngSanitize,
-//     'btford.socket-io',
-//     uiRouter,
-//     oclazyload,
-//     uiBootstrap,
-//     ngFileUpload,
-//     ngMaterial,
-//     ngMessages,
-//     main,
-//     _Auth,
-//     navbar,
-//     footer,
-//     Preloader,
-//     account,
-//     resume,
-//     blog,
-//     projectList,
-//     galleryList,
-//     adminRoutes,
-//     user,
-//     settings
-// ])
-//     .directive('app', adapter.downgradeNg2Component(AppComponent))
-//     .config(routing)
 //     .factory('authInterceptor', function($rootScope, $q, $cookies, $injector) {
 //         'ngInject';
 //         var state;
@@ -104,7 +32,6 @@ import './app.scss';
 //             }
 //         };
 //     })
-//     .factory('constants', adapter.downgradeNg2Provider(Constants))
 //     .run(function($rootScope, $location, Auth, constants) {
 //         'ngInject';
 //
@@ -127,59 +54,29 @@ import './app.scss';
 //         $rootScope.title = 'Andrew Koroluk';
 //     });
 
-// export const adapter = new UpgradeAdapter(forwardRef(() => AppModule));
+import '../../node_modules/angular-material/angular-material.scss';
+import './app.scss';
 
-// const app = angular.module('aksiteApp', []);
+import './polyfills';
 
-// `
-//         <navbar></navbar>
-//         <div ui-view=""></div>
-//         <footer></footer>`
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-// @Component({
-//     selector: 'app',
-//     template: `<h1>Hello</h1>
-//         <footer></footer>`
-// })
-// export class AppComponent {
-//     @Input() salutation;
-//     @Input() name;
-// }
-//
-// @NgModule({
-//     declarations: [AppComponent, NavbarComponent, FooterComponent],
-//     imports: [BrowserModule, CollapseModule],
-//     bootstrap: [AppComponent]
-// })
-// export class AppModule {}
-//
-// const platform = platformBrowserDynamic();
-//
-// platform.bootstrapModule(AppModule);
+// depending on the env mode, enable prod mode or add debugging modules
+if(process.env.ENV === 'production') {
+    enableProdMode();
+}
 
-import 'zone.js/dist/zone';
-import 'reflect-metadata';
+import { AppModule } from './app.module';
 
-import { upgradeAdapter } from './upgrade_adapter';
-import ng1App from './app.module';
+// platformBrowserDynamic().bootstrapModule(AppModule);
 
-upgradeAdapter.bootstrap(document.body, [ng1App.name], {strictDi: true});
+export function main() {
+    return platformBrowserDynamic().bootstrapModule(AppModule);
+}
 
-// app.directive('app', adapter.downgradeNg2Component(AppComponent));
-
-// angular
-//     .element(document.body)
-//     .ready(() => {
-//         adapter.bootstrap(document.body, [
-//             'aksiteApp',
-//             // {provide: ExceptionHandler, useClass: RavenExceptionHandler}
-//         ]);
-//     });
-
-upgradeAdapter.upgradeNg1Provider('$rootScope');
-upgradeAdapter.upgradeNg1Provider('$http');
-upgradeAdapter.upgradeNg1Provider('$location');
-upgradeAdapter.upgradeNg1Provider('$state');
-upgradeAdapter.upgradeNg1Provider('$cookies');
-upgradeAdapter.upgradeNg1Provider('$stateParams');
-upgradeAdapter.upgradeNg1Provider('$sce');
+if(document.readyState === 'complete') {
+    main();
+} else {
+    document.addEventListener('DOMContentLoaded', main);
+}

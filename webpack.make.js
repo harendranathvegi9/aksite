@@ -36,23 +36,12 @@ module.exports = function makeWebpackConfig(options) {
         config.entry = {};
     } else {
         config.entry = {
-            app: './client/app/index.js',
             polyfills: './client/app/polyfills.js',
+            app: './client/app/index.js',
             vendor: [
-                'angular',
-                'angular-animate',
-                'angular-aria',
-                'angular-cookies',
-                'angular-material',
-                'angular-messages',
-                'angular-sanitize',
-                'angular-socket-io',
-                'angular-ui-bootstrap',
-                'angular-ui-router',
                 'raven-js',
                 'react',
                 'react-dom',
-                'reflect-metadata',
                 'showdown'
             ]
         };
@@ -87,8 +76,8 @@ module.exports = function makeWebpackConfig(options) {
     }
 
     config.resolve = {
-        modulesDirectories: ['node_modules'],
-        extensions: ['', '.js', '.ts']
+        modules: ['node_modules'],
+        extensions: ['.js', '.ts']
     };
 
     /**
@@ -111,39 +100,44 @@ module.exports = function makeWebpackConfig(options) {
      * This handles most of the magic responsible for converting modules
      */
 
-    config.sassLoader = {
-        includePaths: require('bourbon').includePaths,
-        outputStyle: 'compressed',
-        precision: 10,
-        sourceComments: false
-    };
-
-    config.babel = {
-        shouldPrintComment(commentContents) {
-            let regex = DEV
-                // keep `// @flow`, `/*@ngInject*/`, & flow type comments in dev
-                ? /(@flow|@ngInject|^:)/
-                // keep `/*@ngInject*/`
-                : /@ngInject/;
-                return regex.test(commentContents);
-        }
-    };
-
     // Initialize module
     config.module = {
         noParse: [
             path.join(__dirname, 'node_modules', 'zone.js', 'dist'),
             path.join(__dirname, 'node_modules', '@angular', 'bundles')
         ],
-        preLoaders: [],
-        loaders: [{
+        rules: [{
             // JS LOADER
             // Reference: https://github.com/babel/babel-loader
             // Transpile .js files using babel-loader
             // Compiles ES6 and ES7 into ES5 code
             test: /\.js$/,
-            loader: 'babel',
-            query: {},
+            use: {
+                loader: 'babel',
+                options: {
+                    babelrc: false,
+                    presets: [
+                        ['es2015', { modules: false }],
+                        // 'es2015',
+                        'stage-0',
+                        'react'
+                    ],
+                    plugins: [
+                        'angular2-annotations',
+                        'angularjs-annotate',
+                        'transform-runtime',
+                        'transform-decorators-legacy'
+                    ],
+                    shouldPrintComment(commentContents) {
+                        let regex = DEV
+                            // keep `// @flow`, `/*@ngInject*/`, & flow type comments in dev
+                            ? /(@flow|@ngInject|^:)/
+                            // keep `/*@ngInject*/`
+                            : /@ngInject/;
+                        return regex.test(commentContents);
+                    }
+                },
+            },
             include: [
                 path.resolve(__dirname, 'client/'),
                 path.resolve(__dirname, 'server/config/environment/shared.js'),
@@ -154,10 +148,7 @@ module.exports = function makeWebpackConfig(options) {
             // Reference: https://github.com/s-panferov/awesome-typescript-loader
             // Transpile .ts files using awesome-typescript-loader
             test: /\.ts$/,
-            loader: 'awesome-typescript-loader',
-            query: {
-                tsconfig: path.resolve(__dirname, 'tsconfig.client.json')
-            },
+            use: 'awesome-typescript-loader',
             include: [
                 path.resolve(__dirname, 'client/')
             ]
@@ -169,18 +160,18 @@ module.exports = function makeWebpackConfig(options) {
             // Pass along the updated reference to your code
             // You can add here any file extension you want to get copied to your output
             test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-            loader: 'file'
+            use: 'file'
         }, {
             // HTML LOADER
             // Reference: https://github.com/webpack/raw-loader
             // Allow loading html through js
             test: /\.html$/,
-            loader: 'raw'
+            use: 'raw'
         }, {
             // SASS LOADER
             // Reference: https://github.com/jtangelder/sass-loader
             test: /\.scss$/,
-            loaders: ['style', 'css', 'sass'],
+            use: ['style', 'css', 'sass'],
             include: [
                 path.resolve(__dirname, 'node_modules/angular-material/angular-material.scss'),
                 path.resolve(__dirname, 'client/app/app.scss')
@@ -189,16 +180,16 @@ module.exports = function makeWebpackConfig(options) {
             // SASS LOADER
             // Reference: https://github.com/jtangelder/sass-loader
             test: /\.scss$/,
-            loaders: ['raw', 'sass'],
+            use: ['raw', 'sass'],
             include: [path.resolve(__dirname, 'client')],
             exclude: [/app\.scss$/]
         }, {
             test: /(photoswipe)/,
-            loader: 'imports?define=>false&this=>window'
-        }],
-        postLoaders: [{
+            use: 'imports?define=>false&this=>window'
+        }, {
+            enforce: 'post',
             test: /\.(js|ts)$/,
-            loader: 'ng-annotate?single_quotes'
+            use: 'ng-annotate?single_quotes'
         }]
     };
 
@@ -207,13 +198,12 @@ module.exports = function makeWebpackConfig(options) {
     // Instrument JS files with Isparta for subsequent code coverage reporting
     // Skips node_modules and spec files
     if(TEST) {
-        config.module.preLoaders.push({
+        config.module.rules.push({
+            enforce: 'pre',
             //delays coverage til after tests are run, fixing transpiled source coverage error
-            test: /\.js$/, exclude: /(node_modules|spec\.js|mock\.js)/, loader: 'isparta-instrumenter', query: {
-                babel: {
-                    // optional: ['runtime', 'es7.classProperties', 'es7.decorators']
-                }
-            }
+            test: /\.js$/,
+            exclude: /(node_modules|spec\.js|mock\.js)/,
+            use: 'isparta'
         });
     }
 
@@ -230,29 +220,18 @@ module.exports = function makeWebpackConfig(options) {
         //
         // Reference: https://github.com/webpack/style-loader
         // Use style-loader in development for hot-loading
-        loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
+        use: ExtractTextPlugin.extract({fallbackLoader: 'style', loader: 'css?sourceMap!postcss'})
     };
 
     // Skip loading css in test mode
     if(TEST) {
         // Reference: https://github.com/webpack/null-loader
         // Return an empty module
-        cssLoader.loader = 'null';
+        cssLoader.use = 'null';
     }
 
     // Add cssLoader to the loader list
-    config.module.loaders.push(cssLoader);
-
-    /**
-     * PostCSS
-     * Reference: https://github.com/postcss/autoprefixer-core
-     * Add vendor prefixes to your css
-     */
-    config.postcss = [
-        autoprefixer({
-            browsers: ['last 2 version']
-        })
-    ];
+    config.module.rules.push(cssLoader);
 
     /**
      * Plugins
@@ -263,8 +242,34 @@ module.exports = function makeWebpackConfig(options) {
         // Reference: https://github.com/webpack/extract-text-webpack-plugin
         // Extract css files
         // Disabled when in test mode or not in build mode
-        new ExtractTextPlugin('[name].[hash].css', {
+        new ExtractTextPlugin({
+            filename: '[name].[hash].css',
             disable: !BUILD || TEST
+        }),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                context: __dirname
+            },
+            /**
+             * PostCSS
+             * Reference: https://github.com/postcss/autoprefixer-core
+             * Add vendor prefixes to your css
+             */
+            postcss: [
+                autoprefixer({
+                    browsers: ['last 2 version']
+                })
+            ],
+            sassLoader: {
+                includePaths: require('bourbon').includePaths,
+                outputStyle: 'compressed',
+                precision: 10,
+                sourceComments: false
+            },
+            isparta: {
+                embedSource: true,
+                noAutoWrap: true,
+            }
         })
     ];
 
@@ -278,6 +283,12 @@ module.exports = function makeWebpackConfig(options) {
             minChunks: Infinity
             // (with more entries, this ensures that no other module
             //  goes into the vendor chunk)
+        }));
+    }
+
+    if(BUILD) {
+        config.plugins.push(new webpack.LoaderOptionsPlugin({
+            debug: true
         }));
     }
 
@@ -328,6 +339,7 @@ module.exports = function makeWebpackConfig(options) {
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
             // Minify all javascript, switch loaders to minimizing mode
             new webpack.optimize.UglifyJsPlugin({
+                minimize: true,
                 mangle: false,
                 output: {
                     comments: false
@@ -346,7 +358,6 @@ module.exports = function makeWebpackConfig(options) {
             colors: true,
             reasons: true
         };
-        config.debug = false;
     }
 
     /**
@@ -360,14 +371,14 @@ module.exports = function makeWebpackConfig(options) {
             modules: false,
             cached: false,
             colors: true,
-            chunk: false
+            chunks: false
         }
     };
 
     config.node = {
-        global: 'window',
+        global: true,
         process: true,
-        crypto: 'empty',
+        crypto: false,
         clearImmediate: false,
         setImmediate: false
     };

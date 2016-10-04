@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Http } from '@angular/http';
+import { StateService } from 'ui-router-ng2';
 import Raven from 'raven-js';
 
 import moment from 'moment';
@@ -14,23 +16,30 @@ export class PostComponent {
     error;
     post = {author: {}};
 
-    static parameters = ['$rootScope', '$stateParams', '$http', '$sce'];
-    constructor($rootScope, $stateParams, $http, $sce) {
-        this.postId = $stateParams.postId;
+    static parameters = [StateService, Http];
+    constructor(stateService: StateService, http: Http, $rootScope, $stateParams, $http, $sce) {
+        this.StateService = stateService;
+        this.Http = http;
 
-        this.$http = $http;
-        this.$rootScope = $rootScope;
+        this.postId = this.StateService.params.postId;
+
         this.$sce = $sce;
     }
 
     ngOnInit() {
-        return this.$http.get(`api/posts/${this.postId}`)
-            .then(({data: post}) => {
+        return this.Http.get(`api/posts/${this.postId}`)
+            .toPromise()
+            .then(res => {
+                if(!res.text()) return {};
+                return res.json() || { };
+            })
+            .then(post => {
                 this.post = post;
 
-                this.$rootScope.title += ` | ${post.title}`;
+                // this.$rootScope.title += ` | ${post.title}`;
 
-                this.post.content = this.$sce.trustAsHtml(converter.makeHtml(this.post.content));
+                // this.post.content = this.$sce.trustAsHtml(converter.makeHtml(this.post.content));
+                this.post.content = converter.makeHtml(this.post.content);
                 this.post.date = moment(this.post.date).format('LL');
             })
             .catch(err => {

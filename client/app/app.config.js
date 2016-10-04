@@ -4,6 +4,7 @@
 
 export default function routing($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     'ngInject';
+
     $urlRouterProvider
         .otherwise('/');
 

@@ -1,12 +1,26 @@
-import angular from 'angular';
-import uirouter from 'angular-ui-router';
-import {upgradeAdapter} from '../upgrade_adapter';
-
+import { NgModule } from '@angular/core';
+import { UIRouterModule } from 'ui-router-ng2';
 import { MainComponent } from './main.component';
+import { SocketService } from '../../components/socket/socket.service';
 
-import routing from './main.routes';
-
-export default angular.module('aksiteApp.main', [uirouter])
-    .config(routing)
-    .directive('main', upgradeAdapter.downgradeNg2Component(MainComponent))
-    .name;
+@NgModule({
+    imports: [
+        UIRouterModule.forChild({
+            states: [{
+                name: 'main',
+                url: '/',
+                component: MainComponent
+            }]
+        }),
+    ],
+    declarations: [
+        MainComponent
+    ],
+    providers: [
+        SocketService
+    ],
+    exports: [
+        MainComponent
+    ],
+})
+export class MainModule {}

@@ -4,35 +4,35 @@
             <button class="navbar-toggle fa fa-bars" type="button" (click)="isCollapsed = !isCollapsed">
                 <span class="sr-only">Toggle navigation</span>
             </button>
-            <a class="logo-portrait" href="/">
+            <a class="logo-portrait" style="cursor: pointer;" uiSref="main" aria-label="Go to the home page">
                 <img class="img-circle" src="assets/images/portrait_2014.jpg" alt="AK"/>
             </a>
         </div>
         <div [collapse]="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav">
-                <li *ngFor="let item of menu" [ngClass]="{active: isActive(item.link)}">
-                    <a (click)="sref(item.sref)" [attr.aria-label]="item.title">{{item.title}}</a>
+                <li *ngFor="let item of menu" uiSrefActive="active">
+                    <a uiSref="{{item.sref}}" [attr.aria-label]="item.title">{{item.title}}</a>
                 </li>
-                <li [hidden]="!isAdmin()" [ngClass]="{active: isActive('/admin')}">
-                    <a (click)="sref('admin.dashboard')" aria-label="Admin">Admin</a>
+                <li [hidden]="!isAdmin()" uiSrefActive="active">
+                    <a uiSref="admin.dashboard" aria-label="Admin">Admin</a>
                 </li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <!--<li [hidden]="!isLoggedIn()" [ngClass]="{active: isActive('/signup')}"><a href="/signup">Sign up</a></li>-->
-                <li [hidden]="isLoggedIn()" [ngClass]="{active: isActive('/login')}">
-                    <a (click)="sref('login')" aria-label="Login">Login</a>
+                <!--<li [hidden]="!isLoggedIn()" uiSrefActive="active"><a href="/signup">Sign up</a></li>-->
+                <li [hidden]="isLoggedIn()" uiSrefActive="active">
+                    <a uiSref="login" aria-label="Login">Login</a>
                 </li>
                 <li *ngIf="isLoggedIn()" style="margin-left: 5px; margin-right: 5px;">
-                    <a href="/user/{{getCurrentUser()._id}}" style="padding: 0">
+                    <a uiSref="user" [uiParams]="{id: getCurrentUser()._id}" style="padding: 0">
                         <span class="user-image" style.background-image="url(/api/upload/{{getCurrentUser().imageId}}.jpg)"></span>
                     </a>
                 </li>
-                <li [hidden]="!isLoggedIn()" [ngClass]="{active: isActive('/settings')}">
-                    <a (click)="sref('settings.dashboard')" aria-label="Settings"><i class="fa fa-cog"></i></a>
+                <li [hidden]="!isLoggedIn()" uiSrefActive="active">
+                    <a uiSref="settings.dashboard" aria-label="Settings"><i class="fa fa-cog"></i></a>
                 </li>
-                <li [hidden]="!isLoggedIn()" [ngClass]="{active: isActive('/logout')}">
-                    <a href="" (click)="logout()" aria-label="Logout">Logout</a>
+                <li [hidden]="!isLoggedIn()" uiSrefActive="active">
+                    <a (click)="logout()" aria-label="Logout">Logout</a>
                 </li>
             </ul>
         </div>

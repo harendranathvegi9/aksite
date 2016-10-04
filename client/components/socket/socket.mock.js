@@ -1,22 +1,13 @@
 'use strict';
+import { noop } from 'lodash-es';
 
-angular.module('socketMock', [])
-    .factory('socket', function() {
-        return {
-            socket: {
-                connect: function() {
-                },
-                on: function() {
-                },
-                emit: function() {
-                },
-                receive: function() {
-                }
-            },
-
-            syncUpdates: function() {
-            },
-            unsyncUpdates: function() {
-            }
-        };
-    });
+export class SocketServiceMock {
+    socket = {
+        connect: noop,
+        on: noop,
+        emit: noop,
+        receive: noop
+    };
+    syncUpdates = noop;
+    unsyncUpdates = noop;
+}

@@ -1,30 +1,38 @@
-import angular from 'angular';
-// import { upgradeAdapter } from './upgrade_adapter';
-// import navbar, { NavbarComponent } from '../components/navbar/navbar.component';
-// import { AppComponent } from './app.component';
-// import { FooterComponent } from './layouts/footer/footer.component';
-import uirouter from 'angular-ui-router';
-import ngMaterial from 'angular-material';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+import { MaterialModule } from '@angular/material';
+import { UIRouterModule } from 'ui-router-ng2';
+import { AUTH_PROVIDERS } from 'angular2-jwt';
+import { AppComponent } from './app.component';
+import { MainModule } from './main/main.module';
+import { DirectivesModule } from '../components/directives.module';
+// import { AuthModule } from '../components/auth/auth.ng2module';
+// import { AccountModule } from './account/account.ng2module';
+// import { ProjectsModule } from './projects/projects.ng2module';
+// import { GalleriesModule } from './galleries/galleries.ng2module';
+import { BlogModule } from './blog/blog.module';
+// import { UserModule } from './user/user.ng2module';
 
-import main from './main/main.module';
-import directives from '../components/common.directives.module';
-import authModule from '../components/auth/auth.module';
-import accountModule from './account/account.module';
-import projectsModule from './projects/projects.module';
-import galleriesModule from './galleries/galleries.module';
-import blogModule from './blog/blog.module';
-import { SocketService } from '../components/socket/socket.service';
-
-    main,
-export default angular.module('aksiteApp', [
-    directives,
-    authModule,
-    accountModule,
-    projectsModule,
-    galleriesModule,
-    blogModule,
-    uirouter,
-    ngMaterial,
-])
-    .service('socket', SocketService);
-    // .directive('app', upgradeAdapter.downgradeNg2Component(AppComponent))
+@NgModule({
+    providers: [AUTH_PROVIDERS],
+    imports: [
+        BrowserModule,
+        HttpModule,
+        MaterialModule.forRoot(),
+        UIRouterModule.forRoot(),
+        MainModule,
+        DirectivesModule,
+        // AuthModule,
+        // AccountModule,
+        // ProjectsModule,
+        // GalleriesModule,
+        BlogModule,
+        // UserModule,
+    ],
+    declarations: [
+        AppComponent,
+    ],
+    bootstrap: [AppComponent]
+})
+export class AppModule {}

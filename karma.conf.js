@@ -14,11 +14,11 @@ module.exports = function(config) {
         reporters: ['mocha', 'coverage'],
 
         files: [
-            'spec.js'
+            { pattern: './spec.js', watched: false }
         ],
 
         preprocessors: {
-            'spec.js': ['webpack']
+            'spec.js': ['webpack', 'sourcemap']
         },
 
         webpack: makeWebpackConfig({ TEST: true }),
@@ -26,7 +26,8 @@ module.exports = function(config) {
         webpackMiddleware: {
             // webpack-dev-middleware configuration
             // i. e.
-            noInfo: true
+            noInfo: true,
+            stats: 'errors-only'
         },
 
         coverageReporter: {
@@ -50,6 +51,7 @@ module.exports = function(config) {
             require('karma-mocha-reporter'),
             require('karma-phantomjs-launcher'),
             require('karma-script-launcher'),
+            require('karma-sourcemap-loader'),
             require('karma-webpack')
         ],
 
