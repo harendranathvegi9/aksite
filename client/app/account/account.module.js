@@ -1,14 +1,31 @@
-import angular from 'angular';
-import uirouter from 'angular-ui-router';
-import { upgradeAdapter } from '../upgrade_adapter';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MdInputModule, MdButtonModule } from '@angular/material';
+import { UIRouterModule } from 'ui-router-ng2';
 
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 
-import routing from './account.routes';
-
-export default angular.module('aksiteApp.account', [uirouter])
-    .config(routing)
-    .directive('login', upgradeAdapter.downgradeNg2Component(LoginComponent))
-    .directive('signup', upgradeAdapter.downgradeNg2Component(SignupComponent))
-    .name;
+@NgModule({
+    imports: [
+        FormsModule,
+        MdInputModule,
+        MdButtonModule,
+        UIRouterModule.forChild({
+            states: [{
+                name: 'login',
+                url: '/login',
+                component: LoginComponent
+            }, {
+                name: 'signup',
+                url: '/signup',
+                component: SignupComponent
+            }]
+        }),
+    ],
+    declarations: [
+        LoginComponent,
+        SignupComponent,
+    ]
+})
+export class AccountModule {}

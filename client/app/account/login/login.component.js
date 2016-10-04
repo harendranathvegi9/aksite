@@ -1,6 +1,7 @@
 'use strict';
 import { Component } from '@angular/core';
 
+import { StateService } from 'ui-router-ng2';
 import { AuthService } from '../../../components/auth/auth.service';
 
 @Component({
@@ -13,11 +14,10 @@ export class LoginComponent {
     errors = {};
     submitted = false;
 
-    static parameters = [AuthService, '$location', '$state'];
-    constructor(authService: AuthService, $location, $state) {
+    static parameters = [StateService, AuthService];
+    constructor(stateService: StateService, authService: AuthService) {
+        this.StateService = stateService;
         this.authService = authService;
-        this.$location = $location;
-        this.$state = $state;
     }
 
     login() {
@@ -29,7 +29,7 @@ export class LoginComponent {
         })
             .then(() => {
                 // Logged in, redirect to home
-                this.$location.path('/');
+                this.StateService.go('main');
             })
             .catch(err => {
                 if(err) this.errors.other = err.message;
@@ -38,9 +38,5 @@ export class LoginComponent {
 
     loginOauth(provider) {
         window.location.href = `/auth/${provider}`;
-    }
-
-    sref(state) {
-        this.$state.go(state);
     }
 }
