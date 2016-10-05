@@ -141,76 +141,29 @@ exports.create = function(req, res) {
 // Updates an existing post in the DB.
 exports.update = function(req, res) {
     if(config.userRoles.indexOf(req.user.role) < config.userRoles.indexOf('admin'))
-        return res.status(401).send('You need to be an admin to create posts');
+        return res.status(401).send('You need to be an admin to update posts');
     if(!util.isValidObjectId(req.params.id))
         return res.status(400).send('Invalid ID');
-
-    var form = gridform({db: conn.db, mongo: mongoose.mongo});
 
     Post.findById(req.params.id, function(err, post) {
         if(err) return util.handleError(res, err);
         else if(!post) return res.status(404).end();
 
-        form.parse(req, function(err, fields, files) {
+        if(err) return util.handleError(res, err);
+
+        if(post._id) delete req.body._id;
+
+        var postModel = _.pick(req.body, ['title', 'subheader', 'alias', 'content', 'date']);
+        if(!_.isEmpty(req.body.hidden)) postModel.hidden = !!JSON.parse(req.body.hidden || true);
+        if(!_.isEmpty(req.body.categories)) postModel.categories = req.body.categories;
+
+        console.log(post);
+        console.log(postModel);
+        var updated = _.assign(post, postModel);
+        console.log(updated);
+        return updated.save(function(err) {
             if(err) return util.handleError(res, err);
-
-            if(fields._id)
-                delete fields._id;
-
-            /**
-             * file.name            - the uploaded file name
-             * file.type            - file type per [mime](https://github.com/bentomas/node-mime)
-             * file.size            - uploaded file size (file length in GridFS) named "size" for compatibility
-             * file.path            - same as file.name. included for compatibility
-             * file.lastModified    - included for compatibility
-             * file.root            - the root of the files collection used in MongoDB ('fs' here means the full collection in mongo is named 'fs.files')
-             * file.id              - the ObjectId for this file
-             * @type {file}
-             */
-            var file = files.file;
-
-            if(fields.newImage && (_.isNull(file) || _.isUndefined(file)))
-                return res.status(400).send(new Error('No file'));
-
-            console.log(file);
-            console.log(fields);
-            var postModel = _.pick(fields, ['title', 'subheader', 'alias', 'content', 'date']);
-            if(!_.isEmpty(fields.hidden)) postModel.hidden = !!JSON.parse(fields.hidden);
-            if(!_.isEmpty(fields.categories)) postModel.categories = JSON.parse(fields.categories);
-
-            if(fields.newImage) {
-                if(post.imageId) {
-                    util.deleteFile(post.imageId)
-                        .catch(util.handleError)
-                        .then(_.partial(console.log('deleted imageId')));
-                    util.deleteFile(post.thumbnailId)
-                        .catch(util.handleError)
-                        .then(_.partial(console.log('deleted thumbnailId')));
-                }
-
-                postModel.imageId = file.id;
-
-                util.createThumbnail(file.id)
-                    .then(thumbnail => {
-                        console.log(thumbnail.filename + ' -> (thumb)' + thumbnail.id);
-                        postModel.thumbnailId = thumbnail.id;
-
-                        var updated = _.assign(post, postModel);
-                        return updated.save(function(err) {
-                            if(err) return util.handleError(res, err);
-                            res.status(200).json(post);
-                        });
-                    });
-            } else {
-                console.log(post);
-                console.log(postModel);
-                var updated = _.assign(post, postModel);
-                console.log(updated);
-                return updated.save(function(err) {
-                    if(err) return util.handleError(res, err);
-                    res.status(200).json(post);
-                });
-            }
+            res.status(200).json(post);
         });
     });
 };
