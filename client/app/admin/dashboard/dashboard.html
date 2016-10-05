@@ -1,5 +1,5 @@
-<div class="">
-    <h2 class="dashboard-header">Admin Dashboard</h2>
+<div class="container">
+    <h2 class="dashboard-header" style="margin-top: 25px;">Admin Dashboard</h2>
 
     <div class="row dashboard-pie-row">
         <div id="chart1" class="col-sm-3 dashboard-donut"></div>
@@ -8,27 +8,29 @@
         <div id="chart4" class="col-sm-3 dashboard-donut"></div>
     </div>
 
-    <div class="analytics-container col-sm-6">
-        <section id="auth-button"></section>
-        <section id="view-selector"></section>
-        <section id="timeline"></section>
-    </div>
+    <div class="row">
+        <div class="analytics-container col-sm-6">
+            <section id="auth-button"></section>
+            <section id="view-selector"></section>
+            <section id="timeline"></section>
+        </div>
 
-    <div class="col-sm-6">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
+        <div class="col-sm-6">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
                     <tr>
                         <th>Collection</th>
                         <th>Count</th>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="row in dash.tableItems">
-                        <td ng-repeat="data in row">{{data}}</td>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let row of tableItems">
+                        <td *ngFor="let data of row">{{data}}</td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

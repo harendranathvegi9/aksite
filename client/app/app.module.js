@@ -9,6 +9,7 @@ import { MainModule } from './main/main.module';
 import { DirectivesModule } from '../components/directives.module';
 // import { AuthModule } from '../components/auth/auth.ng2module';
 import { AccountModule } from './account/account.module';
+import { AdminModule } from './admin/admin.module';
 // import { ProjectsModule } from './projects/projects.ng2module';
 // import { GalleriesModule } from './galleries/galleries.ng2module';
 import { BlogModule } from './blog/blog.module';
@@ -25,6 +26,7 @@ import { BlogModule } from './blog/blog.module';
         DirectivesModule,
         // AuthModule,
         AccountModule,
+        AdminModule,
         // ProjectsModule,
         // GalleriesModule,
         BlogModule,

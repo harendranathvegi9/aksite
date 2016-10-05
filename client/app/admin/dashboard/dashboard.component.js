@@ -1,17 +1,9 @@
 'use strict';
-import {wrapperLodash as _, mixin} from 'lodash-es';
-import {
-    partialRight,
-    map,
-    has,
-    forEach
-} from 'lodash-es';
-mixin(_, {
-    partialRight,
-    map,
-    has,
-    forEach
-});
+import { Component } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
+
+import _ from 'lodash-es';
 //import d3 from 'd3';
 //import nv from 'nvd3';
 const d3 = {};
@@ -59,13 +51,29 @@ function addChart(chartNum, data, options = {}) {
     });
 }
 
-export default class DashboardController {
-    /*@ngInject*/
-    constructor($http, $timeout) {
+@Component({
+    selector: 'dashboard',
+    template: require('./dashboard.html'),
+    styles: [require('!!raw!sass!./dashboard.scss')]
+})
+export class DashboardComponent {
+    static parameters = [AuthHttp];
+    constructor(authHttp: AuthHttp) {
+        this.AuthHttp = authHttp;
+
         this.tableItems = [];
+
         _.forEach(apiItems, item => {
-            $http.get(`api/${item.path}/count`)
-                .then(({data}) => {
+            this.AuthHttp.get(`api/${item.path}/count`)
+                .toPromise()
+                .then(function(res: Response) {
+                    if(!res.text()) return {};
+                    let json = res.json();
+                    return _.isNumber(json)
+                        ? json
+                        : {};
+                })
+                .then(data => {
                     this.tableItems.push([item.title, data]);
                 })
                 .catch(({data, status}) => {
@@ -74,20 +82,14 @@ export default class DashboardController {
                 });
         });
 
-        $timeout(function() {
-            ReactDOM.render(<preloader></preloader>, document.getElementById('chart1'));
-            ReactDOM.render(<preloader></preloader>, document.getElementById('chart2'));
-            ReactDOM.render(<preloader></preloader>, document.getElementById('chart3'));
-            ReactDOM.render(<preloader></preloader>, document.getElementById('chart4'));
-        });
+        return;
 
         // FIXME: Temp fix for unit tests
         var gapi = window.gapi;
         if(!gapi) {
             gapi = {
                 analytics: {
-                    ready: function() {
-                    }
+                    ready: function() {}
                 }
             };
         }
@@ -106,8 +108,10 @@ export default class DashboardController {
              */
             function query(params) {
                 return new Promise(function(resolve, reject) {
-                    var data = new gapi.analytics.report.Data({query: params});
-                    data.once('success', resolve).once('error', reject).execute();
+                    new gapi.analytics.report.Data({query: params})
+                        .once('success', resolve)
+                        .once('error', reject)
+                        .execute();
                 });
             }
 
@@ -201,5 +205,12 @@ export default class DashboardController {
                 timeline.set(newIds).execute();
             });
         });
+    }
+
+    ngOnInit() {
+        ReactDOM.render(<preloader></preloader>, document.getElementById('chart1'));
+        ReactDOM.render(<preloader></preloader>, document.getElementById('chart2'));
+        ReactDOM.render(<preloader></preloader>, document.getElementById('chart3'));
+        ReactDOM.render(<preloader></preloader>, document.getElementById('chart4'));
     }
 }
