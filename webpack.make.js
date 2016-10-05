@@ -39,6 +39,7 @@ module.exports = function makeWebpackConfig(options) {
             polyfills: './client/app/polyfills.js',
             app: './client/app/index.js',
             vendor: [
+                'hammerjs',
                 'raven-js',
                 'react',
                 'react-dom',
