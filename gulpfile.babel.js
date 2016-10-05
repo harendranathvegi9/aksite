@@ -221,7 +221,11 @@ gulp.task('webpack:dist', cb => {
     compiler.run((err, stats) => {
         if(err) return cb(err);
 
-        plugins.util.log(stats.toJson('minimal'));
+        plugins.util.log(stats.toString({
+            colors: true,
+            timings: true,
+            chunks: false
+        }));
         cb();
     });
 });
