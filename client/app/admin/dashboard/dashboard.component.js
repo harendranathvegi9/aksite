@@ -51,6 +51,12 @@ function addChart(chartNum, data, options = {}) {
     });
 }
 
+function googleApiInit() {
+    return new Promise(resolve => {
+        window.gapi.analytics.ready(resolve);
+    });
+}
+
 @Component({
     selector: 'dashboard',
     template: require('./dashboard.html'),
@@ -82,8 +88,6 @@ export class DashboardComponent {
                 });
         });
 
-        return;
-
         // FIXME: Temp fix for unit tests
         var gapi = window.gapi;
         if(!gapi) {
@@ -94,7 +98,7 @@ export class DashboardComponent {
             };
         }
 
-        gapi.analytics.ready(function() {
+        googleApiInit().then(() => {
             gapi.analytics.auth.authorize({
                 container: 'auth-button',
                 clientid: '693903895035-1lk6sfgma8o270mk4icngumgnomuahob.apps.googleusercontent.com'
