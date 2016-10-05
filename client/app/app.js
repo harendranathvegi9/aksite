@@ -54,7 +54,6 @@
 //         $rootScope.title = 'Andrew Koroluk';
 //     });
 
-import '../../node_modules/angular-material/angular-material.scss';
 import './app.scss';
 
 import './polyfills';
@@ -63,7 +62,7 @@ import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 // depending on the env mode, enable prod mode or add debugging modules
-if(process.env.ENV === 'production') {
+if(process.env.NODE_ENV === 'production') {
     enableProdMode();
 }
 

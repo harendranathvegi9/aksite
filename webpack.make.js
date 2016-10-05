@@ -124,7 +124,6 @@ module.exports = function makeWebpackConfig(options) {
                     ],
                     plugins: [
                         'angular2-annotations',
-                        'angularjs-annotate',
                         'transform-runtime',
                         'transform-decorators-legacy'
                     ],
@@ -186,10 +185,6 @@ module.exports = function makeWebpackConfig(options) {
         }, {
             test: /(photoswipe)/,
             use: 'imports?define=>false&this=>window'
-        }, {
-            enforce: 'post',
-            test: /\.(js|ts)$/,
-            use: 'ng-annotate?single_quotes'
         }]
     };
 
@@ -295,15 +290,17 @@ module.exports = function makeWebpackConfig(options) {
     // Skip rendering index.html in test mode
     // Reference: https://github.com/ampedandwired/html-webpack-plugin
     // Render index.html
-    config.plugins.push(
-        new HtmlWebpackPlugin({
-            filename: '../client/index.html',
-            template: './client/_index.html',
-            inject: 'body',
-            alwaysWriteToDisk: true
-        }),
-        new HtmlWebpackHarddiskPlugin()
-    );
+    if(!TEST) {
+        config.plugins.push(
+            new HtmlWebpackPlugin({
+                filename: '../client/index.html',
+                template: './client/_index.html',
+                inject: 'body',
+                alwaysWriteToDisk: true
+            }),
+            new HtmlWebpackHarddiskPlugin()
+        );
+    }
 
     let localEnv;
     try {
