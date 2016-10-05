@@ -58,7 +58,7 @@ function googleApiInit() {
 }
 
 @Component({
-    selector: 'dashboard',
+    selector: 'admin-dashboard',
     template: require('./dashboard.html'),
     styles: [require('!!raw!sass!./dashboard.scss')]
 })
