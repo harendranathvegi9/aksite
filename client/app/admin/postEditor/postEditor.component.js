@@ -1,6 +1,14 @@
 'use strict';
-import {wrapperLodash as _, mixin} from 'lodash-es';
+import { Component } from '@angular/core';
+import { Response, Headers } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
+import { StateService } from 'ui-router-ng2';
+import { FileUploader } from 'ng2-file-upload';
+import { AuthService } from '../../../components/auth/auth.service';
+
 import {
+    wrapperLodash as _,
+    mixin,
     map,
     trim
 } from 'lodash-es';
@@ -11,23 +19,37 @@ mixin(_, {
 import { Converter } from 'showdown';
 const converter = new Converter();
 
-export default class PostEditorController {
+function jsonToURI(json) {
+    return encodeURIComponent(JSON.stringify(json));
+}
+
+@Component({
+    selector: 'post-editor',
+    template: require('./postEditor.html'),
+    styles: [require('!!raw!sass!./postEditor.scss')]
+})
+export class PostEditorComponent {
     loadingPost = true;
     submitted = false;
-    post = {};
+    post = {author: {}};
 
-    /*@ngInject*/
-    constructor($http, $stateParams, $state, $sce, Upload, Auth) {
-        this.$http = $http;
-        this.$stateParams = $stateParams;
-        this.$state = $state;
-        this.$sce = $sce;
-        this.Upload = Upload;
-        this.Auth = Auth;
+    static parameters = [AuthHttp, StateService, AuthService, FileUploader];
+    constructor(authHttp: AuthHttp, stateService: StateService, authService: AuthService, fileUploader: FileUploader) {
+        this.AuthHttp = authHttp;
+        this.StateService = stateService;
+        this.AuthService = authService;
+        // this.fileUploadService = fileUploader;
+        this.params = this.StateService.params;
 
-        this.currentUser = Auth.getCurrentUser();
+        // this.$sce = $sce;
+        // this.Upload = Upload;
+        // this.Auth = Auth;
+    }
 
-        if(!$stateParams.postId || $stateParams.postId === 'new') {
+    async ngOnInit() {
+        this.currentUser = await this.AuthService.getCurrentUser(true);
+
+        if(!this.params.postId || this.params.postId === 'new') {
             this.post = {
                 title: 'Untitled Post',
                 subheader: undefined,
@@ -47,8 +69,14 @@ export default class PostEditorController {
             this.loadingPost = false;
             this.newPost = true;
         } else {
-            $http.get(`/api/posts/${$stateParams.postId}`)
-                .then(({data}) => {
+            this.AuthHttp.get(`/api/posts/${this.params.postId}`)
+                .toPromise()
+                .then(function(res: Response) {
+                    if(!res.text()) return {};
+                    return res.json() || {};
+                })
+                .then(data => {
+                    console.log(data);
                     this.post = data;
                     this.post.categories = this.post.categories.join(', ');
                     this.filename = this.post.imageId;
@@ -59,15 +87,18 @@ export default class PostEditorController {
                 .catch(({data, status}) => {
                     this.error = {data, status};
                 })
-                .finally(() => {
+                .then(() => {
                     this.loadingPost = true;
                 });
         }
+        // this.fileUploadService.setOptions({
+        //     autoUpload: false
+        // });
     }
 
     markedContent() {
         try {
-            return this.$sce.trustAsHtml(converter.makeHtml(this.post.content || ''));
+            return converter.makeHtml(this.post.content || '');
         } catch(e) {
             return '<h1 class=\"text-danger\">Parsing Error</h1>';
         }
@@ -92,7 +123,7 @@ export default class PostEditorController {
     }
 
     savePost(form) {
-        if(!form.$valid) return;
+        // if(!form.$valid) return;
 
         this.submitted = true;
 
@@ -107,9 +138,19 @@ export default class PostEditorController {
                 date: this.post.date,
                 content: this.post.content,
                 categories: this.post.categories,
-                hidden: this.post.hidden
+                hidden: this.post.hidden,
+                newImage: false,
             }
         };
+
+        this.AuthHttp.request(options.url, {
+            method: options.method,
+            body: options.fields,
+        })
+            .toPromise()
+            .then(console.log);
+
+        return;
 
         // Uploading image
         if(this.fileToUpload && !(this.filename === this.post.imageId || this.filename === null)) {
