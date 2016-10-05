@@ -17,8 +17,9 @@ import {Server as KarmaServer} from 'karma';
 import runSequence from 'run-sequence';
 import {protractor, webdriver_update as webdriverUpdate} from 'gulp-protractor';
 import {Instrumenter} from 'isparta';
-import webpack from 'webpack-stream';
+// import webpack from 'webpack-stream';
 import makeWebpackConfig from './webpack.make';
+import webpack from 'webpack';
 
 const plugins = gulpLoadPlugins();
 var config;
@@ -214,10 +215,15 @@ gulp.task('webpack:dev', function() {
         .pipe(plugins.livereload());
 });
 
-gulp.task('webpack:dist', function() {
-    return gulp.src(webpackDistConfig.entry.app)
-        .pipe(webpack(webpackDistConfig))
-        .pipe(gulp.dest(`${paths.dist}/client`));
+gulp.task('webpack:dist', cb => {
+    let compiler = webpack(webpackDistConfig);
+
+    compiler.run((err, stats) => {
+        if(err) return cb(err);
+
+        plugins.util.log(stats.toJson('minimal'));
+        cb();
+    });
 });
 
 gulp.task('lint:scripts', cb => runSequence(['lint:scripts:client', 'lint:scripts:server'], cb));
