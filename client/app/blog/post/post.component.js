@@ -5,7 +5,7 @@ import Raven from 'raven-js';
 
 import moment from 'moment';
 import { Converter } from 'showdown';
-const converter = new Converter();
+const converter = new Converter({tables: true});
 
 @Component({
     selector: 'post',
@@ -38,7 +38,6 @@ export class PostComponent {
 
                 // this.$rootScope.title += ` | ${post.title}`;
 
-                // this.post.content = this.$sce.trustAsHtml(converter.makeHtml(this.post.content));
                 this.post.content = converter.makeHtml(this.post.content);
                 this.post.date = moment(this.post.date).format('LL');
             })
