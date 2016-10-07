@@ -1,5 +1,5 @@
 'use strict';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Response, Headers } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { StateService } from 'ui-router-ng2';
@@ -17,16 +17,13 @@ mixin(_, {
     trim
 });
 import { Converter } from 'showdown';
-const converter = new Converter();
-
-function jsonToURI(json) {
-    return encodeURIComponent(JSON.stringify(json));
-}
+const converter = new Converter({tables: true});
 
 @Component({
     selector: 'post-editor',
     template: require('./postEditor.html'),
-    styles: [require('!!raw!sass!../../blog/post/post.scss'), require('!!raw!sass!./postEditor.scss')]
+    styles: [require('!!raw!sass!../../blog/post/post.scss'), require('!!raw!sass!./postEditor.scss')],
+    encapsulation: ViewEncapsulation.None
 })
 export class PostEditorComponent {
     loadingPost = true;

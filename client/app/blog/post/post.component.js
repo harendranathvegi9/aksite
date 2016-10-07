@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Http } from '@angular/http';
 import { StateService } from 'ui-router-ng2';
 import Raven from 'raven-js';
@@ -10,7 +10,8 @@ const converter = new Converter({tables: true});
 @Component({
     selector: 'post',
     template: require('./post.html'),
-    styles: [require('!!raw!sass!./post.scss'), require('!!raw!sass!../blog.scss')]
+    styles: [require('!!raw!sass!./post.scss'), require('!!raw!sass!../blog.scss')],
+    encapsulation: ViewEncapsulation.None
 })
 export class PostComponent {
     error;
