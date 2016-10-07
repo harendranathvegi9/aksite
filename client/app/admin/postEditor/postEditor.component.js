@@ -26,7 +26,7 @@ function jsonToURI(json) {
 @Component({
     selector: 'post-editor',
     template: require('./postEditor.html'),
-    styles: [require('!!raw!sass!./postEditor.scss')]
+    styles: [require('!!raw!sass!../../blog/post/post.scss'), require('!!raw!sass!./postEditor.scss')]
 })
 export class PostEditorComponent {
     loadingPost = true;
