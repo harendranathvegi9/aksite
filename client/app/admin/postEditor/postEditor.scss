@@ -1,0 +1,6 @@
+$table-border: 1px solid rgb(130, 130, 130);
+
+table, td, th {
+    border: $table-border;
+    padding: 5px;
+}
