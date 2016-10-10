@@ -194,7 +194,7 @@
     "tiny-lr": "^0.2.1",
     "utile": "~0.3.0",
     "webpack": "^2.1.0-beta.25",
-    "webpack-dev-middleware": "^1.8.0",
+    "webpack-dev-middleware": "^1.8.4",
     "webpack-dev-server": "~1.16.1"
   },
   "engines": {
