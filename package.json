@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "^2.0.1",
     "@angular/upgrade": "^2.0.1",
     "@angularclass/hmr": "^1.2.1",
-    "angular2-jwt": "^0.1.23",
+    "angular2-jwt": "^0.1.24",
     "babel-core": "^6.16.0",
     "babel-plugin-angular2-annotations": "^5.1.0",
     "babel-plugin-lodash": "^3.2.2",
