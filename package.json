@@ -174,7 +174,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.8.0",
     "lazypipe": "^1.0.1",
-    "mocha": "^3.1.1",
+    "mocha": "^3.1.2",
     "node-sass": "^3.10.1",
     "nodemon": "^1.10.0",
     "null-loader": "^0.1.1",
