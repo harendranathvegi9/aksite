@@ -1,14 +1,46 @@
 ## Customize the test machine
 machine:
   node:
-    version: 5.11.1
+    version: 6.7.0
   post:
     - npm install -g gulp-cli
+  services:
+    - docker
+
+dependencies:
+  cache_directories:
+    - ~/kubernetes
+  pre:
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+    - echo $ACCT_AUTH | base64 --decode -i > ~/account-auth.json
+    - sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ~/account-auth.json
+    - sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_NAME
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
+    # Reading the zone from the env var is not working so we set it here
+    - sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+#    - docker build --rm=false -t $EXTERNAL_REGISTRY_ENDPOINT/aksite:$CIRCLE_SHA1 .
+
+#test:
+#  post:
+#    - docker run -d -p 3000:3000 -e "SECRET_KEY_BASE=abcd1234" $EXTERNAL_REGISTRY_ENDPOINT/aksite:$CIRCLE_SHA1; sleep 10
+#    - curl --retry 10 --retry-delay 5 -v http://localhost:3000
+
+deployment:
+  prod:
+    branch: master
+    commands:
+      - gulp build
+      - cd dist && docker build -t gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 .
+      # Using a separate tag command until Docker 1.10 is available on CircleCI, then we can use two tags in the build command above
+      - docker tag gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 gcr.io/${PROJECT_NAME}/aksite:latest
+      - chmod 0744 ./scripts/deploy.sh
+      - ./scripts/deploy.sh
 
 ## Custom notifications
 #notify:
-notify:
-  webhooks:
+#  webhooks:
     # A list of hook hashes, containing the url field
     # gitter hook
     # - url: https://example.com/asdf
