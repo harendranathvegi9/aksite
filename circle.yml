@@ -10,6 +10,16 @@ machine:
 dependencies:
   cache_directories:
     - ~/kubernetes
+    - ~/docker
+  override:
+    - npm install
+    # If we have a cached image, load it into docker
+    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+    # Else make a new build and save the docker image to the cache
+    - if [[ ! -e ~/docker/image.tar ]]; then gulp build && cd dist && docker build --rm=false -t gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 .; fi
+    - if [[ ! -e ~/docker/image.tar ]]; then mkdir -p ~/docker; docker save gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 > ~/docker/image.tar; fi
+    # The problem here is that the CircleCI cache is created at the end of the 'dependencies' section,
+    # so the build in the deployment step can't be cached.
   pre:
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
     - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
@@ -32,7 +42,7 @@ deployment:
     branch: master
     commands:
       - gulp build
-      - cd dist && docker build -t gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 .
+      - cd dist && docker build --rm=false -t gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 .
       # Using a separate tag command until Docker 1.10 is available on CircleCI, then we can use two tags in the build command above
       - docker tag gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 gcr.io/${PROJECT_NAME}/aksite:latest
       - chmod 0744 ./scripts/deploy.sh
