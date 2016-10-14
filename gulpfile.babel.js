@@ -433,6 +433,7 @@ gulp.task('build', cb => {
             'generate-favicon'
         ],
         [
+            'copy:dockerfile',
             'copy:extras',
             'copy:assets',
             'copy:fonts:dist',
@@ -468,6 +469,14 @@ gulp.task('revReplaceWebpack', function() {
     return gulp.src('dist/client/app.*.js')
         .pipe(plugins.revReplace({manifest: gulp.src(paths.client.assets.revManifest)}))
         .pipe(gulp.dest('dist/client'));
+});
+
+gulp.task('copy:dockerfile', function() {
+    return gulp.src([
+        '_Dockerfile'
+    ])
+        .pipe(plugins.rename('Dockerfile'))
+        .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('copy:extras', function() {

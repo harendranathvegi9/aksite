@@ -1,14 +1,56 @@
 ## Customize the test machine
 machine:
   node:
-    version: 5.11.1
+    version: 6.7.0
   post:
     - npm install -g gulp-cli
+  services:
+    - docker
+
+dependencies:
+  cache_directories:
+    - ~/kubernetes
+    - ~/docker
+  override:
+    - npm install
+    # If we have a cached image, load it into docker
+    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+    # Else make a new build and save the docker image to the cache
+    - if [[ ! -e ~/docker/image.tar ]]; then gulp build && cd dist && docker build --rm=false -t gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 .; fi
+    - if [[ ! -e ~/docker/image.tar ]]; then mkdir -p ~/docker; docker save gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 > ~/docker/image.tar; fi
+    # The problem here is that the CircleCI cache is created at the end of the 'dependencies' section,
+    # so the build in the deployment step can't be cached.
+  pre:
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+    - echo $ACCT_AUTH | base64 --decode -i > ~/account-auth.json
+    - sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ~/account-auth.json
+    - sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_NAME
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
+    # Reading the zone from the env var is not working so we set it here
+    - sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+#    - docker build --rm=false -t $EXTERNAL_REGISTRY_ENDPOINT/aksite:$CIRCLE_SHA1 .
+
+#test:
+#  post:
+#    - docker run -d -p 3000:3000 -e "SECRET_KEY_BASE=abcd1234" $EXTERNAL_REGISTRY_ENDPOINT/aksite:$CIRCLE_SHA1; sleep 10
+#    - curl --retry 10 --retry-delay 5 -v http://localhost:3000
+
+deployment:
+  prod:
+    branch: master
+    commands:
+      - gulp build
+      - cd dist && docker build --rm=false -t gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 .
+      # Using a separate tag command until Docker 1.10 is available on CircleCI, then we can use two tags in the build command above
+      - docker tag gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 gcr.io/${PROJECT_NAME}/aksite:latest
+      - chmod 0744 ./scripts/deploy.sh
+      - ./scripts/deploy.sh
 
 ## Custom notifications
 #notify:
-notify:
-  webhooks:
+#  webhooks:
     # A list of hook hashes, containing the url field
     # gitter hook
     # - url: https://example.com/asdf
