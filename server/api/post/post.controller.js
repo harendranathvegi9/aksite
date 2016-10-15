@@ -35,14 +35,14 @@ exports.index = function(req, res) {
         }
 
         query
-            .limit(pageSize)
+            .limit(parseInt(pageSize, 10))
             .sort('date')
-            .skip((req.query.page-1) * pageSize || 0)//doesn't scale well, I'll worry about it later
+            .skip((req.query.page - 1) * pageSize || 0)//doesn't scale well, I'll worry about it later
             .exec(function(err, posts) {
                 if(err) return util.handleError(res, err);
 
                 return res.status(200).json({
-                    page: page,
+                    page,
                     pages: Math.ceil(count / pageSize),
                     items: posts,
                     numItems: count
@@ -53,14 +53,15 @@ exports.index = function(req, res) {
 
 // Get a single post
 exports.show = function(req, res) {
-    if(!util.isValidObjectId(req.params.id))
-        return res.status(400).send('Invalid ID');
+    if(!util.isValidObjectId(req.params.id)) return res.status(400).send('Invalid ID');
+
     Post.findById(req.params.id, function(err, post) {
         if(err) return util.handleError(res, err);
         if(!post) return res.status(404).end();
 
-        if( (!req.user || config.userRoles.indexOf(req.user.role) < config.userRoles.indexOf('admin')) && post.hidden )
+        if((!req.user || config.userRoles.indexOf(req.user.role) < config.userRoles.indexOf('admin')) && post.hidden) {
             return res.status(401).end();
+        }
 
         res.json(post);
     });
