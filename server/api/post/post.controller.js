@@ -36,7 +36,7 @@ exports.index = function(req, res) {
 
         query
             .limit(parseInt(pageSize, 10))
-            .sort('date')
+            .sort('-date')
             .skip((req.query.page - 1) * pageSize || 0)//doesn't scale well, I'll worry about it later
             .exec(function(err, posts) {
                 if(err) return util.handleError(res, err);
