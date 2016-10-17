@@ -1,18 +1,41 @@
-import angular from 'angular';
-import uirouter from 'angular-ui-router';
-import {upgradeAdapter} from '../upgrade_adapter';
+import { NgModule } from '@angular/core';
+import { UIRouterModule } from 'ui-router-ng2';
+import { AlertModule } from 'ng2-bootstrap';
 
-import directives from '../../components/common.directives.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { DirectivesModule } from '../../components/directives.module';
 
 import { GalleryListComponent } from './galleryList.component';
 import { GalleryComponent } from './gallery/gallery.component';
 
-import listRouting from './galleryList.routes';
-import galleryRouting from './gallery/gallery.routes';
+import { GalleryService } from '../../components/gallery/gallery.service';
+import { PhotoService } from '../../components/photo/photo.service';
 
-export default angular.module('aksiteApp.galleries', [uirouter, directives])
-    .config(listRouting)
-    .config(galleryRouting)
-    .directive('galleryList', upgradeAdapter.downgradeNg2Component(GalleryListComponent))
-    .directive('gallery', upgradeAdapter.downgradeNg2Component(GalleryComponent))
-    .name;
+@NgModule({
+    imports: [
+        BrowserModule,
+        UIRouterModule.forChild({
+            states: [{
+                name: 'galleries',
+                url: '/galleries',
+                component: GalleryListComponent
+            }, {
+                name: 'gallery',
+                url: '/galleries/gallery/:galleryId',
+                component: GalleryComponent
+            }]
+        }),
+        AlertModule,
+        BrowserModule,
+        DirectivesModule
+    ],
+    providers: [
+        GalleryService,
+        PhotoService
+    ],
+    declarations: [
+        GalleryListComponent,
+        GalleryComponent
+    ]
+})
+export class GalleriesModule {}

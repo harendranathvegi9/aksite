@@ -11,7 +11,9 @@ mixin(_, {
 });
 
 import { Component, ViewEncapsulation, Inject } from '@angular/core';
-import {autobind} from 'core-decorators';
+import { Http } from '@angular/http';
+import { StateService } from 'ui-router-ng2';
+import { autobind } from 'core-decorators';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSGrid, makeResponsive, layout } from 'react-stonecutter';
@@ -32,11 +34,11 @@ export class GalleryListComponent {
     galleries = [];
     loadingGalleries = true;
 
-    static parameters = [GalleryService, '$http', '$state'];
-    constructor(Gallery: GalleryService, @Inject('$http') $http, @Inject('$state') $state) {
+    static parameters = [GalleryService, Http, StateService];
+    constructor(Gallery: GalleryService, http: Http, stateService: StateService) {
         this.Gallery = Gallery;
-        this.$http = $http;
-        this.$state = $state;
+        this.Http = http;
+        this.StateService = stateService;
     }
 
     async ngOnInit() {
@@ -45,7 +47,7 @@ export class GalleryListComponent {
         this.loadingGalleries = false;
 
         let galleryArray = await Promise.map(this.galleries, async (gallery, i) => {
-            let {data} = await this.$http.get(`api/photos/${gallery.featuredId}`);
+            let data = await this.Http.get(`api/photos/${gallery.featuredId}`).toPromise().then(extractData);
 
             return <li style={{padding: '10px'}} key={i} itemHeight={340}>
                 <a className="card md-whiteframe-z1" style={{display: 'block'}} id={gallery._id} onClick={this.goToGallery}>
@@ -78,6 +80,11 @@ export class GalleryListComponent {
 
     @autobind
     goToGallery(event) {
-        this.$state.go('gallery', {galleryId: event.currentTarget.id});
+        this.StateService.go('gallery', {galleryId: event.currentTarget.id});
     }
+}
+
+function extractData(res) {
+    if(!res.text()) return {};
+    return res.json() || { };
 }

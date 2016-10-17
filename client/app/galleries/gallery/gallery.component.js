@@ -1,5 +1,6 @@
 'use strict';
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { StateService } from 'ui-router-ng2';
 import {
     wrapperLodash as _,
     mixin,
@@ -49,9 +50,10 @@ export class GalleryComponent {
     photos = [];
     items = [];
 
-    static parameters = ['$stateParams', PhotoService, GalleryService];
-    constructor(@Inject('$stateParams') $stateParams, Photo, Gallery) {
-        this.galleryId = $stateParams.galleryId;
+    static parameters = [StateService, PhotoService, GalleryService];
+    constructor(stateService: StateService, Photo: PhotoService, Gallery: GalleryService) {
+        this.StateService = stateService;
+        this.galleryId = this.StateService.params.galleryId;
         this.Photo = Photo;
         this.Gallery = Gallery;
 
