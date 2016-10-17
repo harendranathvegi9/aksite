@@ -14,6 +14,7 @@ import { AdminModule } from './admin/admin.module';
 // import { GalleriesModule } from './galleries/galleries.ng2module';
 import { BlogModule } from './blog/blog.module';
 // import { UserModule } from './user/user.ng2module';
+import { ResumeModule } from './resume/resume.module';
 
 @NgModule({
     providers: [AUTH_PROVIDERS],
@@ -31,6 +32,7 @@ import { BlogModule } from './blog/blog.module';
         // GalleriesModule,
         BlogModule,
         // UserModule,
+        ResumeModule,
     ],
     declarations: [
         AppComponent,
