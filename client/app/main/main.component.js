@@ -37,7 +37,7 @@ let usedTexts = [];
 let currentText = _.sample(texts);  // Load first random text
 let vendorImages = [{
     href: 'https://angular.io/',
-    src: 'assets/images/angular.png',
+    src: 'assets/images/angular.svg',
     alt: 'angular'
 }, {
     href: 'http://d3js.org/',
@@ -115,6 +115,10 @@ let vendorImages = [{
     href: 'https://circleci.com/',
     src: 'assets/images/circleci.svg',
     alt: 'circleci'
+}, {
+    href: 'https://www.jetbrains.com/webstorm/',
+    src: 'assets/images/webstorm.svg',
+    alt: 'WebStorm'
 }];
 
 const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
