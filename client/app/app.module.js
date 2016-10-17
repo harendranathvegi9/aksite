@@ -21,7 +21,7 @@ import { BlogModule } from './blog/blog.module';
         BrowserModule,
         HttpModule,
         MaterialModule.forRoot(),
-        UIRouterModule.forRoot(),
+        UIRouterModule.forRoot({useHash: true}),
         MainModule,
         DirectivesModule,
         // AuthModule,
