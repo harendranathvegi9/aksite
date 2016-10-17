@@ -10,7 +10,7 @@ import { DirectivesModule } from '../components/directives.module';
 // import { AuthModule } from '../components/auth/auth.ng2module';
 import { AccountModule } from './account/account.module';
 import { AdminModule } from './admin/admin.module';
-// import { ProjectsModule } from './projects/projects.ng2module';
+import { ProjectsModule } from './projects/projects.module';
 import { GalleriesModule } from './galleries/galleries.module';
 import { BlogModule } from './blog/blog.module';
 // import { UserModule } from './user/user.ng2module';
@@ -28,7 +28,7 @@ import { ResumeModule } from './resume/resume.module';
         // AuthModule,
         AccountModule,
         AdminModule,
-        // ProjectsModule,
+        ProjectsModule,
         GalleriesModule,
         BlogModule,
         // UserModule,

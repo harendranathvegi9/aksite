@@ -1,18 +1,38 @@
-import angular from 'angular';
-import uirouter from 'angular-ui-router';
-import {upgradeAdapter} from '../upgrade_adapter';
+import { NgModule } from '@angular/core';
+import { UIRouterModule } from 'ui-router-ng2';
 
-import directives from '../../components/common.directives.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { DirectivesModule } from '../../components/directives.module';
 
 import { ProjectListComponent } from './projectList.component';
 import { ProjectComponent } from './project/project.component';
 
-import listRouting from './projects.routes';
-import projectRouting from './project/project.routes';
+import { ProjectService } from '../../components/Project/Project.service';
 
-export default angular.module('aksiteApp.projects', [uirouter, directives])
-    .config(listRouting)
-    .config(projectRouting)
-    .directive('projectList', upgradeAdapter.downgradeNg2Component(ProjectListComponent))
-    .directive('project', upgradeAdapter.downgradeNg2Component(ProjectComponent))
-    .name;
+import { upgradeAdapter } from '../upgrade_adapter';
+
+upgradeAdapter.upgradeNg1Provider('Project');
+
+@NgModule({
+    imports: [
+        BrowserModule,
+        DirectivesModule,
+        UIRouterModule.forChild({
+            states: [{
+                name: 'projects',
+                url: '/projects',
+                component: ProjectListComponent
+            }, {
+                name: 'project',
+                url: '/projects/project/:projectId',
+                component: ProjectComponent
+            }]
+        }),
+    ],
+    providers: [ProjectService],
+    declarations: [
+        ProjectListComponent,
+        ProjectComponent
+    ]
+})
+export class ProjectsModule {}
