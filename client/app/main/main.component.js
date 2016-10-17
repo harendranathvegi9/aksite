@@ -80,14 +80,6 @@ let vendorImages = [{
     src: 'assets/images/mongodb.svg',
     alt: 'mongodb'
 }, {
-    href: 'https://opbeat.com',
-    src: 'assets/images/opbeat.png',
-    alt: 'opbeat'
-}, {
-    href: 'https://codeship.com/',
-    src: 'assets/images/codeship.png',
-    alt: 'codeship'
-}, {
     href: 'https://nodejs.org/',
     src: 'assets/images/nodejs.svg',
     alt: 'nodejs'
@@ -107,6 +99,22 @@ let vendorImages = [{
     href: 'http://github.com/',
     src: 'assets/images/github.png',
     alt: 'github'
+}, {
+    href: 'https://www.docker.com/',
+    src: 'assets/images/docker.svg',
+    alt: 'docker'
+}, {
+    href: 'http://kubernetes.io/',
+    src: 'assets/images/kubernetes.svg',
+    alt: 'kubernetes'
+}, {
+    href: 'https://cloud.google.com/',
+    src: 'assets/images/gcp.svg',
+    alt: 'gcp'
+}, {
+    href: 'https://circleci.com/',
+    src: 'assets/images/circleci.svg',
+    alt: 'circleci'
 }];
 
 const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
