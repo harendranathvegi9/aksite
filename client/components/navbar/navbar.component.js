@@ -17,7 +17,7 @@ export class NavbarComponent {
         link: '/'
     }, {
         title: 'Résumé',
-        sref: 'https://www.linkedin.com/in/koroluka',
+        sref: 'resume',
         link: 'https://www.linkedin.com/in/koroluka'
     }, {
         title: 'Projects',
