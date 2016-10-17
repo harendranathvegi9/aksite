@@ -53,6 +53,7 @@ $theme: md-light-theme($primary, $accent, $warn);
 @import '../components/navbar/navbar';
 @import '../components/preloader/preloader';
 @import '../components/timeline/timeline';
+@import '../assets/scss/whiteframe';
 
 .grid {
     list-style: none;
