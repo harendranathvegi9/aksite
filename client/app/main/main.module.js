@@ -10,6 +10,10 @@ import { SocketService } from '../../components/socket/socket.service';
                 name: 'main',
                 url: '/',
                 component: MainComponent
+            }, {
+                name: 'none',
+                url: '',
+                redirectTo: 'main'
             }]
         }),
     ],
