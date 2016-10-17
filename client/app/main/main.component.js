@@ -139,7 +139,9 @@ export class MainComponent implements OnInit {
 
         let addImage = (image, i) => {
             imageArray.push(<li className="grid-item" key={i}>
-                <img src={image.src} alt={image.alt} href={image.href}/>
+                <a href={image.href}>
+                    <img src={image.src} alt={image.alt}/>
+                </a>
             </li>);
             ReactDOM.render(
                 <Grid
