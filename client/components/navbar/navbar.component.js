@@ -14,23 +14,18 @@ export class NavbarComponent {
     menu = [{
         title: 'Home',
         sref: 'main',
-        link: '/'
     }, {
         title: 'Résumé',
         sref: 'resume',
-        link: 'https://www.linkedin.com/in/koroluka'
     }, {
         title: 'Projects',
         sref: 'projects',
-        link: '/projects'
     }, {
         title: 'Photography',
         sref: 'galleries',
-        link: '/galleries'
     }, {
         title: 'Blog',
         sref: 'blog',
-        link: '/blog'
     }];
 
     static parameters = [AuthService, StateService];
