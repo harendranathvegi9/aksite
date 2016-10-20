@@ -45,3 +45,12 @@ $subtle-border: 1px solid #e5e5e5;
     $googlePlusColor        : #dd4b39;
     $gitHubColor            : #333333;
     $linkedInColor          : #0077b5;
+
+/**
+ * Breakpoints
+ */
+
+$breakpoint-xs: 600px !default;
+$breakpoint-sm: 960px !default;
+$breakpoint-md: 1280px !default;
+$breakpoint-lg: 1920px !default;
