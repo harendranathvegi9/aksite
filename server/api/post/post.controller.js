@@ -53,9 +53,7 @@ exports.index = function(req, res) {
 
 // Get a single post
 exports.show = function(req, res) {
-    if(!util.isValidObjectId(req.params.id)) return res.status(400).send('Invalid ID');
-
-    Post.findById(req.params.id, function(err, post) {
+    let handler = function(err, post) {
         if(err) return util.handleError(res, err);
         if(!post) return res.status(404).end();
 
@@ -64,7 +62,13 @@ exports.show = function(req, res) {
         }
 
         res.json(post);
-    });
+    };
+
+    if(util.isValidObjectId(req.params.id)) {
+        Post.findById(req.params.id, handler);
+    } else {
+        Post.findOne({alias: req.params.id}, handler);
+    }
 };
 
 // Get the number of posts
