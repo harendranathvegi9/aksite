@@ -70,8 +70,6 @@ if(process.env.NODE_ENV === 'production') {
 
 import { AppModule } from './app.module';
 
-// platformBrowserDynamic().bootstrapModule(AppModule);
-
 export function main() {
     return platformBrowserDynamic().bootstrapModule(AppModule);
 }

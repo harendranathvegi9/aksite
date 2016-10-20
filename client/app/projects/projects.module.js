@@ -9,10 +9,6 @@ import { ProjectComponent } from './project/project.component';
 
 import { ProjectService } from '../../components/Project/Project.service';
 
-import { upgradeAdapter } from '../upgrade_adapter';
-
-upgradeAdapter.upgradeNg1Provider('Project');
-
 @NgModule({
     imports: [
         BrowserModule,
