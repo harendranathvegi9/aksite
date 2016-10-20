@@ -11,14 +11,10 @@ import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 import config from './config/environment';
 import Grid from 'gridfs-stream';
+import raven from 'raven';
 
-if(config.env === 'production') {
-    require('opbeat').start({
-        organizationId: config.opbeat.orgId,
-        appId: config.opbeat.appId,
-        secretToken: config.opbeat.secret
-    });
-}
+export let client = new raven.Client(config.sentry.dsn);
+client.patchGlobal();
 
 // Connect to database
 mongoose.connect(config.mongo.uri, config.mongo.options);
