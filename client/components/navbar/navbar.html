@@ -21,7 +21,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <!--<li [hidden]="!isLoggedIn()" uiSrefActive="active"><a href="/signup">Sign up</a></li>-->
                 <li [hidden]="isLoggedIn()" uiSrefActive="active">
-                    <a uiSref="login" aria-label="Login">Login</a>
+                    <a uiSref="login" aria-label="Login">Log In</a>
                 </li>
                 <li *ngIf="isLoggedIn()" style="margin-left: 5px; margin-right: 5px;">
                     <a uiSref="user" [uiParams]="{id: getCurrentUser()._id}" style="padding: 0">
@@ -32,7 +32,7 @@
                     <a uiSref="settings.dashboard" aria-label="Settings"><i class="fa fa-cog"></i></a>
                 </li>
                 <li [hidden]="!isLoggedIn()" uiSrefActive="active">
-                    <a (click)="logout()" aria-label="Logout">Logout</a>
+                    <a (click)="logout()" aria-label="Logout">Log Out</a>
                 </li>
             </ul>
         </div>
