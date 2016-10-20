@@ -34,7 +34,7 @@ $theme: md-light-theme($primary, $accent, $warn);
 @import 'account/login/login';
 @import 'account/signup/signup';
 @import 'admin/admin';
-@import 'admin/blogManager/blogManager';
+@import 'admin/blog/blogManager';
 @import 'admin/dashboard/dashboard';
 @import 'admin/fileManager/fileManager';
 @import 'admin/galleryEditor/galleryEditor';

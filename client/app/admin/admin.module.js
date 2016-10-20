@@ -1,21 +1,17 @@
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { MdSlideToggleModule } from '@angular/material';
+import { MdSlideToggleModule, MdSidenavModule, MdIconModule, MdButtonModule, MdListModule } from '@angular/material';
 import { ProgressbarModule } from 'ng2-bootstrap';
 import { UIRouterModule } from 'ui-router-ng2';
 import { FileUploadModule } from 'ng2-file-upload';
 
+import { AdminComponent } from './admin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { BlogManagerComponent } from './blog/blogManager.component';
 import { PostEditorComponent } from './postEditor/postEditor.component';
 
 //import '!raw!sass!./admin.scss'
-
-@Component({
-    selector: 'admin',
-    template: `<div ui-view="body"></div>`
-})
-class AdminComponent {}
 
 @NgModule({
     imports: [
@@ -34,6 +30,12 @@ class AdminComponent {}
                     body: {component: DashboardComponent}
                 }
             }, {
+                name: 'admin.blog',
+                url: '/blog',
+                views: {
+                    body: {component: BlogManagerComponent}
+                }
+            }, {
                 name: 'admin.post',
                 url: '/post/:postId',
                 views: {
@@ -42,12 +44,17 @@ class AdminComponent {}
             }]
         }),
         MdSlideToggleModule,
+        MdSidenavModule,
+        MdIconModule,
+        MdButtonModule,
+        MdListModule,
         ProgressbarModule,
         FileUploadModule,
     ],
     declarations: [
         AdminComponent,
         DashboardComponent,
+        BlogManagerComponent,
         PostEditorComponent,
     ]
 })
