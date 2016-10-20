@@ -1,12 +1,25 @@
-import angular from 'angular';
-import uirouter from 'angular-ui-router';
-import { upgradeAdapter } from '../upgrade_adapter';
-
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { UIRouterModule } from 'ui-router-ng2';
 import { UserComponent } from './user.component';
+import { UserService } from '../../components/auth/user.service';
 
-import routing from './user.routes';
-
-export default angular.module('aksiteApp.user', [uirouter])
-    .config(routing)
-    .directive('user', upgradeAdapter.downgradeNg2Component(UserComponent))
-    .name;
+@NgModule({
+    imports: [
+        BrowserModule,
+        UIRouterModule.forChild({
+            states: [{
+                name: 'user',
+                url: '/user/:id',
+                component: UserComponent
+            }]
+        }),
+    ],
+    declarations: [
+        UserComponent
+    ],
+    providers: [
+        UserService
+    ]
+})
+export class UserModule {}

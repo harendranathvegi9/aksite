@@ -13,7 +13,7 @@ import { AdminModule } from './admin/admin.module';
 import { ProjectsModule } from './projects/projects.module';
 import { GalleriesModule } from './galleries/galleries.module';
 import { BlogModule } from './blog/blog.module';
-// import { UserModule } from './user/user.ng2module';
+import { UserModule } from './user/user.module';
 import { ResumeModule } from './resume/resume.module';
 
 @NgModule({
@@ -31,7 +31,7 @@ import { ResumeModule } from './resume/resume.module';
         ProjectsModule,
         GalleriesModule,
         BlogModule,
-        // UserModule,
+        UserModule,
         ResumeModule,
     ],
     declarations: [

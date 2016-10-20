@@ -1,5 +1,6 @@
 'use strict';
 import { Component } from '@angular/core';
+import { StateService } from 'ui-router-ng2';
 import { UserService } from '../../components/auth/user.service';
 
 @Component({
@@ -10,12 +11,12 @@ import { UserService } from '../../components/auth/user.service';
 export class UserComponent {
     user = {};
 
-    static parameters = ['$stateParams', UserService];
-    constructor($stateParams, userService: UserService) {
-        this.$stateParams = $stateParams;
+    static parameters = [StateService, UserService];
+    constructor(stateService: StateService, userService: UserService) {
+        this.StateService = stateService;
         this.UserService = userService;
 
-        this.id = $stateParams.id;
+        this.id = this.StateService.params.id;
 
         this.UserService.get({id: this.id}).then(_user => {
             this.user = _user;
