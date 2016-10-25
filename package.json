@@ -107,7 +107,7 @@
     "awesome-typescript-loader": "^2.2.1",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.2.4",
-    "chai": "^3.4.1",
+    "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-things": "^0.2.0",
     "connect-livereload": "~0.6.0",
