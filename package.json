@@ -132,7 +132,7 @@
     "gulp-istanbul": "~1.1.0",
     "gulp-istanbul-enforcer": "^1.0.3",
     "gulp-livereload": "^3.8.0",
-    "gulp-load-plugins": "^1.0.0-rc.1",
+    "gulp-load-plugins": "^1.4.0",
     "gulp-mocha": "^3.0.0",
     "gulp-ng-constant": "^1.1.0",
     "gulp-node-inspector": "^0.1.0",
