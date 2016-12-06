@@ -36,7 +36,7 @@
     "cookie-parser": "~1.4.2",
     "core-decorators": "^0.14.0",
     "core-js": "^2.4.0",
-    "ejs": "~2.5.3",
+    "ejs": "~2.5.5",
     "errorhandler": "^1.4.3",
     "exif": "~0.6.0",
     "express": "~4.14.0",
