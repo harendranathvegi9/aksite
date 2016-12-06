@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "snyk": "^1.21.1",
-    "angular2-jwt": "^0.1.24",
+    "angular2-jwt": "^0.1.26",
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.6",
     "bourbon": "^4.2.6",
