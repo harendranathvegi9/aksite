@@ -65,7 +65,7 @@
     "raven": "^1.1.1",
     "request": "~2.79.0",
     "serve-favicon": "^2.3.0",
-    "showdown": "^1.5.4",
+    "showdown": "^1.5.5",
     "socket.io": "^1.5.1",
     "socketio-jwt": "^4.5.0"
   },
