@@ -112,7 +112,7 @@
     "connect-livereload": "~0.6.0",
     "css-loader": "^0.26.0",
     "del": "^2.2.1",
-    "eslint": "^3.10.0",
+    "eslint": "^3.12.0",
     "eslint-plugin-lodash": "^2.2.5",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "file-loader": "^0.9.0",
