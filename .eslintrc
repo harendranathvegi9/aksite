@@ -43,6 +43,7 @@
         "lodash/unwrap": 2,                                         // Prevent chaining without evaluation via value() or non-chainable methods like max().,
 
         //Possible Errors
+        "no-await-in-loop": 0,                                      //disallow await inside of loops
         "no-cond-assign": 2,                                        //disallow assignment in conditional expressions
         "no-console": 0,                                            //disallow use of console in the node environment
         "no-constant-condition": 1,                                 //disallow use of constant expressions in conditions
@@ -139,6 +140,7 @@
         "no-warning-comments": 1,                                   //disallow usage of configurable warning terms in comments (e.g. TODO or FIXME)
         "no-with": 2,                                               //disallow use of the with statement
         "radix": 2,                                                 //require use of the second argument for parseInt()
+        "require-await": 2,                                         //disallow async functions which have no await expression
         "vars-on-top": 0,                                           //require declaration of all vars at the top of their containing scope
         "wrap-iife": 2,                                             //require immediate function invocation to be wrapped in parentheses
         "yoda": 2,                                                  //require or disallow Yoda conditions
@@ -177,6 +179,7 @@
         "block-spacing": 0,                                         //disallow or enforce spaces inside of single line blocks
         "brace-style": 2,                                           //enforce one true brace style
         "camelcase": 1,                                             //require camel case names
+        "capitalized-comments": 0,                                  //enforce or disallow capitalization of the first letter of a comment
         "comma-dangle": ["warning", "always-multiline"],            //require or disallow trailing commas
         "comma-spacing": [2, {"before": false, "after": true}],     //enforce spacing before and after comma
         "comma-style": 2,                                           //enforce one true comma style
@@ -282,6 +285,7 @@
         "object-shorthand": 1,                                      //require method and property shorthand syntax for object literals
         "prefer-arrow-callback": 0,                                 //suggest using arrow functions as callbacks
         "prefer-const": 0,                                          //suggest using const declaration for variables that are never modified after declared
+        "prefer-destructuring": 0,                                  //require destructuring from arrays and/or objects
         "prefer-reflect": 1,                                        //suggest using Reflect methods where applicable
         "prefer-rest-params": 1,                                    //suggest using the rest parameters instead of arguments
         "prefer-spread": 1,                                         //suggest using the spread operator instead of .apply().
