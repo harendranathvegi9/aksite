@@ -43,7 +43,6 @@
         "lodash/unwrap": 2,                                         // Prevent chaining without evaluation via value() or non-chainable methods like max().,
 
         //Possible Errors
-        "comma-dangle": 0,                                          //disallow or enforce trailing commas
         "no-cond-assign": 2,                                        //disallow assignment in conditional expressions
         "no-console": 0,                                            //disallow use of console in the node environment
         "no-constant-condition": 1,                                 //disallow use of constant expressions in conditions
