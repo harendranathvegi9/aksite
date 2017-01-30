@@ -1,11 +1,10 @@
-![Build Status](https://codeship.com/projects/63c8f830-8803-0133-06c0-2eae657aa6d0/status?branch=master)
+[![CircleCI](https://circleci.com/gh/Awk34/aksite.svg?style=svg)](https://circleci.com/gh/Awk34/aksite)
 [![Dependency Status](https://david-dm.org/awk34/aksite.svg)](https://david-dm.org/awk34/aksite)
 [![devDependency Status](https://david-dm.org/awk34/aksite/dev-status.svg)](https://david-dm.org/awk34/aksite#info=devDependencies)
+[![Greenkeeper badge](https://badges.greenkeeper.io/Awk34/aksite.svg)](https://greenkeeper.io/)
 
 Andrew Koroluk
 ===================
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/Awk34/aksite.svg)](https://greenkeeper.io/)
 
 ##Technologies Used
 
