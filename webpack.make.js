@@ -34,7 +34,7 @@ module.exports = function makeWebpackConfig(options) {
      * Karma will set this when it's a test build
      */
     if(TEST) {
-        config.entry = {};
+        config.entry = undefined;
     } else {
         config.entry = {
             polyfills: './client/app/polyfills.js',
@@ -103,7 +103,7 @@ module.exports = function makeWebpackConfig(options) {
      */
 
     // Initialize module
-    config.module = { 
+    config.module = {
         rules: [{
             // JS LOADER
             // Reference: https://github.com/babel/babel-loader
