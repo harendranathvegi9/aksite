@@ -7,6 +7,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 var path = require('path');
 
 module.exports = function makeWebpackConfig(options) {
@@ -102,11 +103,7 @@ module.exports = function makeWebpackConfig(options) {
      */
 
     // Initialize module
-    config.module = {
-        noParse: [
-            path.join(__dirname, 'node_modules', 'zone.js', 'dist'),
-            path.join(__dirname, 'node_modules', '@angular', 'bundles')
-        ],
+    config.module = { 
         rules: [{
             // JS LOADER
             // Reference: https://github.com/babel/babel-loader
@@ -114,12 +111,11 @@ module.exports = function makeWebpackConfig(options) {
             // Compiles ES6 and ES7 into ES5 code
             test: /\.js$/,
             use: {
-                loader: 'babel',
+                loader: 'babel-loader',
                 options: {
                     babelrc: false,
                     presets: [
                         ['es2015', { modules: false }],
-                        // 'es2015',
                         'stage-0',
                         'react'
                     ],
@@ -160,18 +156,18 @@ module.exports = function makeWebpackConfig(options) {
             // Pass along the updated reference to your code
             // You can add here any file extension you want to get copied to your output
             test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-            use: 'file'
+            use: 'file-loader'
         }, {
             // HTML LOADER
             // Reference: https://github.com/webpack/raw-loader
             // Allow loading html through js
             test: /\.html$/,
-            use: 'raw'
+            use: 'raw-loader'
         }, {
             // SASS LOADER
             // Reference: https://github.com/jtangelder/sass-loader
             test: /\.scss$/,
-            use: ['style', 'css', 'sass'],
+            use: ['style-loader', 'css-loader', 'sass-loader'],
             include: [
                 path.resolve(__dirname, 'node_modules/angular-material/angular-material.scss'),
                 path.resolve(__dirname, 'client/app/app.scss')
@@ -180,12 +176,12 @@ module.exports = function makeWebpackConfig(options) {
             // SASS LOADER
             // Reference: https://github.com/jtangelder/sass-loader
             test: /\.scss$/,
-            use: ['raw', 'sass'],
+            use: ['raw-loader', 'sass-loader'],
             include: [path.resolve(__dirname, 'client')],
             exclude: [/app\.scss$/]
         }, {
             test: /(photoswipe)/,
-            use: 'imports?define=>false&this=>window'
+            use: 'imports-loader?define=>false&this=>window'
         }]
     };
 
@@ -199,7 +195,7 @@ module.exports = function makeWebpackConfig(options) {
             //delays coverage til after tests are run, fixing transpiled source coverage error
             test: /\.js$/,
             exclude: /(node_modules|spec\.js|mock\.js)/,
-            use: 'isparta'
+            use: 'isparta-loader'
         });
     }
 
@@ -216,14 +212,14 @@ module.exports = function makeWebpackConfig(options) {
         //
         // Reference: https://github.com/webpack/style-loader
         // Use style-loader in development for hot-loading
-        use: ExtractTextPlugin.extract({fallbackLoader: 'style', loader: 'css?sourceMap!postcss'})
+        use: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader?sourceMap!postcss-loader'})
     };
 
     // Skip loading css in test mode
     if(TEST) {
         // Reference: https://github.com/webpack/null-loader
         // Return an empty module
-        cssLoader.use = 'null';
+        cssLoader.use = 'null-loader';
     }
 
     // Add cssLoader to the loader list
@@ -328,7 +324,7 @@ module.exports = function makeWebpackConfig(options) {
         config.plugins.push(
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
             // Only emit files when there are no errors
-            new webpack.NoErrorsPlugin(),
+            new webpack.NoEmitOnErrorsPlugin(),
 
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
             // Dedupe modules in the output
@@ -337,16 +333,8 @@ module.exports = function makeWebpackConfig(options) {
 
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
             // Minify all javascript, switch loaders to minimizing mode
-            new webpack.optimize.UglifyJsPlugin({
-                minimize: true,
-                mangle: false,
-                output: {
-                    comments: false
-                },
-                compress: {
-                    warnings: false
-                }
-            })
+            new UglifyJSPlugin()
+            // 53372
         );
     }
 

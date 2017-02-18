@@ -16,9 +16,7 @@
         "lodash/no-commit": 2,                                      // Do not use .commit() on chains that should end with .value()
         "lodash/no-double-unwrap": 2,                               // Do not use .value() on chains that have already ended (e.g. with max() or reduce()) (fixable)
         "lodash/no-extra-args": 2,                                  // Do not use superfluous arguments on Lodash methods with a specified arity.
-        "lodash/no-single-chain": 2,                                // Prevent chaining syntax for single method, e.g. _(x).map().value()
         "lodash/path-style": [2, "as-needed"],                      // Enforce a specific path style for methods like get and property: array, string, or arrays only for d
-        "lodash/prefer-chain": [2, 3],                              // Prefer a Lodash chain over nested Lodash calls
         "lodash/prefer-compact": 2,                                 // Prefer _.compact over _.filter for only truthy values.
         "lodash/prefer-constant": 2,                                // Prefer _.constant over functions returning literals.
         "lodash/prefer-filter": [2, 3],                             // Prefer _.filter over _.forEach with an if statement inside.
@@ -180,7 +178,7 @@
         "brace-style": 2,                                           //enforce one true brace style
         "camelcase": 1,                                             //require camel case names
         "capitalized-comments": 0,                                  //enforce or disallow capitalization of the first letter of a comment
-        "comma-dangle": ["warning", "always-multiline"],            //require or disallow trailing commas
+        "comma-dangle": [1, "always-multiline"],                    //require or disallow trailing commas
         "comma-spacing": [2, {"before": false, "after": true}],     //enforce spacing before and after comma
         "comma-style": 2,                                           //enforce one true comma style
         "computed-property-spacing": 2,                             //require or disallow padding inside computed properties

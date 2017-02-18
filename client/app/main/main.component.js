@@ -129,7 +129,7 @@ const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
 @Component({
     selector: 'main',
     template: require('./main.html'),
-    styles: [require('!!raw!sass!./main.scss')]
+    styles: [require('!!raw-loader!sass-loader!./main.scss')]
 })
 export class MainComponent implements OnInit {
     static parameters = [SocketService];

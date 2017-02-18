@@ -6,7 +6,7 @@ import {ProjectService} from '../../../components/Project/Project.service';
 @Component({
     selector: 'project',
     template: require('./project.html'),
-    styles: [require('!!raw!sass!./project.scss')]
+    styles: [require('!!raw-loader!sass-loader!./project.scss')]
 })
 export class ProjectComponent {
     error;

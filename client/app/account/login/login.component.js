@@ -7,7 +7,7 @@ import { AuthService } from '../../../components/auth/auth.service';
 @Component({
     selector: 'login',
     template: require('./login.html'),
-    style: [require('!!raw!sass!./login.scss')]
+    style: [require('!!raw-loader!sass-loader!./login.scss')]
 })
 export class LoginComponent {
     user = {};

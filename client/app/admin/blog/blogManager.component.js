@@ -16,7 +16,7 @@ mixin(_, {
 @Component({
     selector: 'blog-manager',
     template: require('./blogManager.html'),
-    styles: [require('!!raw!sass!./blogManager.scss')]
+    styles: [require('!!raw-loader!sass-loader!./blogManager.scss')]
 })
 export class BlogManagerComponent {
     errors = [];

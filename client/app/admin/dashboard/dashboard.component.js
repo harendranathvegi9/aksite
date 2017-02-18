@@ -60,7 +60,7 @@ function googleApiInit() {
 @Component({
     selector: 'admin-dashboard',
     template: require('./dashboard.html'),
-    styles: [require('!!raw!sass!./dashboard.scss')]
+    styles: [require('!!raw-loader!sass-loader!./dashboard.scss')]
 })
 export class DashboardComponent {
     static parameters = [AuthHttp];
