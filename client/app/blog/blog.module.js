@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 import { UIRouterModule } from 'ui-router-ng2';
 import { PaginationModule, AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
 
@@ -9,6 +10,7 @@ import { PostComponent } from './post/post.component';
 
 @NgModule({
     imports: [
+        FormsModule,
         BrowserModule,
         HttpModule,
         UIRouterModule.forChild({
