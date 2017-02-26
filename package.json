@@ -104,7 +104,7 @@
     "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
-    "gulp-autoprefixer": "3.1.0",
+    "gulp-autoprefixer": "^3.1.0",
     "gulp-babel": "^6.1.2",
     "gulp-cache": "^0.4.4",
     "gulp-concat": "^2.6.0",
