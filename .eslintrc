@@ -137,6 +137,7 @@
         "no-void": 0,                                               //disallow use of the void operator
         "no-warning-comments": 1,                                   //disallow usage of configurable warning terms in comments (e.g. TODO or FIXME)
         "no-with": 2,                                               //disallow use of the with statement
+        "prefer-promise-reject-errors": 1,                          //require using Error objects as Promise rejection reasons
         "radix": 2,                                                 //require use of the second argument for parseInt()
         "require-await": 2,                                         //disallow async functions which have no await expression
         "vars-on-top": 0,                                           //require declaration of all vars at the top of their containing scope
@@ -226,6 +227,7 @@
         "no-lonely-if": 2,                                          //disallow if as the only statement in an else block
         "no-mixed-operators": 0,                                    //disallow mixes of different operators
         "no-mixed-spaces-and-tabs": 2,                              //disallow mixed spaces and tabs for indentation
+        "no-multi-assign": 0,                                       //disallow use of chained assignment expressions
         "no-multiple-empty-lines": 2,                               //disallow multiple empty lines
         "no-negated-condition": 0,                                  //disallow negated conditions
         "no-nested-ternary": 0,                                     //disallow nested ternary expressions
@@ -260,6 +262,7 @@
         "space-infix-ops": 2,                                       //require spaces around operators
         "space-unary-ops": 2,                                       //require or disallow spaces before/after unary operators
         "spaced-comment": 0,                                        //require or disallow a space immediately following the // or /* in a comment
+        "template-tag-spacing": [2, "never"],                       //require or disallow spacing between template tags and their literals
         "unicode-bom": 0,                                           //require or disallow the Unicode BOM
         "wrap-regex": 0,                                            //require regex literals to be wrapped in parentheses
 
