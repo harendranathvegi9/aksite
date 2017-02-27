@@ -356,12 +356,17 @@ module.exports = function makeWebpackConfig(options) {
      */
     config.devServer = {
         contentBase: './client/',
+        hot: true,
+        proxy: {
+            '/api': 'http://localhost:9050',
+            '/socket.io': 'http://localhost:9050',
+        },
         stats: {
             modules: false,
             cached: false,
             colors: true,
-            chunks: false
-        }
+            chunks: false,
+        },
     };
 
     config.node = {
