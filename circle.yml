@@ -1,51 +1,54 @@
-machine:
-  node:
-    version: 6.7.0
-  post:
-    - npm install -g gulp-cli
-  services:
-    - docker
+version: 2
+executorType: docker
+containerInfo:
+  - image: node:6
+  - image: mongo:3
+    cmd: ["mongod", "--smallfiles"]
 
-dependencies:
-  cache_directories:
-    - ~/kubernetes
-    - ~/docker
-  override:
-    - npm install
-    # If we have a cached image, load it into docker
-    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
-    # Else make a new build and save the docker image to the cache
-    - if [[ ! -e ~/docker/image.tar ]]; then gulp build && cd dist && docker build --rm=false -t gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 .; fi
-    - if [[ ! -e ~/docker/image.tar ]]; then mkdir -p ~/docker; docker save gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 > ~/docker/image.tar; fi
-    # The problem here is that the CircleCI cache is created at the end of the 'dependencies' section,
-    # so the build in the deployment step can't be cached.
-  pre:
-    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
-    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
-    - echo $ACCT_AUTH | base64 --decode -i > ~/account-auth.json
-    - sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ~/account-auth.json
-    - sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_NAME
-    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
-    # Reading the zone from the env var is not working so we set it here
-    - sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
-    - sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $CLUSTER_NAME
-#    - docker build --rm=false -t $EXTERNAL_REGISTRY_ENDPOINT/aksite:$CIRCLE_SHA1 .
+stages:
+  build:
+    workDir: /home/ubuntu/aksite
+    steps:
+      - type: checkout
+      - type: add-ssh-keys
+      - type: shell
+        name: Pre-Dependencies
+        command: mkdir /home/ubuntu/artifacts
+      - type: cache-restore
+        keys:
+          - aksite-npm-{{ .Branch }}-{{ checksum "package.json" }}
+          # Providing keys in decreasing specificity means it's more likely a new cache can be built from an existing one.
+          - aksite-npm-
+      - type: shell
+        name: Install Dependencies
+        command: npm install --quiet
+      - type: cache-save
+        key: aksite-npm-{{ .Branch }}-{{ checksum "package.json" }}
+        paths:
+          - /home/ubuntu/aksite/node_modules
+      - type: shell
+        name: Test
+        command: npm test
+      - type: artifacts-store
+        path: /home/ubuntu/artifacts
+      - type: deploy
+        command: |
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            ./node_modules/.bin/gulp build
 
-deployment:
-  prod:
-    branch: master
-    commands:
-      - gulp build
-      - cd dist && docker build --rm=false -t gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 .
-      # Using a separate tag command until Docker 1.10 is available on CircleCI, then we can use two tags in the build command above
-      - docker tag gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 gcr.io/${PROJECT_NAME}/aksite:latest
-      - chmod 0744 ./scripts/deploy.sh
-      - ./scripts/deploy.sh
+            cd dist && docker build --rm=false -t gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 .
 
-#     post:
-#       - curl $OPBEAT_RELEASES_URL -H "Authorization: $OPBEAT_TOKEN" -d rev=`git log -n 1 --pretty=format:%H` -d branch=`git rev-parse --abbrev-ref HEAD` -d status=completed
-      # - git config --global user.email "builds@circleci.com"
-      # - git config --global user.name "Circle"
-      # - GIT_TAG=build/$CIRCLE_BUILD_NUM
-      # - git tag $GIT_TAG $CIRCLE_SHA1 -a -m $CIRCLE_BUILD_URL
-      # - git push git@github.com:Awk34/aksite.git $GIT_TAG
+            # Using a separate tag command until Docker 1.10 is available on CircleCI, then we can use two tags in the build command above
+            docker tag gcr.io/${PROJECT_NAME}/aksite:$CIRCLE_SHA1 gcr.io/${PROJECT_NAME}/aksite:latest
+
+            echo $ACCT_AUTH | base64 --decode -i > ~/account-auth.json
+            sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ~/account-auth.json
+            sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_NAME
+            sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
+            # Reading the zone from the env var is not working so we set it here
+            sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
+            sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+
+            chmod 0744 ./scripts/deploy.sh
+            ./scripts/deploy.sh
+          fi
