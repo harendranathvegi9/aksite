@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { UIRouterModule } from 'ui-router-ng2';
-import { PaginationModule, AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { PaginationModule, AlertModule } from 'ng2-bootstrap';
 
 import { BlogComponent } from './blog.component';
 import { PostComponent } from './post/post.component';
