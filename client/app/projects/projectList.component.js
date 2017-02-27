@@ -17,7 +17,7 @@ const Grid = makeResponsive(CSSGrid, {
 @Component({
     selector: 'project-list',
     template: require('./projectList.html'),
-    styles: [require('!!raw-loader!sass-loader!./projectList.scss')],
+    styles: [require('./projectList.scss')],
     encapsulation: ViewEncapsulation.None,
     // directives: [PreloaderComponent]
 })

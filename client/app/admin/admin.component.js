@@ -3,43 +3,43 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'admin',
-    template: require('./admin.html')
+    template: require('./admin.html'),
 })
 export class AdminComponent {
     sections = [{
         title: 'Home',
         icon: 'fa-home',
-        sref: 'admin.dashboard'
+        sref: 'admin.dashboard',
     }, {
         title: 'Users',
         icon: 'fa-user',
-        sref: 'admin.users'
+        sref: 'admin.users',
     }, {
         title: 'Galleries',
         icon: 'fa-photo',
-        sref: 'admin.galleries'
+        sref: 'admin.galleries',
     }, {
         title: 'Projects',
         icon: 'fa-briefcase',
-        sref: 'admin.projects'
+        sref: 'admin.projects',
     }, {
         title: 'Blog',
         icon: 'fa-newspaper-o',
-        sref: 'admin.blog'
+        sref: 'admin.blog',
     }, {
         title: 'Files',
         icon: 'fa-files-o',
-        sref: 'admin.files'
+        sref: 'admin.files',
     }, {
         title: 'Settings',
         icon: 'fa-cog',
-        sref: 'admin.settings'
+        sref: 'admin.settings',
     }];
 
-    static parameters = [];
-    constructor() {
-        // this.$mdSidenav = $mdSidenav;
-    }
+    // static parameters = [];
+    // constructor() {
+    //     this.$mdSidenav = $mdSidenav;
+    // }
 
     // toggleLeft() {
     //     this.$mdSidenav('left').toggle()

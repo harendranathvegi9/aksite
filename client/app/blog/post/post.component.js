@@ -10,7 +10,7 @@ const converter = new Converter({tables: true});
 @Component({
     selector: 'post',
     template: require('./post.html'),
-    styles: [require('!!raw-loader!sass-loader!./post.scss'), require('!!raw-loader!sass-loader!../blog.scss')],
+    styles: [require('./post.scss'), require('../blog.scss')],
     encapsulation: ViewEncapsulation.None
 })
 export class PostComponent {

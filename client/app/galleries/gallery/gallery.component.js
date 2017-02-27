@@ -38,8 +38,8 @@ const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
     selector: 'gallery',
     template: require('./gallery.html'),
     styles: [
-        require('!!raw-loader!sass-loader!./gallery.scss'),
-        require('!!raw-loader!sass-loader!../../../assets/scss/photoswipe.scss'),
+        require('./gallery.scss'),
+        require('../../../assets/scss/photoswipe.scss'),
     ],
     encapsulation: ViewEncapsulation.None
 })

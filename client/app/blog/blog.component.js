@@ -17,7 +17,7 @@ const converter = new Converter();
 @Component({
     selector: 'blog',
     template: require('./blog.html'),
-    styles: [require('!!raw-loader!sass-loader!./blog.scss')]
+    styles: [require('./blog.scss')]
 })
 export class BlogComponent {
     loadingItems = true;

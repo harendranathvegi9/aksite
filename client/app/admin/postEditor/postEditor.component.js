@@ -22,7 +22,7 @@ const converter = new Converter({tables: true});
 @Component({
     selector: 'post-editor',
     template: require('./postEditor.html'),
-    styles: [require('!!raw-loader!sass-loader!../../blog/post/post.scss'), require('!!raw-loader!sass-loader!./postEditor.scss')],
+    styles: [require('../../blog/post/post.scss'), require('./postEditor.scss')],
     encapsulation: ViewEncapsulation.None
 })
 export class PostEditorComponent {

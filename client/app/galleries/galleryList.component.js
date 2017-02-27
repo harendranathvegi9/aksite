@@ -27,7 +27,7 @@ const Grid = makeResponsive(CSSGrid, {
 @Component({
     selector: 'gallery-list',
     template: require('./galleryList.html'),
-    styles: [require('!!raw-loader!sass-loader!./galleryList.scss')],
+    styles: [require('./galleryList.scss')],
     encapsulation: ViewEncapsulation.None
 })
 export class GalleryListComponent {
