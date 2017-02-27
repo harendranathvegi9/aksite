@@ -239,6 +239,8 @@ module.exports = function makeWebpackConfig(options) {
             disable: !BUILD || TEST
         }),
         new webpack.LoaderOptionsPlugin({
+            minimize: false,
+            debug: true,
             options: {
                 context: __dirname
             },
@@ -279,7 +281,8 @@ module.exports = function makeWebpackConfig(options) {
 
     if(BUILD) {
         config.plugins.push(new webpack.LoaderOptionsPlugin({
-            debug: true
+            minimize: true,
+            debug: false,
         }));
     }
 
