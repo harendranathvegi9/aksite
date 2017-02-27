@@ -182,13 +182,11 @@
     "style-loader": "^0.13.0",
     "supertest": "^3.0.0",
     "through2": "^2.0.1",
-    "tiny-lr": "^0.2.1",
     "uglify-js": "git://github.com/mishoo/UglifyJS2.git#harmony",
     "uglifyjs-webpack-plugin": "^0.2.1",
     "ui-router-ng2": "1.0.0-beta.4",
     "utile": "~0.3.0",
     "webpack": "^2.2.1",
-    "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^2.4.1",
     "zone.js": "^0.7.7"
   },
@@ -198,10 +196,10 @@
   },
   "scripts": {
     "start": "node server",
+    "start:client": "webpack-dev-server --config=webpack.dev.js",
     "test": "gulp test",
     "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update",
     "build": "webpack --config webpack.build.js --bail",
-    "dev": "webpack-dev-server --history-api-fallback --inline --progress",
     "test:live": "karma start --auto-watch --no-single-run"
   }
 }
