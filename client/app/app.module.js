@@ -39,7 +39,7 @@ class RavenErrorHandler implements ErrorHandler {
     imports: [
         BrowserModule,
         HttpModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         UIRouterModule.forRoot({useHash: true}),
         MainModule,
         DirectivesModule,

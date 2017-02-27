@@ -21,6 +21,10 @@ $btnGithubBackgroundHighlight: #ccc;
     color: $btnGithubBackground;
 }
 
+md-input-container {
+    width: 100%;
+}
+
 %flex-row {
     display: flex;
     flex-direction: row;

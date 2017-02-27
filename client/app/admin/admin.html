@@ -33,7 +33,7 @@
     <!--</md-content>-->
 <!--</section>-->
 
-<md-sidenav-layout>
+<md-sidenav-container>
     <md-sidenav #start (open)="mybutton.focus()" [opened]="false">
         <button md-button #mybutton (click)="start.close()"><i class="fa fa-bars fa-2x"></i></button> Admin
 
@@ -50,4 +50,4 @@
     <button md-button (click)="start.open()"><i class="fa fa-bars fa-2x"></i></button>
 
     <div ui-view="body"></div>
-</md-sidenav-layout>
+</md-sidenav-container>
