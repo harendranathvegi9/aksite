@@ -18,15 +18,15 @@ client.patchGlobal();
 
 // Connect to database
 mongoose.connect(config.mongo.uri, config.mongo.options);
-mongoose.connection.on('error', function(err) {
+mongoose.connection.on('error', err => {
     console.error(`MongoDB connection error: ${err}`);
     process.exit(-1); // eslint-disable-line no-process-exit
 });
 
 // Setup server
-var app = express();
-var server = require('http').createServer(app);
-var socketio = require('socket.io').listen(server);
+const app = express();
+const server = require('http').createServer(app);
+const socketio = require('socket.io').listen(server);
 require('./config/socketio').default(socketio);
 require('./config/express').default(app);
 require('./routes').default(app);
@@ -38,14 +38,12 @@ function startServer() {
     });
 }
 
-setImmediate(function() {
+setImmediate(() => {
     Grid.mongo = mongoose.mongo;
-    var conn = mongoose.createConnection(config.mongo.uri);
+    const conn = mongoose.createConnection(config.mongo.uri);
 
-    conn.once('open', function(err) {
-        if(err) {
-            throw err;
-        }
+    conn.once('open', err => {
+        if(err) throw err;
 
         // Populate DB with sample data
         if(config.seedDB) {
