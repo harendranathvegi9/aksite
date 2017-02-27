@@ -50,8 +50,10 @@
     }
 }
 
-.block-author {
-    @include clearfix();
+.block-author::after {
+    clear: both;
+    content: "";
+    display: table;
 }
 
 .block-meta {

@@ -60,12 +60,12 @@ $galleryEditorItemPadding: 10px;
         filter: url("#goo");
         font-size: 0;
         padding: 10px;
-        @include transform(translateZ(0));
+        transform: translateZ(0);
         .goo {
             display: inline-block;
             background: #736D6D;
             opacity: 0;
-            @include transform(translateZ(0));
+            transform: translateZ(0);
             -webkit-transition: opacity .3s;
             transition: opacity .3s;
 

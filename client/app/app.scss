@@ -27,9 +27,6 @@ $theme: md-light-theme($primary, $accent, $warn);
 // that you are using.
 @include angular-material-theme($theme);
 
-
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 @import 'animations';
 @import 'account/login/login';
 @import 'account/signup/signup';

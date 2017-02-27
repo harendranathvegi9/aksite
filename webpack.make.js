@@ -253,7 +253,6 @@ module.exports = function makeWebpackConfig(options) {
                 })
             ],
             sassLoader: {
-                includePaths: require('bourbon').includePaths,
                 outputStyle: 'compressed',
                 precision: 10,
                 sourceComments: false

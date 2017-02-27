@@ -86,8 +86,6 @@
     "babel-loader": "^6.2.9",
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.6",
-    "bourbon": "^4.2.6",
-    "bourbon-neat": "^1.7.2",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "chai-things": "^0.2.0",
