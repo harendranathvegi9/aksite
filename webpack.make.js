@@ -176,7 +176,7 @@ module.exports = function makeWebpackConfig(options) {
             // SASS LOADER
             // Reference: https://github.com/jtangelder/sass-loader
             test: /\.scss$/,
-            use: ['raw-loader', 'sass-loader'],
+            use: ['raw-loader?sourceMap', 'sass-loader?sourceMap'],
             include: [path.resolve(__dirname, 'client')],
             exclude: [/app\.scss$/]
         }, {
