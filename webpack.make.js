@@ -180,7 +180,7 @@ module.exports = function makeWebpackConfig(options) {
             include: [path.resolve(__dirname, 'client')],
             exclude: [/app\.scss$/]
         }, {
-            test: /(photoswipe)/,
+            test: /photoswipe.*\.js$/,
             use: 'imports-loader?define=>false&this=>window'
         }]
     };
