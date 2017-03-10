@@ -188,7 +188,7 @@
     "utile": "~0.3.0",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1",
-    "zone.js": "^0.7.7"
+    "zone.js": "^0.8.0"
   },
   "engines": {
     "node": "^6.6.0",
